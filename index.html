@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>英単語タイピングテスト</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  :root{
+    --bg:#0f172a;--surface:#1e293b;--surface2:#273549;
+    --accent:#38bdf8;--accent2:#818cf8;--ok:#4ade80;--ng:#f87171;
+    --text:#f1f5f9;--muted:#94a3b8;--border:#334155;--radius:16px;
+  }
+  html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Hiragino Sans','Noto Sans JP',sans-serif;overflow-x:hidden;}
+  body{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:1rem;}
+
+  /* ローディング */
+  #loadingScreen{text-align:center;display:flex;flex-direction:column;align-items:center;gap:1rem;}
+  .spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .load-msg{color:var(--muted);font-size:.95rem;}
+  .load-err{color:var(--ng);font-size:.9rem;max-width:320px;line-height:1.6;}
+
+  /* ログイン */
+  #loginScreen{width:100%;max-width:420px;text-align:center;display:none;flex-direction:column;gap:1.5rem;}
+  .logo{font-size:2rem;font-weight:700;letter-spacing:.05em;color:var(--accent);}
+  .logo span{color:var(--accent2);}
+  .subtitle{color:var(--muted);font-size:.95rem;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;}
+  .field{display:flex;flex-direction:column;gap:.5rem;text-align:left;margin-bottom:1.25rem;}
+  .field label{font-size:.85rem;color:var(--muted);font-weight:500;}
+  .field input{background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:1.4rem;padding:.75rem 1rem;outline:none;width:100%;letter-spacing:.1em;-webkit-appearance:none;}
+  .field input:focus{border-color:var(--accent);}
+  .btn{width:100%;padding:1rem;border:none;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0f172a;font-size:1.1rem;font-weight:700;cursor:pointer;transition:opacity .15s;}
+  .btn:active{opacity:.8;}
+  #loginError{color:var(--ng);font-size:.9rem;min-height:1.2rem;margin-bottom:.5rem;}
+
+  /* テスト */
+  #testScreen{width:100%;max-width:560px;display:none;flex-direction:column;gap:1.25rem;}
+  .header-bar{display:flex;justify-content:space-between;align-items:center;}
+  .student-info{font-size:.85rem;color:var(--muted);}
+  .set-badge{font-size:.75rem;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.2rem .6rem;color:var(--accent);}
+  .progress-wrap{display:flex;align-items:center;gap:.75rem;}
+  .progress-label{font-size:.85rem;color:var(--muted);white-space:nowrap;}
+  .progress-bar{flex:1;height:8px;background:var(--surface2);border-radius:99px;overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px;transition:width .3s;}
+  .question-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:2rem 1.5rem;text-align:center;min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;}
+  .q-label{font-size:.8rem;color:var(--muted);letter-spacing:.1em;}
+  .japanese-word{font-size:3rem;font-weight:700;line-height:1.2;color:var(--text);}
+  .hint{font-size:.85rem;color:var(--muted);}
+  .input-area{display:flex;flex-direction:column;gap:.75rem;}
+  .english-input{width:100%;font-size:2rem;font-weight:600;letter-spacing:.08em;padding:1rem 1.25rem;border-radius:14px;border:2px solid var(--border);background:var(--surface);color:var(--text);outline:none;text-align:center;-webkit-appearance:none;transition:border-color .2s;}
+  .english-input:focus{border-color:var(--accent);}
+  .english-input.correct{border-color:var(--ok);background:#052e16;}
+  .english-input.wrong{border-color:var(--ng);background:#2d0a0a;}
+  .feedback{min-height:2.5rem;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:600;border-radius:10px;padding:.5rem;}
+  .feedback.correct{color:var(--ok);background:#052e16;}
+  .feedback.wrong{color:var(--ng);background:#2d0a0a;}
+  .feedback.answer{color:#fbbf24;background:#2d1f00;}
+  .action-btn{padding:1rem;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity .15s;width:100%;}
+  .action-btn:active{opacity:.7;}
+  .btn-check{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0f172a;}
+  .btn-next{background:linear-gradient(135deg,var(--ok),#16a34a);color:#052e16;}
+  .btn-skip{background:var(--surface2);color:var(--muted);border:1px solid var(--border);}
+
+  /* 結果 */
+  #resultScreen{width:100%;max-width:480px;display:none;flex-direction:column;gap:1.25rem;text-align:center;}
+  .result-title{font-size:1.8rem;font-weight:700;color:var(--accent);}
+  .score-big{font-size:4rem;font-weight:800;}
+  .score-big span{font-size:1.5rem;color:var(--muted);}
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+  .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem;}
+  .stat-label{font-size:.8rem;color:var(--muted);margin-bottom:.25rem;}
+  .stat-val{font-size:1.6rem;font-weight:700;}
+  .stat-val.ok{color:var(--ok);}
+  .stat-val.ng{color:var(--ng);}
+  .result-list{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;text-align:left;max-height:320px;overflow-y:auto;}
+  .result-list h3{font-size:.85rem;color:var(--muted);margin-bottom:.75rem;text-align:center;}
+  .result-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.95rem;gap:.5rem;}
+  .result-row:last-child{border-bottom:none;}
+  .r-jp{color:var(--muted);flex:1;}
+  .r-en{flex:1;text-align:center;font-weight:600;}
+  .r-mark{width:24px;text-align:right;font-size:1.1rem;}
+  .btn-retry{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#0f172a;padding:1rem;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;}
+  @media(min-width:480px){.japanese-word{font-size:3.5rem;}.english-input{font-size:2.2rem;}}
+</style>
+</head>
+<body>
+
+<!-- =====================================================
+     ★★★ 先生が編集するのはここだけ ★★★
+
+     各組に割り当てるセット名を指定してください。
+     セット名は words.csv の「set」列の値と一致させること。
+
+     授業前にここを書き換えて GitHub にアップするだけ！
+====================================================== -->
+<script>
+const CLASS_MAP = {
+  kumi1: 'A',
+  kumi2: 'A',
+  kumi3: 'B',
+  kumi4: 'B',
+  kumi5: 'C',
+  kumi6: 'C',
+  kumi7: 'A',
+};
+/* ★★★ 編集ここまで ★★★ */
+</script>
+
+<!-- ローディング画面 -->
+<div id="loadingScreen">
+  <div class="spinner"></div>
+  <div class="load-msg">単語データを読み込み中...</div>
+</div>
+
+<!-- ログイン画面 -->
+<div id="loginScreen">
+  <div>
+    <div class="logo">英単語<span>TEST</span></div>
+    <div class="subtitle">出席番号でログインしてください</div>
+  </div>
+  <div class="card">
+    <div class="field">
+      <label>出席番号（例：1101）</label>
+      <input type="number" id="idInput" placeholder="1101" inputmode="numeric">
+    </div>
+    <div class="field">
+      <label>パスワード</label>
+      <input type="password" id="pwInput" placeholder="出席番号と同じ" inputmode="numeric">
+    </div>
+    <div id="loginError"></div>
+    <button class="btn" onclick="doLogin()">ログイン →</button>
+  </div>
+  <div style="font-size:.8rem;color:var(--muted);">
+    ※ 例：1年1組1番 → 1101　／　1年7組40番 → 1740
+  </div>
+</div>
+
+<!-- テスト画面 -->
+<div id="testScreen">
+  <div class="header-bar">
+    <div class="student-info" id="studentInfo"></div>
+    <div class="set-badge" id="setBadge"></div>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div style="font-size:.8rem;color:var(--muted);" id="setLabel"></div>
+    <div style="font-size:.85rem;color:var(--muted);" id="scoreDisplay">正解: 0</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label" id="progressLabel">1 / 10</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+  <div class="question-card">
+    <div class="q-label">日本語 → 英語で入力</div>
+    <div class="japanese-word" id="japaneseWord">—</div>
+    <div class="hint" id="hintText"></div>
+  </div>
+  <div class="input-area">
+    <input type="text" class="english-input" id="englishInput"
+      placeholder="英語を入力"
+      autocapitalize="none" autocorrect="off" autocomplete="off" spellcheck="false">
+    <div class="feedback" id="feedback"></div>
+    <button class="action-btn btn-check" id="checkBtn" onclick="checkAnswer()">確認する</button>
+    <button class="action-btn btn-next" id="nextBtn" onclick="nextQuestion()" style="display:none">次へ →</button>
+    <button class="action-btn btn-skip" id="skipBtn" onclick="skipQuestion()">スキップ</button>
+  </div>
+</div>
+
+<!-- 結果画面 -->
+<div id="resultScreen">
+  <div class="result-title">テスト完了！</div>
+  <div class="score-big" id="scoreBig">0 <span>/ 0問</span></div>
+  <div class="stat-grid">
+    <div class="stat-card"><div class="stat-label">正解</div><div class="stat-val ok" id="statOk">0</div></div>
+    <div class="stat-card"><div class="stat-label">不正解</div><div class="stat-val ng" id="statNg">0</div></div>
+    <div class="stat-card"><div class="stat-label">正答率</div><div class="stat-val" id="statRate">0%</div></div>
+    <div class="stat-card"><div class="stat-label">スキップ</div><div class="stat-val" id="statSkip">0</div></div>
+  </div>
+  <div class="result-list">
+    <h3>— 問題ごとの結果 —</h3>
+    <div id="resultRows"></div>
+  </div>
+  <button class="btn-retry" onclick="retryTest()">もう一度挑戦する</button>
+</div>
+
+<script>
+// =====================
+//  CSV読み込み
+// =====================
+let WORD_SETS = {};
+
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  // BOM除去
+  if (lines[0].charCodeAt(0) === 0xFEFF) lines[0] = lines[0].slice(1);
+  const sets = {};
+  for (let i = 1; i < lines.length; i++) {
+    const cols = lines[i].split(',');
+    if (cols.length < 4) continue;
+    const set   = cols[0].trim();
+    const label = cols[1].trim();
+    const jp    = cols[2].trim();
+    const en    = cols[3].trim().toLowerCase();
+    if (!set || !jp || !en) continue;
+    if (!sets[set]) sets[set] = { label, words: [] };
+    sets[set].words.push({ japanese: jp, english: en });
+  }
+  return sets;
+}
+
+async function loadWords() {
+  try {
+    const res = await fetch('words.csv?v=' + Date.now());
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const text = await res.text();
+    WORD_SETS = parseCSV(text);
+    if (Object.keys(WORD_SETS).length === 0) throw new Error('単語が1件もありません');
+    showLogin();
+  } catch (e) {
+    document.querySelector('.load-msg').style.display = 'none';
+    document.querySelector('.spinner').style.display = 'none';
+    const errDiv = document.createElement('div');
+    errDiv.className = 'load-err';
+    errDiv.innerHTML = `❌ words.csv の読み込みに失敗しました。<br><br>
+      ・index.html と words.csv が同じフォルダにあるか確認してください。<br>
+      ・GitHub Pages で公開されているか確認してください。<br><br>
+      <small style="color:var(--muted)">${e.message}</small>`;
+    document.getElementById('loadingScreen').appendChild(errDiv);
+  }
+}
+
+function showLogin() {
+  document.getElementById('loadingScreen').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+}
+
+// ページ読み込み時に自動でCSV取得
+window.addEventListener('DOMContentLoaded', loadWords);
+
+// =====================
+//  ログイン
+// =====================
+function isValid(id) {
+  const n = parseInt(id, 10);
+  if (isNaN(n)) return false;
+  const g = Math.floor(n / 1000), k = Math.floor((n % 1000) / 100), b = n % 100;
+  return g === 1 && k >= 1 && k <= 7 && b >= 1 && b <= 40;
+}
+function studentLabel(id) {
+  const n = parseInt(id, 10);
+  return `1年${Math.floor((n % 1000) / 100)}組 ${n % 100}番`;
+}
+function getKumi(id) {
+  return Math.floor((parseInt(id, 10) % 1000) / 100);
+}
+function getSet(id) {
+  const name = CLASS_MAP[`kumi${getKumi(id)}`];
+  return { name, set: WORD_SETS[name] };
+}
+
+function doLogin() {
+  const id  = document.getElementById('idInput').value.trim();
+  const pw  = document.getElementById('pwInput').value.trim();
+  const err = document.getElementById('loginError');
+  if (!isValid(id))  { err.textContent = '出席番号が正しくありません（1101〜1740）'; return; }
+  if (id !== pw)     { err.textContent = 'パスワードが違います'; return; }
+  const { name, set } = getSet(id);
+  if (!set) { err.textContent = `セット「${name}」が words.csv にありません`; return; }
+  err.textContent = '';
+  currentStudent = id;
+  startTest();
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('pwInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doLogin();
+  });
+});
+
+// =====================
+//  テストロジック
+// =====================
+let questions=[], currentIndex=0, correct=0, skipped=0, results=[], currentStudent='', answered=false;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function startTest() {
+  const { name, set } = getSet(currentStudent);
+  questions = shuffle(set.words.map(w => ({ japanese: w.japanese, english: w.english })));
+  currentIndex=0; correct=0; skipped=0; results=[]; answered=false;
+  document.getElementById('loginScreen').style.display  = 'none';
+  document.getElementById('resultScreen').style.display = 'none';
+  document.getElementById('testScreen').style.display   = 'flex';
+  document.getElementById('studentInfo').textContent = studentLabel(currentStudent);
+  document.getElementById('setBadge').textContent    = `セット ${name}`;
+  document.getElementById('setLabel').textContent    = set.label;
+  document.getElementById('scoreDisplay').textContent = '正解: 0';
+  showQuestion();
+}
+
+function showQuestion() {
+  answered = false;
+  const q = questions[currentIndex], total = questions.length;
+  document.getElementById('progressLabel').textContent = `${currentIndex+1} / ${total}`;
+  document.getElementById('progressFill').style.width  = `${(currentIndex/total)*100}%`;
+  document.getElementById('japaneseWord').textContent  = q.japanese;
+  document.getElementById('hintText').textContent      = `${q.english.length}文字`;
+  const inp = document.getElementById('englishInput');
+  inp.value=''; inp.className='english-input'; inp.disabled=false; inp.focus();
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('feedback').className   = 'feedback';
+  document.getElementById('checkBtn').style.display = 'block';
+  document.getElementById('nextBtn').style.display  = 'none';
+  document.getElementById('skipBtn').style.display  = 'block';
+}
+
+function checkAnswer() {
+  if (answered) return;
+  const q   = questions[currentIndex];
+  const inp = document.getElementById('englishInput');
+  const ans = inp.value.trim().toLowerCase();
+  const fb  = document.getElementById('feedback');
+  if (!ans) { fb.textContent='英語を入力してください'; return; }
+  answered = true; inp.disabled = true;
+  document.getElementById('checkBtn').style.display = 'none';
+  document.getElementById('nextBtn').style.display  = 'block';
+  document.getElementById('skipBtn').style.display  = 'none';
+  if (ans === q.english) {
+    correct++;
+    inp.className='english-input correct';
+    fb.textContent='✓ 正解！'; fb.className='feedback correct';
+    results.push({japanese:q.japanese,english:q.english,user:ans,ok:true});
+  } else {
+    inp.className='english-input wrong';
+    fb.textContent=`✗ 不正解　正解: ${q.english}`; fb.className='feedback wrong';
+    results.push({japanese:q.japanese,english:q.english,user:ans,ok:false});
+  }
+  document.getElementById('scoreDisplay').textContent = `正解: ${correct}`;
+}
+
+function nextQuestion() {
+  currentIndex++;
+  if (currentIndex >= questions.length) showResult();
+  else showQuestion();
+}
+
+function skipQuestion() {
+  if (answered) return;
+  const q = questions[currentIndex]; skipped++;
+  results.push({japanese:q.japanese,english:q.english,user:'（スキップ）',ok:false});
+  document.getElementById('feedback').textContent = `正解: ${q.english}`;
+  document.getElementById('feedback').className   = 'feedback answer';
+  const inp = document.getElementById('englishInput');
+  inp.disabled=true; inp.className='english-input wrong'; answered=true;
+  document.getElementById('checkBtn').style.display = 'none';
+  document.getElementById('nextBtn').style.display  = 'block';
+  document.getElementById('skipBtn').style.display  = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('englishInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') { if (!answered) checkAnswer(); else nextQuestion(); }
+  });
+});
+
+// =====================
+//  結果画面
+// =====================
+function showResult() {
+  document.getElementById('testScreen').style.display   = 'none';
+  document.getElementById('resultScreen').style.display = 'flex';
+  const total = questions.length, ngCount = results.filter(r=>!r.ok).length;
+  document.getElementById('scoreBig').innerHTML = `${correct} <span>/ ${total}問</span>`;
+  document.getElementById('statOk').textContent   = correct;
+  document.getElementById('statNg').textContent   = ngCount;
+  document.getElementById('statRate').textContent = Math.round(correct/total*100)+'%';
+  document.getElementById('statSkip').textContent = skipped;
+  const rows = document.getElementById('resultRows'); rows.innerHTML='';
+  results.forEach(r => {
+    const div = document.createElement('div'); div.className='result-row';
+    div.innerHTML=`<span class="r-jp">${r.japanese}</span><span class="r-en" style="color:${r.ok?'var(--ok)':'var(--ng)'}">${r.english}</span><span class="r-mark">${r.ok?'✓':'✗'}</span>`;
+    rows.appendChild(div);
+  });
+}
+
+function retryTest() {
+  document.getElementById('resultScreen').style.display='none';
+  startTest();
+}
+</script>
+</body>
+</html>
