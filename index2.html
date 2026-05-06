@@ -44,16 +44,16 @@
   .progress-label{font-size:.85rem;color:var(--muted);white-space:nowrap;}
   .progress-bar{flex:1;height:8px;background:var(--surface2);border-radius:99px;overflow:hidden;}
   .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px;transition:width .3s;}
-  .question-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:2rem 1.5rem;text-align:center;min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;}
+  .question-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.5rem 1.5rem;text-align:center;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;}
   .q-label{font-size:.8rem;color:var(--muted);letter-spacing:.1em;}
-  .japanese-word{font-size:2rem;font-weight:700;line-height:1.2;color:var(--text);}
+  .japanese-word{font-size:1.2rem;font-weight:700;line-height:1.1;color:var(--text);}
   .hint{font-size:.85rem;color:var(--muted);}
   .input-area{display:flex;flex-direction:column;gap:.05rem;}
   .english-input{width:100%;font-size:1.4rem;font-weight:600;letter-spacing:.08em;padding:.33rem 1.25rem;border-radius:10px;border:2px solid var(--border);background:var(--surface);color:var(--text);outline:none;text-align:center;-webkit-appearance:none;transition:border-color .2s;}
   .english-input:focus{border-color:var(--accent);}
   .english-input.correct{border-color:var(--ok);background:#052e16;}
   .english-input.wrong{border-color:var(--ng);background:#2d0a0a;}
-  .feedback{min-height:0;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:600;border-radius:10px;padding:.3rem;}
+  .feedback{min-height:0;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600;border-radius:6px;padding:.1rem .5rem;}
   .feedback.correct{color:var(--ok);background:#052e16;}
   .feedback.wrong{color:var(--ng);background:#2d0a0a;}
   .feedback.answer{color:#fbbf24;background:#2d1f00;}
@@ -82,7 +82,7 @@
   .r-en{flex:1;text-align:center;font-weight:600;}
   .r-mark{width:24px;text-align:right;font-size:1.1rem;}
   .btn-retry{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#0f172a;padding:1rem;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;}
-  @media(min-width:480px){.japanese-word{font-size:2.4rem;}.english-input{font-size:1.6rem;}}
+  @media(min-width:480px){.japanese-word{font-size:1.4rem;}.english-input{font-size:1.6rem;}}
 </style>
 </head>
 <body>
@@ -158,10 +158,10 @@ const CLASS_MAP = {
     <div class="hint" id="hintText"></div>
   </div>
   <div class="input-area">
+    <div class="feedback" id="feedback"></div>
     <input type="text" class="english-input" id="englishInput"
       placeholder="英語を入力"
       autocapitalize="none" autocorrect="off" autocomplete="off" spellcheck="false">
-    <div class="feedback" id="feedback"></div>
     <button class="action-btn btn-check" id="checkBtn" onclick="checkAnswer()">確認する</button>
     <button class="action-btn btn-next" id="nextBtn" onclick="nextQuestion()" style="display:none">次へ →</button>
     <button class="action-btn btn-skip" id="skipBtn" onclick="skipQuestion()">スキップ</button>
