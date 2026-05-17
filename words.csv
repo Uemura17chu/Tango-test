@@ -1,17 +1,24 @@
 ﻿set,label,japanese,english
-A,Prog1_Sc1,はずかしい,shy
-A,Prog1_Sc2,許す,pardon
-A,Prog1_Part1,ニューヨーク,New York
-A,Prog1_Part1,街、市,city
-A,Prog1_Part1,ちょうど、まさに,just
-A,Prog1_Part1,お会いできてうれしいです。,Nice to meet you.
-A,Prog1_Part2,問題,problem
-A,Prog1_Part2,どういたしまして / 大丈夫だよ,No problem.
-A,Prog1_Action,静かな,quiet
-A,Prog1_Action,～の,of
-A,Prog1_Action,礼儀正しい,polite
-A,Prog1_Action,明るい、元気のよい,cheerful
-A,Prog1_Action,正直な,honest
-A,Prog1_Action,注意深い,careful
-A,Prog1_Action,社会科,social studies
-A,Prog1_Action,～が上手である、～が得意である,be good at
+A,Prog2_Sc1,don't,(do not の短縮形)
+A,Prog2_Sc1,after,(前)〜のあとに［で］        
+A,Prog2_Sc1,grow,(動)栽培する、育てる
+A,Prog2_Sc1,grow,(動)育つ、成長する       
+A,Prog2_Sc1,use,(動)使う        
+A,Prog2_Sc1,at home,家で［に］        
+A,Prog2_Sc1,very much,とても        
+A,Prog2_Sc1,after school,放課後        
+A,Prog2_Sc2,weekend,(名)週末        
+A,Prog2_Sc2,but,(接)しかし        
+A,Prog2_Sc2,before,(前)〜の前に
+A,Prog2_Part1,wow,(間)うわー 
+A,Prog2_Part1,flip,(名)すばやくめくること        
+A,Prog2_Part1,look at ～,～（のほう）を見る        
+A,Prog2_Part2,question,(名)質問        
+A,Prog2_Part2,sure,(副)（承諾の返事）もちろん、いいですよ
+A,Prog2_Part2,during,(前)〜の間
+A,Prog2_Part2,break,(名)休憩
+A,Prog2_Part2,break,(動)壊れる、壊す      
+A,Prog2_Part2,tomorrow,(副)明日        
+A,Prog2_Action,any,(形)（疑問文で）いくらかの、いくつかの
+A,Prog2_Action,any,(形)（否定文で）少しの〜も（…ない）
+A,Prog2_Action,any,(形)（疑問文で）何かの
