@@ -1,24 +1,24 @@
 ﻿set,label,japanese,english
-A,Prog2_Sc1,don't,(do not の短縮形)
-A,Prog2_Sc1,after,(前)〜のあとに［で］        
-A,Prog2_Sc1,grow,(動)栽培する、育てる
-A,Prog2_Sc1,grow,(動)育つ、成長する       
-A,Prog2_Sc1,use,(動)使う        
-A,Prog2_Sc1,at home,家で［に］        
-A,Prog2_Sc1,very much,とても        
-A,Prog2_Sc1,after school,放課後        
-A,Prog2_Sc2,weekend,(名)週末        
-A,Prog2_Sc2,but,(接)しかし        
-A,Prog2_Sc2,before,(前)〜の前に
-A,Prog2_Part1,wow,(間)うわー 
-A,Prog2_Part1,flip,(名)すばやくめくること        
-A,Prog2_Part1,look at ～,～（のほう）を見る        
-A,Prog2_Part2,question,(名)質問        
-A,Prog2_Part2,sure,(副)（承諾の返事）もちろん、いいですよ
-A,Prog2_Part2,during,(前)〜の間
-A,Prog2_Part2,break,(名)休憩
-A,Prog2_Part2,break,(動)壊れる、壊す      
-A,Prog2_Part2,tomorrow,(副)明日        
-A,Prog2_Action,any,(形)（疑問文で）いくらかの、いくつかの
-A,Prog2_Action,any,(形)（否定文で）少しの〜も（…ない）
-A,Prog2_Action,any,(形)（疑問文で）何かの
+A,Prog2_Sc1,(do not の短縮形),don't
+A,Prog2_Sc1,(前)〜のあとに［で］        ,after
+A,Prog2_Sc1,(動)栽培する、育てる,grow
+A,Prog2_Sc1,(動)育つ、成長する       ,grow
+A,Prog2_Sc1,(動)使う        ,use
+A,Prog2_Sc1,家で［に］        ,at home
+A,Prog2_Sc1,とても        ,very much
+A,Prog2_Sc1,放課後        ,after school
+A,Prog2_Sc2,(名)週末        ,weekend
+A,Prog2_Sc2,(接)しかし        ,but
+A,Prog2_Sc2,(前)〜の前に,before
+A,Prog2_Part1,(間)うわー ,wow
+A,Prog2_Part1,(名)すばやくめくること        ,flip
+A,Prog2_Part1,～（のほう）を見る        ,look at ～
+A,Prog2_Part2,(名)質問        ,question
+A,Prog2_Part2,(副)（承諾の返事）もちろん、いいですよ,sure
+A,Prog2_Part2,(前)〜の間,during
+A,Prog2_Part2,(名)休憩,break
+A,Prog2_Part2,(動)壊れる、壊す      ,break
+A,Prog2_Part2,(副)明日        ,tomorrow
+A,Prog2_Action,(形)（疑問文で）いくらかの、いくつかの,any
+A,Prog2_Action,(形)（否定文で）少しの〜も（…ない）,any
+A,Prog2_Action,(形)（疑問文で）何かの,any
