@@ -1,25 +1,21 @@
 ﻿set,label,japanese,english
-A,Prog2_Sc1,(do not の短縮形),don't
-A,Prog2_Sc1,(前)〜のあとに［で］        ,after
-A,Prog2_Sc1,(動)栽培する、育てる,grow
-A,Prog2_Sc1,(動)育つ、成長する       ,grow
-A,Prog2_Sc1,(動)使う,use
-A,Prog2_Sc1,家で［に］,at home
-A,Prog2_Sc1,とても(1語),very
-A,Prog2_Sc1,とても(2語),very much
-A,Prog2_Sc1,放課後        ,after school
-A,Prog2_Sc2,(名)週末,weekend
-A,Prog2_Sc2,(接)しかし,but
-A,Prog2_Sc2,(前)〜の前に,before
-A,Prog2_Part1,(間)うわー ,wow
-A,Prog2_Part1,(名)すばやくめくること,flip
-A,Prog2_Part1,～（のほう）を見る,look at
-A,Prog2_Part2,(名)質問,question
-A,Prog2_Part2,(副)（承諾の返事）もちろん、いいですよ,sure
-A,Prog2_Part2,(前)〜の間,during
-A,Prog2_Part2,(名)休憩,break
-A,Prog2_Part2,(動)壊れる、壊す,break
-A,Prog2_Part2,(副)明日 ,tomorrow
-A,Prog2_Action,(形)（疑問文で）いくらかの、いくつかの,any
-A,Prog2_Action,(形)（否定文で）少しの〜も（…ない）,any
-A,Prog2_Action,(形)（疑問文で）何かの,any
+A,Prog1_Sc1,はずかしい,shy
+A,Prog1_Sc2,許す,pardon
+A,Prog1_Part1,ニューヨーク,New York
+A,Prog1_Part1,街、市,city
+A,Prog1_Part1,ちょうど、まさに,just
+A,Prog1_Part1,お会いできてうれしいです。,Nice to meet you.
+A,Prog1_Part2,問題,problem
+A,Prog1_Part2,どういたしまして / 大丈夫だよ,No problem.
+A,Prog1_Action,静かな,quiet
+A,Prog1_Action,～の,of
+A,Prog1_Action,礼儀正しい,polite
+A,Prog1_Action,明るい、元気のよい,cheerful
+A,Prog1_Action,正直な,honest
+A,Prog1_Action,注意深い,careful
+A,Prog1_Action,社会科,social studies
+A,Prog1_Action,～が上手である、～が得意である,be good at
+A,Prog1_Action,勇敢な,brave
+A,Prog1_Action,理科、科学,science
+A,Prog1_Action,数学,math
+A,Prog1_Action,カナダ,Canada
