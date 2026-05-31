@@ -1,52 +1,52 @@
 set,label,english,japanese
-1,中1 基本名詞,apple,りんご
-1,中1 基本名詞,book,本
-1,中1 基本名詞,cat,ねこ
-1,中1 基本名詞,dog,いぬ
-1,中1 基本名詞,egg,たまご
-1,中1 基本名詞,fish,魚
-1,中1 基本名詞,girl,女の子
-1,中1 基本名詞,hat,帽子
-1,中1 基本名詞,ice,氷
-1,中1 基本名詞,juice,ジュース
-1,中1 基本名詞,key,鍵
-1,中1 基本名詞,lion,ライオン
-2,中1 学校・文具,pencil,鉛筆
-2,中1 学校・文具,eraser,消しゴム
-2,中1 学校・文具,notebook,ノート
-2,中1 学校・文具,ruler,定規
-2,中1 学校・文具,scissors,はさみ
-2,中1 学校・文具,desk,机
-2,中1 学校・文具,chair,椅子
-2,中1 学校・文具,classroom,教室
-2,中1 学校・文具,teacher,先生
-2,中1 学校・文具,student,生徒
-2,中1 学校・文具,library,図書館
-2,中1 学校・文具,gym,体育館
-3,中1 色・形容詞,red,赤い
-3,中1 色・形容詞,blue,青い
-3,中1 色・形容詞,green,緑の
-3,中1 色・形容詞,yellow,黄色い
-3,中1 色・形容詞,white,白い
-3,中1 色・形容詞,black,黒い
-3,中1 色・形容詞,big,大きい
-3,中1 色・形容詞,small,小さい
-3,中1 色・形容詞,long,長い
-3,中1 色・形容詞,short,短い
-3,中1 色・形容詞,fast,速い
-3,中1 色・形容詞,slow,遅い
-4,中2 重要動詞,run,走る
-4,中2 重要動詞,swim,泳ぐ
-4,中2 重要動詞,cook,料理する
-4,中2 重要動詞,study,勉強する
-4,中2 重要動詞,travel,旅行する
-4,中2 重要動詞,enjoy,楽しむ
-4,中2 重要動詞,forget,忘れる
-4,中2 重要動詞,remember,覚えている
-4,中2 重要動詞,practice,練習する
-4,中2 重要動詞,improve,上達する
-4,中2 重要動詞,explain,説明する
-4,中2 重要動詞,introduce,紹介する
+1,中1 Program1,apple,りんご
+1,中1 Program1,book,本
+1,中1 Program1,cat,ねこ
+1,中1 Program1,dog,いぬ
+1,中1 Program1,egg,たまご
+1,中1 Program1,fish,魚
+1,中1 Program1,girl,女の子
+1,中1 Program1,hat,帽子
+1,中1 Program1,ice,氷
+1,中1 Program1,juice,ジュース
+1,中1 Program1,key,鍵
+1,中1 Program1,lion,ライオン
+2,中1 Program2,pencil,鉛筆
+2,中1 Program2,eraser,消しゴム
+2,中1 Program2,notebook,ノート
+2,中1 Program2,ruler,定規
+2,中1 Program2,scissors,はさみ
+2,中1 Program2,desk,机
+2,中1 Program2,chair,椅子
+2,中1 Program2,classroom,教室
+2,中1 Program2,teacher,先生
+2,中1 Program2,student,生徒
+2,中1 Program2,library,図書館
+2,中1 Program2,gym,体育館
+3,中1 WordWeb,red,赤い
+3,中1 WordWeb,blue,青い
+3,中1 WordWeb,green,緑の
+3,中1 WordWeb,yellow,黄色い
+3,中1 WordWeb,white,白い
+3,中1 WordWeb,black,黒い
+3,中1 WordWeb,big,大きい
+3,中1 WordWeb,small,小さい
+3,中1 WordWeb,long,長い
+3,中1 WordWeb,short,短い
+3,中1 WordWeb,fast,速い
+3,中1 WordWeb,slow,遅い
+4,中2 Action Words,run,走る
+4,中2 Action Words,swim,泳ぐ
+4,中2 Action Words,cook,料理する
+4,中2 Action Words,study,勉強する
+4,中2 Action Words,travel,旅行する
+4,中2 Action Words,enjoy,楽しむ
+4,中2 Action Words,forget,忘れる
+4,中2 Action Words,remember,覚えている
+4,中2 Action Words,practice,練習する
+4,中2 Action Words,improve,上達する
+4,中2 Action Words,explain,説明する
+4,中2 Action Words,introduce,紹介する
 5,中3 重要熟語,look forward to,〜を楽しみにする
 5,中3 重要熟語,give up,あきらめる
 5,中3 重要熟語,take care of,〜の世話をする
