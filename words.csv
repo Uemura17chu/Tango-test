@@ -1,12 +1,12 @@
 set,label,english,japanese
-1,中1 Program1,shy,はずかしい
+l:"中1 Program1,shy,はずかしい
 1,中1 Program1,pardon,許す
 1,中1 Program1,New York,ニューヨーク
 1,中1 Program1,city,街、市
 1,中1 Program1,just,ちょうど、まさに
 1,中1 Program1,Nice to meet you.,お会いできてうれしいです。
 1,中1 Program1,problem,問題
-1,中1 Program1,No problem.,どういたしまして / 大丈夫だよ
+1,中1 Program1,No problem,どういたしまして / 大丈夫だよ
 1,中1 Program1,quiet,静かな
 1,中1 Program1,of,～の
 1,中1 Program1,polite,礼儀正しい
@@ -19,51 +19,65 @@ set,label,english,japanese
 1,中1 Program1,science,理科、科学
 1,中1 Program1,math,数学
 1,中1 Program1,Canada,カナダ
-2,中1 Program2,pencil,鉛筆
-2,中1 Program2,eraser,消しゴム
-2,中1 Program2,notebook,ノート
-2,中1 Program2,ruler,定規
-2,中1 Program2,scissors,はさみ
-2,中1 Program2,desk,机
-2,中1 Program2,chair,椅子
-2,中1 Program2,classroom,教室
-2,中1 Program2,teacher,先生
-2,中1 Program2,student,生徒
-2,中1 Program2,library,図書館
-2,中1 Program2,gym,体育館
-3,中1 WordWeb,red,赤い
-3,中1 WordWeb,blue,青い
-3,中1 WordWeb,green,緑の
-3,中1 WordWeb,yellow,黄色い
-3,中1 WordWeb,white,白い
-3,中1 WordWeb,black,黒い
-3,中1 WordWeb,big,大きい
-3,中1 WordWeb,small,小さい
-3,中1 WordWeb,long,長い
-3,中1 WordWeb,short,短い
-3,中1 WordWeb,fast,速い
-3,中1 WordWeb,slow,遅い
-4,中1 Action Words,run,走る
-4,中1 Action Words,swim,泳ぐ
-4,中1 Action Words,cook,料理する
-4,中1 Action Words,study,勉強する
-4,中1 Action Words,travel,旅行する
-4,中1 Action Words,enjoy,楽しむ
-4,中1 Action Words,forget,忘れる
-4,中1 Action Words,remember,覚えている
-4,中1 Action Words,practice,練習する
-4,中1 Action Words,improve,上達する
-4,中1 Action Words,explain,説明する
-4,中1 Action Words,introduce,紹介する
-5,中1 重要熟語,look forward to,〜を楽しみにする
-5,中1 重要熟語,give up,あきらめる
-5,中1 重要熟語,take care of,〜の世話をする
-5,中1 重要熟語,be proud of,〜を誇りに思う
-5,中1 重要熟語,get along with,〜と仲良くする
-5,中1 重要熟語,be surprised at,〜に驚く
-5,中1 重要熟語,be interested in,〜に興味がある
-5,中1 重要熟語,make friends with,〜と友達になる
-5,中1 重要熟語,for the first time,初めて
-5,中1 重要熟語,as well as,〜と同様に
-5,中1 重要熟語,at the same time,同時に
-5,中1 重要熟語,in order to,〜するために
+2,中1 Program2,don't,(do not の短縮形)
+2,中1 Program2,after,(前)〜のあとに［で］
+2,中1 Program2,grow,(動)栽培する、育てる
+2,中1 Program2,grow,(動)育つ、成長する
+2,中1 Program2,use,(動)使う
+2,中1 Program2,at home,家で［に］
+2,中1 Program2,very,とても(1語)
+2,中1 Program2,very much,とても(2語)
+2,中1 Program2,after school,放課後
+2,中1 Program2,weekend,(名)週末
+2,中1 Program2,but,(接)しかし
+2,中1 Program2,before,(前)〜の前に
+2,中1 Program2,wow,(間)うわー
+2,中1 Program2,flip,(名)すばやくめくること
+2,中1 Program2,look at,～（のほう）を見る
+2,中1 Program2,question,(名)質問
+2,中1 Program2,sure,(副)（承諾の返事）もちろん、いいですよ
+2,中1 Program2,during,(前)〜の間
+2,中1 Program2,break,(名)休憩
+2,中1 Program2,break,(動)壊れる、壊す
+2,中1 Program2,tomorrow,(副)明日
+2,中1 Program2,any,(形)（疑問文で）いくらかの、いくつかの
+2,中1 Program2,any,(形)（否定文で）少しの〜も（…ない）
+3,中1 Word Web,Sunday,日曜日
+3,中1 Word Web,Monday,月曜日
+3,中1 Word Web,Tuesday,火曜日
+3,中1 Word Web,Wednesday,水曜日
+3,中1 Word Web,Thursday,木曜日
+3,中1 Word Web,Friday,金曜日
+3,中1 Word Web,Saturday,土曜日
+3,中1 Word Web,January,１月
+3,中1 Word Web,February,２月
+3,中1 Word Web,March,３月
+3,中1 Word Web,April,４月
+3,中1 Word Web,May,５月
+3,中1 Word Web,June,６月
+3,中1 Word Web,July,７月
+3,中1 Word Web,August,８月
+3,中1 Word Web,September,９月
+3,中1 Word Web,October,１０月
+3,中1 Word Web,November,１１月
+3,中1 Word Web,December,１２月
+4,中1 アクションワード(p36),clean,掃除する
+4,中1 アクションワード(p36),close,閉じる
+4,中1 アクションワード(p36),drink,飲む
+4,中1 アクションワード(p36),eat,食べる
+4,中1 アクションワード(p36),make,作る
+4,中1 アクションワード(p36),open,開く
+4,中1 アクションワード(p36),play,(球技を)する、(楽器を)演奏する
+4,中1 アクションワード(p36),read,読む
+4,中1 アクションワード(p36),sing,歌う
+4,中1 アクションワード(p36),speak,話す（発声する）
+4,中1 アクションワード(p36),study,勉強する
+4,中1 アクションワード(p36),touch,触る
+4,中1 アクションワード(p36),wash,洗う
+4,中1 アクションワード(p36),write,書く
+4,中1 アクションワード(p36),watch,観る
+4,中1 アクションワード(p36),cook,料理する
+4,中1 アクションワード(p36),use,使う
+5,中1 小学校単語(パートナーp2～p11),go,行く
+5,中1 小学校単語(パートナーp2～p11),sleep,眠る
+5,中1 小学校単語(パートナーp2～p11),talk,話す(会話する)
