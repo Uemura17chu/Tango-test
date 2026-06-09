@@ -2,399 +2,1549 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>がんばれ英単語テスト｜豊中十七中学校</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>がんばれ英単語TEST</title>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-  :root{
-    --bg:#0f172a;--surface:#1e293b;--surface2:#273549;
-    --accent:#38bdf8;--accent2:#818cf8;--ok:#4ade80;--ng:#f87171;
-    --text:#f1f5f9;--muted:#94a3b8;--border:#334155;--radius:16px;
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Noto+Sans+JP:wght@400;700;900&display=swap');
+
+  :root {
+    --bg: #0f1b2d;
+    --card: #1a2d47;
+    --card2: #1f3558;
+    --accent1: #f9c846;
+    --accent2: #4ecdc4;
+    --accent3: #ff6b6b;
+    --accent4: #a78bfa;
+    --text: #f0f4ff;
+    --text2: #9bb0cc;
+    --radius: 18px;
+    --shadow: 0 8px 32px rgba(0,0,0,0.4);
   }
-  html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Hiragino Sans','Noto Sans JP',sans-serif;overflow-x:hidden;}
-  body{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:1rem;}
 
-  /* ローディング */
-  #loadingScreen{text-align:center;display:flex;flex-direction:column;align-items:center;gap:1rem;}
-  .spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;}
-  @keyframes spin{to{transform:rotate(360deg);}}
-  .load-msg{color:var(--muted);font-size:.95rem;}
-  .load-err{color:var(--ng);font-size:.9rem;max-width:320px;line-height:1.6;}
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-  /* ログイン */
-  #loginScreen{width:100%;max-width:420px;text-align:center;display:none;flex-direction:column;gap:1.5rem;}
-  .logo{font-size:1.6rem;font-weight:700;letter-spacing:.05em;color:var(--accent);}
-  .logo span{color:var(--accent2);}
-  .subtitle{color:var(--muted);font-size:.95rem;}
-  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;}
-  .field{display:flex;flex-direction:column;gap:.5rem;text-align:left;margin-bottom:1.25rem;}
-  .field label{font-size:.85rem;color:var(--muted);font-weight:500;}
-  .field input{background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:1.4rem;padding:.75rem 1rem;outline:none;width:100%;letter-spacing:.1em;-webkit-appearance:none;}
-  .field input:focus{border-color:var(--accent);}
-  .btn{width:100%;padding:1rem;border:none;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0f172a;font-size:1.1rem;font-weight:700;cursor:pointer;transition:opacity .15s;}
-  .btn:active{opacity:.8;}
-  #loginError{color:var(--ng);font-size:.9rem;min-height:1.2rem;margin-bottom:.5rem;}
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-  /* テスト */
-  #testScreen{width:100%;max-width:560px;display:none;flex-direction:column;gap:1.25rem;}
-  .header-bar{display:flex;justify-content:space-between;align-items:center;}
-  .student-info{font-size:.85rem;color:var(--muted);}
-  .set-badge{font-size:.75rem;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.2rem .6rem;color:var(--accent);}
-  .progress-wrap{display:flex;align-items:center;gap:.75rem;}
-  .progress-label{font-size:.85rem;color:var(--muted);white-space:nowrap;}
-  .progress-bar{flex:1;height:8px;background:var(--surface2);border-radius:99px;overflow:hidden;}
-  .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px;transition:width .3s;}
-  .question-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.5rem 1.5rem;text-align:center;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;}
-  .q-label{font-size:.8rem;color:var(--muted);letter-spacing:.1em;}
-  .japanese-word{font-size:1.2rem;font-weight:700;line-height:1.1;color:var(--text);}
-  .hint{font-size:.85rem;color:var(--muted);}
-  .input-area{display:flex;flex-direction:column;gap:.05rem;}
-  .english-input{width:100%;font-size:1.4rem;font-weight:600;letter-spacing:.08em;padding:.33rem 1.25rem;border-radius:10px;border:2px solid var(--border);background:var(--surface);color:var(--text);outline:none;text-align:center;-webkit-appearance:none;transition:border-color .2s;}
-  .english-input:focus{border-color:var(--accent);}
-  .english-input.correct{border-color:var(--ok);background:#052e16;}
-  .english-input.wrong{border-color:var(--ng);background:#2d0a0a;}
-  .feedback{min-height:0;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600;border-radius:6px;padding:.1rem .5rem;}
-  .feedback.correct{color:var(--ok);background:#052e16;}
-  .feedback.wrong{color:var(--ng);background:#2d0a0a;}
-  .feedback.answer{color:#fbbf24;background:#2d1f00;}
-  .action-btn{padding:1rem;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity .15s;width:100%;}
-  .action-btn:active{opacity:.7;}
-  .btn-check{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0f172a;}
-  .btn-next{background:linear-gradient(135deg,var(--ok),#16a34a);color:#052e16;}
-  .btn-skip{background:var(--surface2);color:var(--muted);border:1px solid var(--border);}
+  /* ===== SCREENS ===== */
+  .screen { display: none; min-height: 100vh; padding: 20px; }
+  .screen.active { display: flex; flex-direction: column; }
 
-  /* 結果 */
-  #resultScreen{width:100%;max-width:480px;display:none;flex-direction:column;gap:1.25rem;text-align:center;}
-  .result-title{font-size:1.4rem;font-weight:700;color:var(--accent);}
-  .score-big{font-size:2.8rem;font-weight:800;}
-  .score-big span{font-size:1.2rem;color:var(--muted);}
-  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
-  .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem;}
-  .stat-label{font-size:.8rem;color:var(--muted);margin-bottom:.25rem;}
-  .stat-val{font-size:1.3rem;font-weight:700;}
-  .stat-val.ok{color:var(--ok);}
-  .stat-val.ng{color:var(--ng);}
-  .result-list{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;text-align:left;max-height:320px;overflow-y:auto;}
-  .result-list h3{font-size:.85rem;color:var(--muted);margin-bottom:.75rem;text-align:center;}
-  .result-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.95rem;gap:.5rem;}
-  .result-row:last-child{border-bottom:none;}
-  .r-jp{color:var(--muted);flex:1;}
-  .r-en{flex:1;text-align:center;font-weight:600;}
-  .r-mark{width:24px;text-align:right;font-size:1.1rem;}
-  .btn-retry{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#0f172a;padding:1rem;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;}
-  @media(min-width:480px){.japanese-word{font-size:1.4rem;}.english-input{font-size:1.6rem;}}
+  /* ===== HEADER ===== */
+  .app-header {
+    text-align: center;
+    padding: 24px 0 8px;
+  }
+  .app-title {
+    font-family: 'Nunito', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--accent1);
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+  .app-subtitle {
+    font-size: 0.75rem;
+    color: var(--text2);
+    margin-top: 4px;
+    letter-spacing: 2px;
+  }
+
+  /* ===== STEP INDICATOR ===== */
+  .steps {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 20px 0 24px;
+  }
+  .step-dot {
+    width: 32px; height: 6px;
+    border-radius: 3px;
+    background: var(--card2);
+    transition: background 0.3s;
+  }
+  .step-dot.active { background: var(--accent1); }
+  .step-dot.done { background: var(--accent2); }
+
+  /* ===== SECTION TITLE ===== */
+  .section-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--text2);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  /* ===== SET CARDS ===== */
+  .set-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 480px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .set-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .set-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 5px;
+    border-radius: 2px 0 0 2px;
+  }
+  .set-card:nth-child(1)::before { background: var(--accent1); }
+  .set-card:nth-child(2)::before { background: var(--accent2); }
+  .set-card:nth-child(3)::before { background: var(--accent3); }
+  .set-card:nth-child(4)::before { background: var(--accent4); }
+  .set-card:nth-child(5)::before { background: #6ee7b7; }
+
+  .set-card:active { transform: scale(0.97); }
+  .set-card.selected {
+    border-color: var(--accent1);
+    background: var(--card2);
+  }
+
+  .set-icon {
+    font-size: 2rem;
+    width: 48px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .set-info { flex: 1; }
+  .set-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .set-desc {
+    font-size: 0.78rem;
+    color: var(--text2);
+    margin-top: 2px;
+  }
+  .set-count {
+    font-size: 0.72rem;
+    color: var(--accent2);
+    font-weight: 700;
+    background: rgba(78,205,196,0.12);
+    padding: 3px 10px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  /* ===== MODE CARDS ===== */
+  .mode-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 480px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .mode-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .mode-card:active { transform: scale(0.97); }
+  .mode-card.flash { border-color: rgba(249,200,70,0.3); }
+  .mode-card.quiz  { border-color: rgba(78,205,196,0.3); }
+  .mode-card.type  { border-color: rgba(167,139,250,0.3); }
+
+  .mode-icon {
+    font-size: 2.4rem;
+    width: 56px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .mode-info { flex: 1; }
+  .mode-name {
+    font-size: 1.2rem;
+    font-weight: 900;
+    font-family: 'Nunito', sans-serif;
+  }
+  .mode-card.flash .mode-name { color: var(--accent1); }
+  .mode-card.quiz  .mode-name { color: var(--accent2); }
+  .mode-card.type  .mode-name { color: var(--accent4); }
+  .mode-desc {
+    font-size: 0.8rem;
+    color: var(--text2);
+    margin-top: 3px;
+  }
+  .mode-arrow {
+    font-size: 1.4rem;
+    color: var(--text2);
+  }
+
+  /* ===== BACK BUTTON ===== */
+  .back-btn {
+    background: none;
+    border: none;
+    color: var(--text2);
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 0;
+    margin-bottom: 8px;
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+  .back-btn:active { opacity: 0.6; }
+
+  /* ===== SELECTED SET BADGE ===== */
+  .selected-badge {
+    background: var(--card2);
+    border-radius: 12px;
+    padding: 10px 16px;
+    margin-bottom: 20px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .selected-badge-label { font-size: 0.72rem; color: var(--text2); }
+  .selected-badge-name { font-size: 0.95rem; font-weight: 700; color: var(--accent1); }
+
+  /* ===== FLASH CARD SCREEN ===== */
+  #screen-flash {
+    align-items: center;
+  }
+  .flash-header {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .flash-progress-text {
+    font-size: 0.9rem;
+    color: var(--text2);
+  }
+  .flash-progress-bar-wrap {
+    flex: 1;
+    height: 6px;
+    background: var(--card2);
+    border-radius: 3px;
+    margin: 0 12px;
+    overflow: hidden;
+  }
+  .flash-progress-bar {
+    height: 100%;
+    background: var(--accent1);
+    border-radius: 3px;
+    transition: width 0.3s;
+  }
+
+  .flash-card-wrap {
+    perspective: 1000px;
+    width: 100%;
+    max-width: 500px;
+    height: 260px;
+    cursor: pointer;
+    margin-bottom: 24px;
+  }
+  .flash-card-inner {
+    position: relative;
+    width: 100%; height: 100%;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+  }
+  .flash-card-inner.flipped { transform: rotateY(180deg); }
+  .flash-face {
+    position: absolute;
+    width: 100%; height: 100%;
+    background: var(--card);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 28px;
+  }
+  .flash-face.back {
+    transform: rotateY(180deg);
+    background: var(--card2);
+  }
+  .flash-label {
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    color: var(--text2);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .flash-word {
+    font-size: 2.4rem;
+    font-weight: 900;
+    font-family: 'Nunito', sans-serif;
+    color: var(--accent1);
+    text-align: center;
+    line-height: 1.2;
+  }
+  .flash-meaning {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text);
+    text-align: center;
+  }
+  .flash-tap-hint {
+    font-size: 0.75rem;
+    color: var(--text2);
+    margin-top: 16px;
+  }
+
+  .flash-nav {
+    display: flex;
+    gap: 14px;
+    width: 100%;
+    max-width: 500px;
+  }
+  .flash-btn {
+    flex: 1;
+    padding: 16px;
+    border-radius: var(--radius);
+    border: none;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Noto Sans JP', sans-serif;
+    transition: all 0.15s;
+  }
+  .flash-btn:active { transform: scale(0.96); }
+  .flash-btn.prev { background: var(--card2); color: var(--text2); }
+  .flash-btn.next { background: var(--accent1); color: #1a1a1a; }
+
+  /* ===== QUIZ SCREEN ===== */
+  #screen-quiz { align-items: center; }
+  .quiz-header {
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 16px;
+  }
+  .quiz-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .quiz-count { font-size: 0.85rem; color: var(--text2); }
+  .quiz-score-badge {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent2);
+    background: rgba(78,205,196,0.12);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+  .quiz-prog-bar-wrap {
+    height: 6px;
+    background: var(--card2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .quiz-prog-bar {
+    height: 100%;
+    background: var(--accent2);
+    border-radius: 3px;
+    transition: width 0.3s;
+  }
+
+  .quiz-question-card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 28px 24px;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
+  .quiz-question-label {
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    color: var(--text2);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .quiz-question-word {
+    font-size: 2.2rem;
+    font-weight: 900;
+    font-family: 'Nunito', sans-serif;
+    color: var(--accent2);
+  }
+
+  .quiz-choices {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 500px;
+  }
+  .quiz-choice {
+    background: var(--card);
+    border: 2px solid transparent;
+    border-radius: 14px;
+    padding: 16px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Noto Sans JP', sans-serif;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  .quiz-choice:active { transform: scale(0.97); }
+  .quiz-choice.correct { background: rgba(110,231,183,0.2); border-color: #6ee7b7; color: #6ee7b7; }
+  .quiz-choice.wrong   { background: rgba(255,107,107,0.2); border-color: var(--accent3); color: var(--accent3); }
+  .quiz-choice.reveal  { background: rgba(110,231,183,0.1); border-color: rgba(110,231,183,0.3); }
+
+  .quiz-next-btn {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 14px;
+    padding: 16px;
+    border-radius: var(--radius);
+    border: none;
+    background: var(--accent2);
+    color: #0f1b2d;
+    font-size: 1rem;
+    font-weight: 900;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    display: none;
+    transition: all 0.15s;
+  }
+  .quiz-next-btn.show { display: block; }
+  .quiz-next-btn:active { transform: scale(0.97); }
+
+  /* ===== TYPE SCREEN ===== */
+  #screen-type { align-items: center; }
+  .type-header {
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 16px;
+  }
+  .type-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .type-count { font-size: 0.85rem; color: var(--text2); }
+  .type-score-badge {
+    font-size: 0.85rem; font-weight: 700;
+    color: var(--accent4);
+    background: rgba(167,139,250,0.12);
+    padding: 4px 12px; border-radius: 20px;
+  }
+  .type-prog-wrap {
+    height: 6px; background: var(--card2);
+    border-radius: 3px; overflow: hidden;
+  }
+  .type-prog-bar {
+    height: 100%; background: var(--accent4);
+    border-radius: 3px; transition: width 0.3s;
+  }
+
+  .type-question-card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 28px 24px;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+  }
+  .type-question-label {
+    font-size: 0.72rem; letter-spacing: 3px;
+    color: var(--text2); text-transform: uppercase; margin-bottom: 10px;
+  }
+  .type-question-word {
+    font-size: 2rem; font-weight: 900;
+    font-family: 'Nunito', sans-serif; color: var(--accent4);
+  }
+
+  .type-input-area {
+    width: 100%; max-width: 500px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .type-input {
+    width: 100%;
+    background: var(--card);
+    border: 2px solid var(--card2);
+    border-radius: 14px;
+    padding: 16px 20px;
+    font-size: 1.4rem;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    color: var(--text);
+    outline: none;
+    text-align: center;
+    transition: border-color 0.2s;
+    caret-color: var(--accent4);
+  }
+  .type-input:focus { border-color: var(--accent4); }
+  .type-input.correct { border-color: #6ee7b7; background: rgba(110,231,183,0.1); color: #6ee7b7; }
+  .type-input.wrong   { border-color: var(--accent3); background: rgba(255,107,107,0.1); color: var(--accent3); }
+
+  .type-feedback {
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 700;
+    min-height: 24px;
+    transition: all 0.2s;
+  }
+  .type-feedback.ok  { color: #6ee7b7; }
+  .type-feedback.ng  { color: var(--accent3); }
+
+  .type-hint-btn {
+    background: none; border: 1px solid var(--card2);
+    color: var(--text2); padding: 10px; border-radius: 10px;
+    font-size: 0.8rem; cursor: pointer; font-family: 'Noto Sans JP', sans-serif;
+  }
+  .type-hint-btn:active { opacity: 0.6; }
+
+  .type-submit-btn {
+    width: 100%;
+    padding: 16px;
+    border-radius: var(--radius);
+    border: none;
+    background: var(--accent4);
+    color: white;
+    font-size: 1rem;
+    font-weight: 900;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: all 0.15s;
+  }
+  .type-submit-btn:active { transform: scale(0.97); }
+  .type-skip-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: var(--radius);
+    border: none;
+    background: var(--card2);
+    color: var(--text2);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+
+  /* ===== RESULT SCREEN ===== */
+  #screen-result { align-items: center; justify-content: center; }
+  .result-card {
+    background: var(--card);
+    border-radius: 28px;
+    padding: 36px 28px;
+    width: 100%;
+    max-width: 460px;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .result-emoji { font-size: 3.5rem; margin-bottom: 12px; }
+  .result-title {
+    font-size: 1.6rem; font-weight: 900;
+    font-family: 'Nunito', sans-serif;
+    color: var(--accent1); margin-bottom: 24px;
+  }
+  .result-score-big {
+    font-size: 4rem; font-weight: 900;
+    font-family: 'Nunito', sans-serif;
+    color: var(--text); line-height: 1;
+  }
+  .result-score-label {
+    font-size: 0.8rem; color: var(--text2);
+    margin-bottom: 24px; margin-top: 4px;
+  }
+  .result-stats {
+    display: flex; gap: 12px; margin-bottom: 28px;
+  }
+  .result-stat {
+    flex: 1; background: var(--card2);
+    border-radius: 14px; padding: 14px 10px;
+  }
+  .result-stat-val {
+    font-size: 1.5rem; font-weight: 900;
+    font-family: 'Nunito', sans-serif;
+  }
+  .result-stat-val.ok { color: #6ee7b7; }
+  .result-stat-val.ng { color: var(--accent3); }
+  .result-stat-lbl { font-size: 0.72rem; color: var(--text2); margin-top: 2px; }
+
+  .result-btns { display: flex; flex-direction: column; gap: 10px; }
+  .result-btn {
+    padding: 16px; border-radius: var(--radius); border: none;
+    font-size: 1rem; font-weight: 700; cursor: pointer;
+    font-family: 'Noto Sans JP', sans-serif;
+    transition: all 0.15s;
+  }
+  .result-btn:active { transform: scale(0.97); }
+  .result-btn.primary { background: var(--accent1); color: #1a1a1a; }
+  .result-btn.secondary { background: var(--card2); color: var(--text); }
+
+  /* ===== CSV INFO MODAL ===== */
+  .csv-info-btn {
+    position: fixed;
+    bottom: 20px; right: 20px;
+    background: var(--card2);
+    border: 1px solid var(--card2);
+    color: var(--text2);
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    font-family: 'Noto Sans JP', sans-serif;
+    display: flex; align-items: center; gap: 6px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    z-index: 100;
+  }
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7); z-index: 200;
+    justify-content: center; align-items: flex-end;
+    padding: 20px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal-box {
+    background: var(--card);
+    border-radius: 24px 24px 16px 16px;
+    padding: 28px 24px;
+    width: 100%; max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .modal-title {
+    font-size: 1.1rem; font-weight: 900;
+    color: var(--accent1); margin-bottom: 16px;
+    font-family: 'Nunito', sans-serif;
+  }
+  .modal-body {
+    font-size: 0.85rem; color: var(--text2); line-height: 1.8;
+  }
+  .modal-body code {
+    background: var(--card2); color: var(--accent2);
+    padding: 2px 8px; border-radius: 6px;
+    font-size: 0.8rem; display: block;
+    margin: 8px 0; overflow-x: auto;
+    white-space: pre;
+  }
+  .modal-close {
+    margin-top: 20px; width: 100%; padding: 14px;
+    border-radius: 12px; border: none;
+    background: var(--card2); color: var(--text);
+    font-size: 0.9rem; font-weight: 700; cursor: pointer;
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+
+  /* アニメーション */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .screen.active > * {
+    animation: fadeUp 0.3s ease both;
+  }
+  .screen.active > *:nth-child(1) { animation-delay: 0s; }
+  .screen.active > *:nth-child(2) { animation-delay: 0.05s; }
+  .screen.active > *:nth-child(3) { animation-delay: 0.1s; }
+  .screen.active > *:nth-child(4) { animation-delay: 0.15s; }
+  .screen.active > *:nth-child(5) { animation-delay: 0.2s; }
 </style>
 </head>
 <body>
 
-<!-- =====================================================
-     ★★★ 先生が編集するのはここだけ ★★★
-
-     各組に割り当てるセット名を指定してください。
-     セット名は words.csv の「set」列の値と一致させること。
-
-     授業前にここを書き換えて GitHub にアップするだけ！
-====================================================== -->
-<script>
-const CLASS_MAP = {
-  kumi1: 'A',
-  kumi2: 'A',
-  kumi3: 'A',
-  kumi4: 'A',
-  kumi5: 'A',
-  kumi6: 'A',
-  kumi7: 'A',
-};
-/* ★★★ 編集ここまで ★★★ */
-</script>
-
-<!-- ローディング画面 -->
-<div id="loadingScreen">
-  <div class="spinner"></div>
-  <div class="load-msg">単語データを読み込み中...</div>
+<!-- ===== SCREEN 1: セット選択 ===== -->
+<div class="screen active" id="screen-set">
+  <div class="app-header">
+    <div class="app-title">🔥 がんばれ英単語TEST</div>
+    <div class="app-subtitle">豊中市立第十七中学校</div>
+  </div>
+  <div class="steps">
+    <div class="step-dot active" id="dot1"></div>
+    <div class="step-dot" id="dot2"></div>
+  </div>
+  <div class="section-title">① 単語セットを選ぼう</div>
+  <div class="set-grid" id="set-grid"></div>
 </div>
 
-<!-- ログイン画面 -->
-<div id="loginScreen">
-  <div>
-    <div class="logo"><span style="color:var(--accent)">がんばれ</span>英単語<span>TEST</span></div>
-    <div style="font-size:.85rem;color:var(--accent2);font-weight:600;margin-top:.25rem;letter-spacing:.05em;">豊中市立第十七中学校</div>
-    <div class="subtitle" style="margin-top:.5rem;">出席番号でログインしてください</div>
+<!-- ===== SCREEN 2: テスト種類選択 ===== -->
+<div class="screen" id="screen-mode">
+  <div class="app-header">
+    <div class="app-title">🔥 がんばれ英単語TEST</div>
   </div>
-  <div class="card">
-    <div class="field">
-      <label>出席番号（例：1101）</label>
-      <input type="number" id="idInput" placeholder="1101" inputmode="numeric">
+  <div class="steps">
+    <div class="step-dot done" id="dot1b"></div>
+    <div class="step-dot active" id="dot2b"></div>
+  </div>
+  <button class="back-btn" onclick="goTo('screen-set')">← セット選択に戻る</button>
+  <div class="selected-badge" id="selected-badge"></div>
+  <div class="section-title">② テストの種類を選ぼう</div>
+  <div class="mode-grid">
+    <div class="mode-card flash" onclick="startMode('flash')">
+      <div class="mode-icon">🃏</div>
+      <div class="mode-info">
+        <div class="mode-name">フラッシュカード</div>
+        <div class="mode-desc">カードをめくって単語を確認しよう</div>
+      </div>
+      <div class="mode-arrow">›</div>
     </div>
-    <div class="field">
-      <label>パスワード</label>
-      <input type="password" id="pwInput" placeholder="出席番号と同じ" inputmode="numeric">
+    <div class="mode-card quiz" onclick="startMode('quiz')">
+      <div class="mode-icon">🎯</div>
+      <div class="mode-info">
+        <div class="mode-name">4択クイズ</div>
+        <div class="mode-desc">英語を見て日本語の意味を当てよう</div>
+      </div>
+      <div class="mode-arrow">›</div>
     </div>
-    <div id="loginError"></div>
-    <button class="btn" onclick="doLogin()">ログイン →</button>
-  </div>
-  <div style="font-size:.8rem;color:var(--muted);">
-    ※ 例：1年1組1番 → 1101　／　1年7組40番 → 1740
-  </div>
-</div>
-
-<!-- テスト画面 -->
-<div id="testScreen">
-  <div class="header-bar">
-    <div class="student-info" id="studentInfo"></div>
-    <div class="set-badge" id="setBadge"></div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:center;">
-    <div style="font-size:.8rem;color:var(--muted);" id="setLabel"></div>
-    <div style="font-size:.85rem;color:var(--muted);" id="scoreDisplay">正解: 0</div>
-  </div>
-  <div class="progress-wrap">
-    <div class="progress-label" id="progressLabel">1 / 10</div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-  </div>
-  <div class="question-card">
-    <div class="q-label">日本語 → 英語で入力</div>
-    <div class="japanese-word" id="japaneseWord">—</div>
-    <div class="hint" id="hintText"></div>
-  </div>
-  <div class="input-area">
-    <div class="feedback" id="feedback"></div>
-    <input type="text" class="english-input" id="englishInput"
-      placeholder="英語を入力"
-      autocapitalize="none" autocorrect="off" autocomplete="off" spellcheck="false">
-    <button class="action-btn btn-check" id="checkBtn" onclick="checkAnswer()">確認する</button>
-    <button class="action-btn btn-next" id="nextBtn" onclick="nextQuestion()" style="display:none">次へ →</button>
-    <button class="action-btn btn-skip" id="skipBtn" onclick="skipQuestion()">スキップ</button>
+    <div class="mode-card type" onclick="startMode('type')">
+      <div class="mode-icon">⌨️</div>
+      <div class="mode-info">
+        <div class="mode-name">タイピングテスト</div>
+        <div class="mode-desc">日本語を見て英単語を入力しよう</div>
+      </div>
+      <div class="mode-arrow">›</div>
+    </div>
   </div>
 </div>
 
-<!-- 結果画面 -->
-<div id="resultScreen">
-  <div class="result-title">テスト完了！</div>
-  <div class="score-big" id="scoreBig">0 <span>/ 0問</span></div>
-  <div class="stat-grid">
-    <div class="stat-card"><div class="stat-label">正解</div><div class="stat-val ok" id="statOk">0</div></div>
-    <div class="stat-card"><div class="stat-label">不正解</div><div class="stat-val ng" id="statNg">0</div></div>
-    <div class="stat-card"><div class="stat-label">正答率</div><div class="stat-val" id="statRate">0%</div></div>
-    <div class="stat-card"><div class="stat-label">スキップ</div><div class="stat-val" id="statSkip">0</div></div>
+<!-- ===== SCREEN: フラッシュカード ===== -->
+<div class="screen" id="screen-flash">
+  <div class="flash-header">
+    <button class="back-btn" style="margin:0" onclick="goTo('screen-mode')">← 戻る</button>
+    <div class="flash-progress-bar-wrap">
+      <div class="flash-progress-bar" id="flash-prog-bar"></div>
+    </div>
+    <div class="flash-progress-text" id="flash-prog-text">1 / 10</div>
   </div>
-  <div class="result-list">
-    <h3>— 問題ごとの結果 —</h3>
-    <div id="resultRows"></div>
+  <div class="flash-card-wrap" id="flash-card-wrap" onclick="flipCard()">
+    <div class="flash-card-inner" id="flash-card-inner">
+      <div class="flash-face front">
+        <div class="flash-label">英語</div>
+        <div class="flash-word" id="flash-word"></div>
+        <div class="flash-tap-hint">タップで意味を見る 👆</div>
+      </div>
+      <div class="flash-face back">
+        <div class="flash-label">日本語の意味</div>
+        <div class="flash-meaning" id="flash-meaning"></div>
+      </div>
+    </div>
   </div>
-  <button class="btn-retry" onclick="retryTest()">もう一度挑戦する</button>
+  <div class="flash-nav">
+    <button class="flash-btn prev" onclick="flashNav(-1)">← 前へ</button>
+    <button class="flash-btn next" onclick="flashNav(1)" id="flash-next-btn">次へ →</button>
+  </div>
+</div>
+
+<!-- ===== SCREEN: 4択クイズ ===== -->
+<div class="screen" id="screen-quiz">
+  <div class="quiz-header">
+    <div class="quiz-meta">
+      <button class="back-btn" style="margin:0;padding:0" onclick="goTo('screen-mode')">← 戻る</button>
+      <div class="quiz-score-badge" id="quiz-score-badge">✅ 0 / ❌ 0</div>
+    </div>
+    <div class="quiz-meta" style="margin-top:8px">
+      <div class="quiz-count" id="quiz-count">問題 1 / 10</div>
+    </div>
+    <div class="quiz-prog-bar-wrap">
+      <div class="quiz-prog-bar" id="quiz-prog-bar"></div>
+    </div>
+  </div>
+  <div class="quiz-question-card">
+    <div class="quiz-question-label">この英単語の意味は？</div>
+    <div class="quiz-question-word" id="quiz-word"></div>
+  </div>
+  <div class="quiz-choices" id="quiz-choices"></div>
+  <button class="quiz-next-btn" id="quiz-next-btn" onclick="quizNext()">次の問題 →</button>
+</div>
+
+<!-- ===== SCREEN: タイピング ===== -->
+<div class="screen" id="screen-type">
+  <div class="type-header">
+    <div class="type-meta">
+      <button class="back-btn" style="margin:0;padding:0" onclick="goTo('screen-mode')">← 戻る</button>
+      <div class="type-score-badge" id="type-score-badge">✅ 0 / ❌ 0</div>
+    </div>
+    <div class="type-meta" style="margin-top:8px">
+      <div class="type-count" id="type-count">問題 1 / 10</div>
+    </div>
+    <div class="type-prog-wrap">
+      <div class="type-prog-bar" id="type-prog-bar"></div>
+    </div>
+  </div>
+  <div class="type-question-card">
+    <div class="type-question-label">日本語を見て英単語を入力しよう</div>
+    <div class="type-question-word" id="type-word"></div>
+  </div>
+  <div class="type-input-area">
+    <input class="type-input" id="type-input" type="text" placeholder="英語で入力…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    <div class="type-feedback" id="type-feedback"></div>
+    <button class="type-hint-btn" id="type-hint-btn" onclick="showHint()">💡 ヒント（文字数）</button>
+    <button class="type-submit-btn" id="type-submit-btn" onclick="typeSubmit()">答え合わせ ✓</button>
+    <button class="type-skip-btn" id="type-skip-btn" onclick="typeSkip()">スキップ →</button>
+  </div>
+</div>
+
+<!-- ===== SCREEN: 結果 ===== -->
+<div class="screen" id="screen-result">
+  <div class="result-card">
+    <div class="result-emoji" id="result-emoji">🎉</div>
+    <div class="result-title" id="result-title">お疲れさま！</div>
+    <div class="result-score-big" id="result-score-big">--</div>
+    <div class="result-score-label" id="result-score-label">点</div>
+    <div class="result-stats">
+      <div class="result-stat">
+        <div class="result-stat-val ok" id="res-ok">0</div>
+        <div class="result-stat-lbl">正解</div>
+      </div>
+      <div class="result-stat">
+        <div class="result-stat-val ng" id="res-ng">0</div>
+        <div class="result-stat-lbl">不正解</div>
+      </div>
+      <div class="result-stat">
+        <div class="result-stat-val" style="color:var(--accent1)" id="res-pct">0%</div>
+        <div class="result-stat-lbl">正答率</div>
+      </div>
+    </div>
+    <div class="result-btns">
+      <button class="result-btn primary" id="result-retry-btn">もう一度やる 🔄</button>
+      <button class="result-btn secondary" onclick="goTo('screen-mode')">テスト選択に戻る</button>
+      <button class="result-btn secondary" onclick="goTo('screen-set')">セット選択に戻る</button>
+    </div>
+  </div>
+</div>
+
+<!-- CSV説明ボタン -->
+<button class="csv-info-btn" onclick="document.getElementById('csv-modal').classList.add('show')">
+  📋 単語データの変え方
+</button>
+
+<!-- CSV説明モーダル -->
+<div class="modal-overlay" id="csv-modal" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="modal-box">
+    <div class="modal-title">📋 単語データの変更方法</div>
+    <div class="modal-body">
+      <p>このHTMLファイルの先頭近くにある <strong style="color:var(--accent1)">WORD_DATA</strong> 部分を書き換えるか、CSVファイルを用意して読み込めます。</p>
+      <br>
+      <p><strong style="color:var(--accent2)">CSVファイルの形式（UTF-8）：</strong></p>
+      <code>set,label,english,japanese
+1,Unit1,apple,りんご
+1,Unit1,book,本
+2,Unit2,cat,ねこ</code>
+      <br>
+      <p>列の説明：</p>
+      <p>・<strong>set</strong>：セット番号（1〜5）</p>
+      <p>・<strong>label</strong>：セットの名前</p>
+      <p>・<strong>english</strong>：英単語</p>
+      <p>・<strong>japanese</strong>：日本語の意味</p>
+      <br>
+      <p>HTMLファイルと同じフォルダに <code>words.csv</code> という名前で置くと自動で読み込みます。GitHub Pagesに上げる場合も同様です。</p>
+    </div>
+    <button class="modal-close" onclick="document.getElementById('csv-modal').classList.remove('show')">閉じる</button>
+  </div>
 </div>
 
 <script>
-// =====================
-//  CSV読み込み
-// =====================
-let WORD_SETS = {};
+// ============================================================
+// サンプル単語データ（words.csv で上書き可能）
+// ============================================================
+const SAMPLE_DATA = [
+  // セット1: Program1
+  {set:1, label:"中1 Program1",english:"shy",japanese:"はずかしい"},
+  {set:1, label:"中1 Program1",english:"pardon",japanese:"許す"},
+  {set:1, label:"中1 Program1",english:"New York",japanese:"ニューヨーク"},
+  {set:1, label:"中1 Program1",english:"city",japanese:"街、市"},
+  {set:1, label:"中1 Program1",english:"just",japanese:"ちょうど、まさに"},
+  {set:1, label:"中1 Program1",english:"Nice to meet you.",japanese:"お会いできてうれしいです。"},
+  {set:1, label:"中1 Program1",english:"problem",japanese:"問題"},
+  {set:1, label:"中1 Program1",english:"No problem",japanese:"どういたしまして / 大丈夫だよ"},
+  {set:1, label:"中1 Program1",english:"quiet",japanese:"静かな"},
+  {set:1, label:"中1 Program1",english:"of",japanese:"～の"},
+  {set:1, label:"中1 Program1",english:"polite",japanese:"礼儀正しい"},
+  {set:1, label:"中1 Program1",english:"cheerful",japanese:"明るい、元気のよい"},
+  {set:1, label:"中1 Program1",english:"honest",japanese:"正直な"},
+  {set:1, label:"中1 Program1",english:"careful",japanese:"注意深い"},
+  {set:1, label:"中1 Program1",english:"social studies",japanese:"社会科"},
+  {set:1, label:"中1 Program1",english:"be good at",japanese:"～が上手である、～が得意である"},
+  {set:1, label:"中1 Program1",english:"brave",japanese:"勇敢な"},
+  {set:1, label:"中1 Program1",english:"science",japanese:"理科、科学"},
+  {set:1, label:"中1 Program1",english:"math",japanese:"数学"},
+  {set:1, label:"中1 Program1",english:"Canada",japanese:"カナダ"},
+  // セット2: 中1 Program2
+  {set:2, label:"中1 Program2",english:"don't",japanese:"(do not の短縮形)"},
+  {set:2, label:"中1 Program2",english:"after",japanese:"(前)〜のあとに［で］"},
+  {set:2, label:"中1 Program2",english:"grow",japanese:"(動)栽培する、育てる"},
+  {set:2, label:"中1 Program2",english:"grow",japanese:"(動)育つ、成長する"},
+  {set:2, label:"中1 Program2",english:"use",japanese:"(動)使う"},
+  {set:2, label:"中1 Program2",english:"at home",japanese:"家で［に］"},
+  {set:2, label:"中1 Program2",english:"very",japanese:"とても(1語)"},
+  {set:2, label:"中1 Program2",english:"very much",japanese:"とても(2語)"},
+  {set:2, label:"中1 Program2",english:"after school",japanese:"放課後"},
+  {set:2, label:"中1 Program2",english:"weekend",japanese:"(名)週末"},
+  {set:2, label:"中1 Program2",english:"but",japanese:"(接)しかし"},
+  {set:2, label:"中1 Program2",english:"before",japanese:"(前)〜の前に"},
+  {set:2, label:"中1 Program2",english:"wow",japanese:"(間)うわー"},
+  {set:2, label:"中1 Program2",english:"flip",japanese:"(名)すばやくめくること"},
+  {set:2, label:"中1 Program2",english:"look at",japanese:"～（のほう）を見る"},
+  {set:2, label:"中1 Program2",english:"question",japanese:"(名)質問"},
+  {set:2, label:"中1 Program2",english:"sure",japanese:"(副)（承諾の返事）もちろん、いいですよ"},
+  {set:2, label:"中1 Program2",english:"during",japanese:"(前)〜の間"},
+  {set:2, label:"中1 Program2",english:"break",japanese:"(名)休憩"},
+  {set:2, label:"中1 Program2",english:"break",japanese:"(動)壊れる、壊す"},
+  {set:2, label:"中1 Program2",english:"tomorrow",japanese:"(副)明日"},
+  {set:2, label:"中1 Program2",english:"any",japanese:"(形)（疑問文で）いくらかの、いくつかの"},
+  {set:2, label:"中1 Program2",english:"any",japanese:"(形)（否定文で）少しの〜も（…ない）"},
+  // セット3: 中1 Word Web
+  {set:3, label:"中1 Word Web",english:"Sunday",japanese:"日曜日"},
+  {set:3, label:"中1 Word Web",english:"Monday",japanese:"月曜日"},
+  {set:3, label:"中1 Word Web",english:"Tuesday",japanese:"火曜日"},
+  {set:3, label:"中1 Word Web",english:"Wednesday",japanese:"水曜日"},
+  {set:3, label:"中1 Word Web",english:"Thursday",japanese:"木曜日"},
+  {set:3, label:"中1 Word Web",english:"Friday",japanese:"金曜日"},
+  {set:3, label:"中1 Word Web",english:"Saturday",japanese:"土曜日"},
+  {set:3, label:"中1 Word Web",english:"January",japanese:"１月"},
+  {set:3, label:"中1 Word Web",english:"February",japanese:"２月"},
+  {set:3, label:"中1 Word Web",english:"March",japanese:"３月"},
+  {set:3, label:"中1 Word Web",english:"April",japanese:"４月"},
+  {set:3, label:"中1 Word Web",english:"May",japanese:"５月"},
+  {set:3, label:"中1 Word Web",english:"June",japanese:"６月"},
+  {set:3, label:"中1 Word Web",english:"July",japanese:"７月"},
+  {set:3, label:"中1 Word Web",english:"August",japanese:"８月"},
+  {set:3, label:"中1 Word Web",english:"September",japanese:"９月"},
+  {set:3, label:"中1 Word Web",english:"October",japanese:"１０月"},
+  {set:3, label:"中1 Word Web",english:"November",japanese:"１１月"},
+  {set:3, label:"中1 Word Web",english:"December",japanese:"１２月"},
+  // セット4: 中2 動詞
+  {set:4, label:"中1 アクションワード(p36)",english:"clean",japanese:"掃除する"},
+  {set:4, label:"中1 アクションワード(p36)",english:"close",japanese:"閉じる"},
+  {set:4, label:"中1 アクションワード(p36)",english:"drink",japanese:"飲む"},
+  {set:4, label:"中1 アクションワード(p36)",english:"eat",japanese:"食べる"},
+  {set:4, label:"中1 アクションワード(p36)",english:"make",japanese:"作る"},
+  {set:4, label:"中1 アクションワード(p36)",english:"open",japanese:"開く"},
+  {set:4, label:"中1 アクションワード(p36)",english:"play",japanese:"(球技を)する、(楽器を)演奏する"},
+  {set:4, label:"中1 アクションワード(p36)",english:"read",japanese:"読む"},
+  {set:4, label:"中1 アクションワード(p36)",english:"sing",japanese:"歌う"},
+  {set:4, label:"中1 アクションワード(p36)",english:"speak",japanese:"話す（発声する）"},
+  {set:4, label:"中1 アクションワード(p36)",english:"study",japanese:"勉強する"},
+  {set:4, label:"中1 アクションワード(p36)",english:"touch",japanese:"触る"},
+  {set:4, label:"中1 アクションワード(p36)",english:"wash",japanese:"洗う"},
+  {set:4, label:"中1 アクションワード(p36)",english:"write",japanese:"書く"},
+  {set:4, label:"中1 アクションワード(p36)",english:"watch",japanese:"観る"},
+  {set:4, label:"中1 アクションワード(p36)",english:"cook",japanese:"料理する"},
+  {set:4, label:"中1 アクションワード(p36)",english:"use",japanese:"使う"},
+  // セット5: 中1 小学校単語(パートナーp2～p11)
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"boy",japanese:"(名)少年"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"girl",japanese:"(名)少女"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"friend",japanese:"(名)友だち"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"classmate",japanese:"(名)級友、クラスメート"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"teacher",japanese:"(名)先生、教師"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"player",japanese:"(名)（運動）選手"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"father",japanese:"(名)お父さん、父"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"mother",japanese:"(名)お母さん、母"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"brother",japanese:"(名)兄、弟"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"sister",japanese:"(名)姉、妹"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"family",japanese:"(名)家族"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"everyone",japanese:"(代)みんな、だれでも"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"dog",japanese:"(名)イヌ"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"cat",japanese:"(名)ネコ"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"bird",japanese:"(名)鳥"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"animal",japanese:"(名)動物"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"curry",japanese:"(名)カレー"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"rice",japanese:"(名)米"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"bread",japanese:"(名)パン"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"pizza",japanese:"(名)ピザ、ピッツァ"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"cake",japanese:"(名)ケーキ"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"food",japanese:"(名)食べ物"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"vegetable",japanese:"(名)野菜"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"fruit",japanese:"(名)くだもの、フルーツ"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"water",japanese:"(名)水"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"milk",japanese:"(名)牛乳"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"coffee",japanese:"(名)コーヒー"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"tea",japanese:"(名)茶、紅茶"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"pen",japanese:"(名)ペン"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"pencil",japanese:"(名)鉛筆"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"book",japanese:"(名)本"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"notebook",japanese:"(名)ノート、帳面"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"textbook",japanese:"(名)教科書"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"dictionary",japanese:"(名)辞書"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"newspaper",japanese:"(名)新聞"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"computer",japanese:"(名)コンピュータ"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"TV",japanese:"(名)テレビ"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"game",japanese:"(名)試合、ゲーム"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"piano",japanese:"(名)ピアノ"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"guitar",japanese:"(名)ギター"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"picture",japanese:"(名)絵、写真"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"map",japanese:"(名)地図"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"umbrella",japanese:"(名)かさ、雨がさ"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"present",japanese:"(名)プレゼント、贈り物"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"flower",japanese:"(名)花"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"bag",japanese:"(名)かばん、袋、バッグ"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"chair",japanese:"(名)いす"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"desk",japanese:"(名)机"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"table",japanese:"(名)テーブル、食卓"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"bed",japanese:"(名)ベッド"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"clothes",japanese:"(名)衣服、着物"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"bike",japanese:"(名)自転車(4文字)"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"bus",japanese:"(名)バス"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"train",japanese:"(名)列車"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"airplane",japanese:"(名)飛行機"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"classroom",japanese:"(名)教室"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"school",japanese:"(名)学校"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"house",japanese:"(名)家"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"town",japanese:"(名)町"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"park",japanese:"(名)公園"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"zoo",japanese:"(名)動物園"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"shop",japanese:"(名)店　(動)買い物をする"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"library",japanese:"(名)図書館、図書室"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"bookstore",japanese:"(名)本屋"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"station",japanese:"(名)駅"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"restaurant",japanese:"(名)レストラン、料理店"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"museum",japanese:"(名)博物館、美術館"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"hospital",japanese:"(名)病院"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"street",japanese:"(名)街路、通り"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"way",japanese:"(名)道、方法　(名)方向"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"subway",japanese:"(名)地下鉄"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"bridge",japanese:"(名)橋"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"home",japanese:"(名)家、家庭(副)家に［へ］"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"country",japanese:"(名)国"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"sea",japanese:"(名)海"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"beach",japanese:"(名)砂浜、浜辺、海岸"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"tree",japanese:"(名)木"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"mountain",japanese:"(名)山"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"river",japanese:"(名)川"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"lake",japanese:"(名)湖"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"nature",japanese:"(名)自然"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"English",japanese:"(名)英語(形)英語の"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"Japanese",japanese:"(名)日本語、国語、日本人(形)日本（語、人）の"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"math",japanese:"(名)数学"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"subject",japanese:"(名)教科、科目"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"soccer",japanese:"(名)サッカー"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"tennis",japanese:"(名)テニス"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"baseball",japanese:"(名)野球"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"basketball",japanese:"(名)バスケットボール"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"swimming",japanese:"(名)水泳"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"sport",japanese:"(名)スポーツ"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"team",japanese:"(名)部、チーム"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"name",japanese:"(名)名前"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"homework",japanese:"(名)宿題"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"class",japanese:"(名)クラス（の生徒たち）、学級"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"club",japanese:"(名)部、クラブ"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"number",japanese:"(名)（電話・住所などの）番号"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"color",japanese:"(名)色"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"morning",japanese:"(名)朝"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"afternoon",japanese:"(名)午後"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"evening",japanese:"(名)夕方、晩"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"night",japanese:"(名)夜"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"day",japanese:"(名)日、1日(名)昼間（⇔night）"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"week",japanese:"(名)週、1週間"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"month",japanese:"(名)（暦の）月、ひと月"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"season",japanese:"(名)季節"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"year",japanese:"(名)年"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"date",japanese:"(名)日付"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"time",japanese:"(名)時刻、時間"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"breakfast",japanese:"(名)朝食"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"lunch",japanese:"(名)昼食"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"dinner",japanese:"(名)夕食"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"bath",japanese:"(名)入浴"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"birthday",japanese:"(名)誕生日"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"vacation",japanese:"(名)休暇"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"festival",japanese:"(名)祭り"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"event",japanese:"(名)行事、出来事"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"life",japanese:"(名)生活、人生(名)命、生命"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"job",japanese:"(名)仕事"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"trip",japanese:"(名)旅行"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"fun",japanese:"(名)楽しみ、喜び"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"dream",japanese:"(名)夢、願い、理想(動)夢に描く"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"memory",japanese:"(名)思い出、記憶"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"future",japanese:"(形)将来の、未来の(名)（ふつうtheをつけて）将来、未来"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"weather",japanese:"(名)天気"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"world",japanese:"(名)世界"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"be",japanese:"(動)～になる、～である"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"want",japanese:"(動)ほしい、望む"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"have",japanese:"(動)持っている、?がある［いる］"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"like",japanese:"(動)好きである、好む(前)"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"love",japanese:"(動)大好きである、愛する"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"play",japanese:"(動)（ゲーム、球技などを）する(動)（楽器を）ひく、演奏する(動)遊ぶ"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"practice",japanese:"(動)練習する"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"study",japanese:"(動)勉強する"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"teach",japanese:"(動)教える"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"read",japanese:"(動)（本などを）読む"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"write",japanese:"(動)書く"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"listen",japanese:"(動)聞く、耳を傾ける"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"speak",japanese:"(動)話す"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"talk",japanese:"(動)話す"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"draw",japanese:"(動)（線で絵を）描く(動)（線を）引く"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"look",japanese:"(動)見る、目を向ける(動)?に見える"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"watch",japanese:"(動)見る(名)腕時計"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"see",japanese:"(動)わかる(動)会う"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"meet",japanese:"(動)会う"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"eat",japanese:"(動)食べる"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"drink",japanese:"(動)飲む(名)飲み物、ドリンク"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"cook",japanese:"(動)料理する(名)コック、料理人"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"make",japanese:"(動)作る"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"clean",japanese:"(動)掃除する(形)きれいな、清潔な"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"wash",japanese:"(動)洗う"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"stand",japanese:"(名)屋台(動)立つ"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"walk",japanese:"(動)（イヌなどを）散歩させる(名)歩くこと、散歩"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"run",japanese:"(動)走る"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"swim",japanese:"(動)泳ぐ"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"enjoy",japanese:"(動)楽しむ"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"use",japanese:"(動)使う"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"ride",japanese:"(動)（ウマ・自動車・オートバイなどに）乗る"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"buy",japanese:"(動)買う"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"try",japanese:"(動)ためす(動)～しようとする［努力する］"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"help",japanese:"(動)助ける、手伝う"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"take",japanese:"(動)持っていく、取る、（写真を）とる"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"live",japanese:"(動)住む、住んでいる"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"go",japanese:"(動)行く(動)（事が）進行する"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"leave",japanese:"(動)出発する、去る(動)置いて［残して］いく"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"turn",japanese:"(動)曲がる"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"visit",japanese:"(動)訪問する、訪れる"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"travel",japanese:"(動)旅行する"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"know",japanese:"(動)知る、知っている、わかる"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"think",japanese:"(動)考える、思う"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"guess",japanese:"(動)推測する、思う"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"happy",japanese:"(形)幸福な、楽しい、（あいさつで）おめでとう"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"sad",japanese:"(形)悲しい"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"busy",japanese:"(形)忙しい"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"tired",japanese:"(形)疲れて"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"hungry",japanese:"(形)おなかがすいて"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"sleepy",japanese:"(形)眠い"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"good",japanese:"(形)じょうずな、得意な(形)よい"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"nice",japanese:"(形)よい、すてきな(形)親切な"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"kind",japanese:"(形)親切な(名)種類"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"big",japanese:"(形)大きい　(bで始まる)"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"large",japanese:"(形)大きい、広い(ｌで始まる)"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"small",japanese:"(形)小さい"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"new",japanese:"(形)新しい"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"old",japanese:"(形)古い"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"hot",japanese:"(形)熱い、暑い(形)辛い"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"cold",japanese:"(形)寒い、冷たい(名)（病気の）かぜ"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"long",japanese:"(形)長い(副)（時間が）長く、長い間"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"short",japanese:"(形)短い(形)背が低い"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"easy",japanese:"(形)やさしい、簡単な"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"difficult",japanese:"(形)難しい"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"same",japanese:"(形)同じ、同様な"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"different",japanese:"(形)違う"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"cute",japanese:"(形)かわいい"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"beautiful",japanese:"(形)美しい、すばらしい"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"wonderful",japanese:"(形)すばらしい"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"interesting",japanese:"(形)興味深い、おもしろい"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"exciting",japanese:"(形)わくわくさせるような"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"famous",japanese:"(形)有名な"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"delicious",japanese:"(形)とてもおいしい"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"favorite",japanese:"(形)お気に入りの、大好きな"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"best",japanese:"(形)もっともよい"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"many",japanese:"(形)たくさんの(代)多数の人［もの］"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"all",japanese:"(形)すべての(代)みんな、全部"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"very",japanese:"(副)たいへん、とても"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"really",japanese:"(副)ほんとうに"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"well",japanese:"(副)じょうずに(間)えーと"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"hard",japanese:"(副)一生懸命に"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"hard",japanese:"(形)きつい"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"hard",japanese:"(形)かたい"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"hard",japanese:"(形)難しい"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"fast",japanese:"(副)速く(形)速い"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"straight",japanese:"(副)まっすぐに"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"right",japanese:"(形)正しい"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"left",japanese:"(副)左に［へ］(名)左（側）(形)左の"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"here",japanese:"(副)ここに[で］(名)ここ"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"together",japanese:"(副)いっしょに"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"always",japanese:"(副)いつも"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"usually",japanese:"(副)ふつう、たいてい"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"sometimes",japanese:"(副)ときどき"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"never",japanese:"(副)一度も～ない、決して～ない"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"again",japanese:"(副)再び、また"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"right",japanese:"(形)正しい"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"right",japanese:"(副)右に(名)右側(形)右の(間)"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"right",japanese:"(名)右側(形)右の"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"right",japanese:"(間)（同意を表して）そのとおり"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"right",japanese:"(間)（確認のための表現）いいですね"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"right",japanese:"(副)すぐ、ただちに、ちょうど"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"right",japanese:"(形)正常な、通常の"},
+{set:5, label:"中1 小学校単語(パートナーp2～p11)",english:"right",japanese:"(名)権利"},
+];
+
+// セットアイコン
+const SET_ICONS = ['📚','✏️','🎨','⚡','🏆'];
+
+// ============================================================
+// State
+// ============================================================
+let allWords = [];
+let currentSet = null;
+let currentMode = null;
+let sessionWords = [];
+let currentIndex = 0;
+let correctCount = 0;
+let wrongCount = 0;
+let answered = false;
+
+// ============================================================
+// 初期化
+// ============================================================
+async function init() {
+  // CSV読み込み試行
+  try {
+    const res = await fetch('words.csv');
+    if (res.ok) {
+      const text = await res.text();
+      allWords = parseCSV(text);
+    } else {
+      allWords = SAMPLE_DATA;
+    }
+  } catch(e) {
+    allWords = SAMPLE_DATA;
+  }
+  buildSetGrid();
+}
 
 function parseCSV(text) {
   const lines = text.trim().split('\n');
-  // BOM除去
-  if (lines[0].charCodeAt(0) === 0xFEFF) lines[0] = lines[0].slice(1);
-  const sets = {};
+  const headers = lines[0].split(',').map(h => h.trim().replace(/^\uFEFF/, ''));
+  const result = [];
   for (let i = 1; i < lines.length; i++) {
-    const cols = lines[i].split(',');
-    if (cols.length < 4) continue;
-    const set   = cols[0].trim();
-    const label = cols[1].trim();
-    const jp    = cols[2].trim();
-    const en    = cols[3].trim().toLowerCase();
-    if (!set || !jp || !en) continue;
-    if (!sets[set]) sets[set] = { label, words: [] };
-    sets[set].words.push({ japanese: jp, english: en });
+    const vals = lines[i].split(',').map(v => v.trim().replace(/^"|"$/g, ''));
+    if (vals.length < 4) continue;
+    const obj = {};
+    headers.forEach((h, idx) => obj[h] = vals[idx] || '');
+    result.push({
+      set: parseInt(obj.set || obj['set']) || 1,
+      label: obj.label || obj['label'] || 'セット',
+      english: obj.english || obj['english'] || '',
+      japanese: obj.japanese || obj['japanese'] || ''
+    });
   }
-  return sets;
+  return result;
 }
 
-async function loadWords() {
-  try {
-    const res = await fetch('words.csv?v=' + Date.now());
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const text = await res.text();
-    WORD_SETS = parseCSV(text);
-    if (Object.keys(WORD_SETS).length === 0) throw new Error('単語が1件もありません');
-    showLogin();
-  } catch (e) {
-    document.querySelector('.load-msg').style.display = 'none';
-    document.querySelector('.spinner').style.display = 'none';
-    const errDiv = document.createElement('div');
-    errDiv.className = 'load-err';
-    errDiv.innerHTML = `❌ words.csv の読み込みに失敗しました。<br><br>
-      ・index.html と words.csv が同じフォルダにあるか確認してください。<br>
-      ・GitHub Pages で公開されているか確認してください。<br><br>
-      <small style="color:var(--muted)">${e.message}</small>`;
-    document.getElementById('loadingScreen').appendChild(errDiv);
-  }
-}
-
-function showLogin() {
-  document.getElementById('loadingScreen').style.display = 'none';
-  document.getElementById('loginScreen').style.display = 'flex';
-}
-
-// ページ読み込み時に自動でCSV取得
-window.addEventListener('DOMContentLoaded', loadWords);
-
-// =====================
-//  ログイン
-// =====================
-function isValid(id) {
-  const n = parseInt(id, 10);
-  if (isNaN(n)) return false;
-  const g = Math.floor(n / 1000), k = Math.floor((n % 1000) / 100), b = n % 100;
-  return g === 1 && k >= 1 && k <= 7 && b >= 1 && b <= 40;
-}
-function studentLabel(id) {
-  const n = parseInt(id, 10);
-  return `1年${Math.floor((n % 1000) / 100)}組 ${n % 100}番`;
-}
-function getKumi(id) {
-  return Math.floor((parseInt(id, 10) % 1000) / 100);
-}
-function getSet(id) {
-  const name = CLASS_MAP[`kumi${getKumi(id)}`];
-  return { name, set: WORD_SETS[name] };
-}
-
-function doLogin() {
-  const id  = document.getElementById('idInput').value.trim();
-  const pw  = document.getElementById('pwInput').value.trim();
-  const err = document.getElementById('loginError');
-  if (!isValid(id))  { err.textContent = '出席番号が正しくありません（1101〜1740）'; return; }
-  if (id !== pw)     { err.textContent = 'パスワードが違います'; return; }
-  const { name, set } = getSet(id);
-  if (!set) { err.textContent = `セット「${name}」が words.csv にありません`; return; }
-  err.textContent = '';
-  currentStudent = id;
-  startTest();
-}
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('pwInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') doLogin();
+function buildSetGrid() {
+  const setNums = [...new Set(allWords.map(w => w.set))].sort((a,b)=>a-b);
+  const grid = document.getElementById('set-grid');
+  grid.innerHTML = '';
+  setNums.forEach((s, i) => {
+    const words = allWords.filter(w => w.set === s);
+    const label = words[0]?.label || `セット${s}`;
+    const card = document.createElement('div');
+    card.className = 'set-card';
+    card.innerHTML = `
+      <div class="set-icon">${SET_ICONS[i] || '📖'}</div>
+      <div class="set-info">
+        <div class="set-name">${label}</div>
+        <div class="set-desc">セット ${s}</div>
+      </div>
+      <div class="set-count">${words.length}語</div>
+    `;
+    card.onclick = () => selectSet(s, label);
+    grid.appendChild(card);
   });
-});
+}
 
-// =====================
-//  テストロジック
-// =====================
-let questions=[], currentIndex=0, correct=0, skipped=0, results=[], currentStudent='', answered=false;
+function selectSet(setNum, label) {
+  currentSet = setNum;
+  document.getElementById('selected-badge').innerHTML = `
+    <div>
+      <div class="selected-badge-label">選択中のセット</div>
+      <div class="selected-badge-name">${label}</div>
+    </div>
+  `;
+  goTo('screen-mode');
+}
+
+// ============================================================
+// 画面遷移
+// ============================================================
+function goTo(screenId) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(screenId).classList.add('active');
+}
+
+function startMode(mode) {
+  currentMode = mode;
+  const words = allWords.filter(w => w.set === currentSet);
+  sessionWords = shuffle([...words]);
+  currentIndex = 0;
+  correctCount = 0;
+  wrongCount = 0;
+
+  if (mode === 'flash') startFlash();
+  else if (mode === 'quiz') startQuiz();
+  else if (mode === 'type') startType();
+}
 
 function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length-1; i > 0; i--) {
-    const j = Math.floor(Math.random()*(i+1));
-    [a[i],a[j]] = [a[j],a[i]];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-  return a;
+  return arr;
 }
 
-function startTest() {
-  const { name, set } = getSet(currentStudent);
-  questions = shuffle(set.words.map(w => ({ japanese: w.japanese, english: w.english })));
-  currentIndex=0; correct=0; skipped=0; results=[]; answered=false;
-  document.getElementById('loginScreen').style.display  = 'none';
-  document.getElementById('resultScreen').style.display = 'none';
-  document.getElementById('testScreen').style.display   = 'flex';
-  document.getElementById('studentInfo').textContent = studentLabel(currentStudent);
-  document.getElementById('setBadge').textContent    = `セット ${name}`;
-  document.getElementById('setLabel').textContent    = set.label;
-  document.getElementById('scoreDisplay').textContent = '正解: 0';
-  showQuestion();
+// ============================================================
+// フラッシュカード
+// ============================================================
+function startFlash() {
+  goTo('screen-flash');
+  renderFlash();
 }
 
-function showQuestion() {
-  answered = false;
-  const q = questions[currentIndex], total = questions.length;
-  document.getElementById('progressLabel').textContent = `${currentIndex+1} / ${total}`;
-  document.getElementById('progressFill').style.width  = `${(currentIndex/total)*100}%`;
-  document.getElementById('japaneseWord').textContent  = q.japanese;
-  document.getElementById('hintText').textContent      = `${q.english.length}文字`;
-  const inp = document.getElementById('englishInput');
-  inp.value=''; inp.className='english-input'; inp.disabled=false; inp.focus();
-  document.getElementById('feedback').textContent = '';
-  document.getElementById('feedback').className   = 'feedback';
-  document.getElementById('checkBtn').style.display = 'block';
-  document.getElementById('nextBtn').style.display  = 'none';
-  document.getElementById('skipBtn').style.display  = 'block';
+function renderFlash() {
+  const w = sessionWords[currentIndex];
+  const total = sessionWords.length;
+  document.getElementById('flash-word').textContent = w.english;
+  document.getElementById('flash-meaning').textContent = w.japanese;
+  document.getElementById('flash-prog-text').textContent = `${currentIndex + 1} / ${total}`;
+  document.getElementById('flash-prog-bar').style.width = `${((currentIndex + 1) / total) * 100}%`;
+  document.getElementById('flash-card-inner').classList.remove('flipped');
+  document.getElementById('flash-next-btn').textContent =
+    currentIndex < total - 1 ? '次へ →' : '結果へ 🎉';
 }
 
-function checkAnswer() {
-  if (answered) return;
-  const q   = questions[currentIndex];
-  const inp = document.getElementById('englishInput');
-  const ans = inp.value.trim().toLowerCase();
-  const fb  = document.getElementById('feedback');
-  if (!ans) { fb.textContent='英語を入力してください'; return; }
-  answered = true; inp.disabled = true;
-  document.getElementById('checkBtn').style.display = 'none';
-  document.getElementById('nextBtn').style.display  = 'block';
-  document.getElementById('skipBtn').style.display  = 'none';
-  if (ans === q.english) {
-    correct++;
-    inp.className='english-input correct';
-    fb.textContent='✓ 正解！'; fb.className='feedback correct';
-    results.push({japanese:q.japanese,english:q.english,user:ans,ok:true});
+function flipCard() {
+  document.getElementById('flash-card-inner').classList.toggle('flipped');
+}
+
+function flashNav(dir) {
+  if (dir === 1) {
+    if (currentIndex < sessionWords.length - 1) {
+      currentIndex++;
+      renderFlash();
+    } else {
+      showFlashResult();
+    }
   } else {
-    inp.className='english-input wrong';
-    fb.textContent=`✗ 不正解　正解: ${q.english}`; fb.className='feedback wrong';
-    results.push({japanese:q.japanese,english:q.english,user:ans,ok:false});
+    if (currentIndex > 0) { currentIndex--; renderFlash(); }
   }
-  document.getElementById('scoreDisplay').textContent = `正解: ${correct}`;
 }
 
-function nextQuestion() {
-  currentIndex++;
-  if (currentIndex >= questions.length) showResult();
-  else showQuestion();
+function showFlashResult() {
+  showResult('flash', sessionWords.length, 0, sessionWords.length);
 }
 
-function skipQuestion() {
-  if (answered) return;
-  const q = questions[currentIndex]; skipped++;
-  results.push({japanese:q.japanese,english:q.english,user:'（スキップ）',ok:false});
-  document.getElementById('feedback').textContent = `正解: ${q.english}`;
-  document.getElementById('feedback').className   = 'feedback answer';
-  const inp = document.getElementById('englishInput');
-  inp.disabled=true; inp.className='english-input wrong'; answered=true;
-  document.getElementById('checkBtn').style.display = 'none';
-  document.getElementById('nextBtn').style.display  = 'block';
-  document.getElementById('skipBtn').style.display  = 'none';
+// ============================================================
+// 4択クイズ
+// ============================================================
+function startQuiz() {
+  goTo('screen-quiz');
+  renderQuiz();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('englishInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') { if (!answered) checkAnswer(); else nextQuestion(); }
+function renderQuiz() {
+  answered = false;
+  const w = sessionWords[currentIndex];
+  const total = sessionWords.length;
+
+  document.getElementById('quiz-word').textContent = w.english;
+  document.getElementById('quiz-count').textContent = `問題 ${currentIndex + 1} / ${total}`;
+  document.getElementById('quiz-prog-bar').style.width = `${((currentIndex + 1) / total) * 100}%`;
+  document.getElementById('quiz-score-badge').textContent = `✅ ${correctCount} / ❌ ${wrongCount}`;
+  document.getElementById('quiz-next-btn').classList.remove('show');
+
+  // 選択肢生成
+  const others = allWords.filter(x => x.english !== w.english);
+  const wrongs = shuffle(others).slice(0, 3).map(x => x.japanese);
+  const choices = shuffle([w.japanese, ...wrongs]);
+
+  const container = document.getElementById('quiz-choices');
+  container.innerHTML = '';
+  choices.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-choice';
+    btn.textContent = c;
+    btn.onclick = () => quizAnswer(btn, c === w.japanese, w.japanese);
+    container.appendChild(btn);
   });
+}
+
+function quizAnswer(btn, isCorrect, correctAnswer) {
+  if (answered) return;
+  answered = true;
+
+  if (isCorrect) {
+    btn.classList.add('correct');
+    correctCount++;
+  } else {
+    btn.classList.add('wrong');
+    wrongCount++;
+    // 正解を表示
+    document.querySelectorAll('.quiz-choice').forEach(b => {
+      if (b.textContent === correctAnswer) b.classList.add('reveal');
+    });
+  }
+  document.getElementById('quiz-next-btn').classList.add('show');
+}
+
+function quizNext() {
+  if (currentIndex < sessionWords.length - 1) {
+    currentIndex++;
+    renderQuiz();
+  } else {
+    showResult('quiz', sessionWords.length, correctCount, wrongCount);
+  }
+}
+
+// ============================================================
+// タイピングテスト
+// ============================================================
+function startType() {
+  goTo('screen-type');
+  renderType();
+}
+
+function renderType() {
+  answered = false;
+  const w = sessionWords[currentIndex];
+  const total = sessionWords.length;
+
+  document.getElementById('type-word').textContent = w.japanese;
+  document.getElementById('type-count').textContent = `問題 ${currentIndex + 1} / ${total}`;
+  document.getElementById('type-prog-bar').style.width = `${((currentIndex + 1) / total) * 100}%`;
+  document.getElementById('type-score-badge').textContent = `✅ ${correctCount} / ❌ ${wrongCount}`;
+
+  const input = document.getElementById('type-input');
+  input.value = '';
+  input.className = 'type-input';
+  input.disabled = false;
+  document.getElementById('type-feedback').textContent = '';
+  document.getElementById('type-feedback').className = 'type-feedback';
+  document.getElementById('type-hint-btn').textContent = '💡 ヒント（文字数）';
+  document.getElementById('type-submit-btn').textContent = '答え合わせ ✓';
+  document.getElementById('type-submit-btn').onclick = typeSubmit;
+  document.getElementById('type-skip-btn').style.display = '';
+
+  setTimeout(() => input.focus(), 300);
+}
+
+function showHint() {
+  const w = sessionWords[currentIndex];
+  const hint = `💡 ヒント：${w.english.length}文字　（${w.english[0]}…）`;
+  document.getElementById('type-hint-btn').textContent = hint;
+}
+
+function typeSubmit() {
+  if (answered) { typeNext(); return; }
+  const w = sessionWords[currentIndex];
+  const input = document.getElementById('type-input');
+  const val = input.value.trim();
+  const correct = w.english;
+
+  answered = true;
+  input.disabled = true;
+
+  if (val === correct) {
+    input.classList.add('correct');
+    document.getElementById('type-feedback').textContent = '⭕ 正解！';
+    document.getElementById('type-feedback').className = 'type-feedback ok';
+    correctCount++;
+  } else {
+    input.classList.add('wrong');
+    document.getElementById('type-feedback').textContent = `❌ 正解：${correct}`;
+    document.getElementById('type-feedback').className = 'type-feedback ng';
+    wrongCount++;
+  }
+
+  document.getElementById('type-submit-btn').textContent = currentIndex < sessionWords.length - 1 ? '次の問題 →' : '結果へ 🎉';
+  document.getElementById('type-skip-btn').style.display = 'none';
+}
+
+function typeSkip() {
+  const w = sessionWords[currentIndex];
+  document.getElementById('type-feedback').textContent = `→ 正解：${w.english}`;
+  document.getElementById('type-feedback').className = 'type-feedback ng';
+  wrongCount++;
+  answered = true;
+  document.getElementById('type-input').disabled = true;
+  document.getElementById('type-submit-btn').textContent = currentIndex < sessionWords.length - 1 ? '次の問題 →' : '結果へ 🎉';
+  document.getElementById('type-skip-btn').style.display = 'none';
+}
+
+function typeNext() {
+  if (currentIndex < sessionWords.length - 1) {
+    currentIndex++;
+    renderType();
+  } else {
+    showResult('type', sessionWords.length, correctCount, wrongCount);
+  }
+}
+
+// Enterキー対応
+document.getElementById('type-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    if (!answered) typeSubmit();
+    else typeNext();
+  }
 });
 
-// =====================
-//  結果画面
-// =====================
-function showResult() {
-  document.getElementById('testScreen').style.display   = 'none';
-  document.getElementById('resultScreen').style.display = 'flex';
-  const total = questions.length, ngCount = results.filter(r=>!r.ok).length;
-  document.getElementById('scoreBig').innerHTML = `${correct} <span>/ ${total}問</span>`;
-  document.getElementById('statOk').textContent   = correct;
-  document.getElementById('statNg').textContent   = ngCount;
-  document.getElementById('statRate').textContent = Math.round(correct/total*100)+'%';
-  document.getElementById('statSkip').textContent = skipped;
-  const rows = document.getElementById('resultRows'); rows.innerHTML='';
-  results.forEach(r => {
-    const div = document.createElement('div'); div.className='result-row';
-    div.innerHTML=`<span class="r-jp">${r.japanese}</span><span class="r-en" style="color:${r.ok?'var(--ok)':'var(--ng)'}">${r.english}</span><span class="r-mark">${r.ok?'✓':'✗'}</span>`;
-    rows.appendChild(div);
-  });
+// ============================================================
+// 結果画面
+// ============================================================
+function showResult(mode, total, ok, ng) {
+  const pct = total > 0 ? Math.round((ok / total) * 100) : 0;
+  const emoji = pct >= 90 ? '🏆' : pct >= 70 ? '🎉' : pct >= 50 ? '😊' : '😢';
+  const title = pct >= 90 ? '完璧！すごい！' : pct >= 70 ? 'よくできました！' : pct >= 50 ? 'もう少し！' : 'もっと練習しよう！';
+
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-title').textContent = title;
+
+  if (mode === 'flash') {
+    document.getElementById('result-score-big').textContent = total;
+    document.getElementById('result-score-label').textContent = '語 確認しました！';
+    document.getElementById('res-ok').textContent = total;
+    document.getElementById('res-ng').textContent = 0;
+    document.getElementById('res-pct').textContent = '100%';
+  } else {
+    document.getElementById('result-score-big').textContent = `${ok}/${total}`;
+    document.getElementById('result-score-label').textContent = `正答率 ${pct}%`;
+    document.getElementById('res-ok').textContent = ok;
+    document.getElementById('res-ng').textContent = ng;
+    document.getElementById('res-pct').textContent = `${pct}%`;
+  }
+
+  document.getElementById('result-retry-btn').onclick = () => startMode(mode);
+  goTo('screen-result');
 }
 
-function retryTest() {
-  document.getElementById('resultScreen').style.display='none';
-  startTest();
-}
+// ============================================================
+// 起動
+// ============================================================
+init();
 </script>
 </body>
 </html>
