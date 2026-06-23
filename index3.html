@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>文法二択テスト</title>
+<style>
+  :root{
+    --bg:#F7F8FA; --card:#FFFFFF; --ink:#1F2933; --sub:#67727E;
+    --line:#E3E8EE; --brand:#3B5BDB; --brand-d:#2F49B0;
+    --ok:#0E9F6E; --ok-bg:#E7F7F0; --ng:#E5544B; --ng-bg:#FCEEED;
+    --shadow:0 2px 10px rgba(31,41,51,.06), 0 1px 3px rgba(31,41,51,.05);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%}
+  body{
+    font-family:"UDデジタル教科書体 NK-R","UD Digi Kyokasho NK-R",
+      -apple-system,"Hiragino Sans","Yu Gothic",sans-serif;
+    background:var(--bg); color:var(--ink);
+    display:flex; justify-content:center; padding:16px;
+    line-height:1.5;
+  }
+  .app{width:100%; max-width:560px}
+  .card{background:var(--card); border:1px solid var(--line);
+    border-radius:18px; box-shadow:var(--shadow); padding:22px; margin-bottom:14px}
+  h1{font-size:1.35rem; margin:0 0 4px}
+  .lead{color:var(--sub); font-size:.92rem; margin:0 0 18px}
+  label{font-weight:600; font-size:.95rem; display:block; margin:14px 0 8px}
+  .chips{display:flex; flex-wrap:wrap; gap:8px}
+  .chip{border:1.5px solid var(--line); background:#fff; color:var(--ink);
+    padding:8px 14px; border-radius:999px; font-size:.9rem; cursor:pointer;
+    user-select:none; font-family:inherit}
+  .chip.on{border-color:var(--brand); background:#EEF1FC; color:var(--brand-d); font-weight:600}
+  select,input[type=number]{width:100%; padding:12px; border:1.5px solid var(--line);
+    border-radius:12px; font-size:1rem; font-family:inherit; background:#fff; color:var(--ink)}
+  .row{display:flex; gap:10px}
+  .btn{display:block; width:100%; border:none; border-radius:14px; padding:16px;
+    font-size:1.05rem; font-weight:700; cursor:pointer; font-family:inherit}
+  .btn-main{background:var(--brand); color:#fff}
+  .btn-main:active{background:var(--brand-d)}
+  .btn-ghost{background:#fff; color:var(--brand); border:1.5px solid var(--line)}
+  .small{font-size:.82rem; color:var(--sub)}
+
+  /* quiz */
+  .topbar{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px}
+  .count{font-weight:700; font-size:.95rem}
+  .quit{background:none;border:none;color:var(--sub);font-size:.85rem;cursor:pointer;font-family:inherit}
+  .bar{height:8px; background:var(--line); border-radius:99px; overflow:hidden; margin-bottom:18px}
+  .bar > i{display:block; height:100%; background:var(--brand); transition:width .25s}
+  .cat-tag{display:inline-block; font-size:.78rem; color:var(--brand-d);
+    background:#EEF1FC; padding:3px 10px; border-radius:99px; margin-bottom:14px}
+  .q{font-size:1.5rem; font-weight:700; line-height:1.55; margin:0 0 22px; word-break:keep-all}
+  .q .blank{color:var(--brand); border-bottom:3px solid var(--brand); padding:0 18px}
+  .choices{display:flex; flex-direction:column; gap:12px}
+  .choice{padding:18px; border:2px solid var(--line); border-radius:16px; background:#fff;
+    font-size:1.25rem; font-weight:700; cursor:pointer; text-align:center; font-family:inherit;
+    transition:transform .05s}
+  .choice:active{transform:scale(.99)}
+  .choice.correct{border-color:var(--ok); background:var(--ok-bg); color:var(--ok)}
+  .choice.wrong{border-color:var(--ng); background:var(--ng-bg); color:var(--ng)}
+  .choice:disabled{cursor:default}
+  .fb{margin-top:18px; border-radius:14px; padding:16px; display:none}
+  .fb.show{display:block}
+  .fb.ok{background:var(--ok-bg)}
+  .fb.ng{background:var(--ng-bg)}
+  .fb .head{font-weight:800; font-size:1.05rem; margin-bottom:4px}
+  .fb.ok .head{color:var(--ok)} .fb.ng .head{color:var(--ng)}
+  .fb .exp{font-size:.95rem; color:var(--ink)}
+  .next{margin-top:16px}
+
+  /* result */
+  .score{font-size:3rem; font-weight:800; text-align:center; margin:6px 0}
+  .score small{font-size:1.2rem; color:var(--sub); font-weight:600}
+  .acc{text-align:center; color:var(--sub); margin-bottom:18px}
+  .review{border-top:1px solid var(--line); padding-top:14px; margin-top:6px}
+  .ritem{padding:10px 0; border-bottom:1px solid var(--line); font-size:.95rem}
+  .ritem .qx{font-weight:600}
+  .ritem .ax{color:var(--ng); font-size:.88rem}
+  .ritem .ax b{color:var(--ok)}
+  .hide{display:none}
+  .filebox{border:1.5px dashed var(--line); border-radius:12px; padding:12px; margin-top:8px}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ===== START ===== -->
+  <section id="start">
+    <div class="card">
+      <h1>文法二択テスト</h1>
+      <p class="lead">（ ）に入る正しい語を２つから選びます。タップで即判定・即解説。</p>
+
+      <label>出題するカテゴリ</label>
+      <div class="chips" id="catChips"></div>
+
+      <label>出題数</label>
+      <input type="number" id="numQ" min="1" value="10">
+
+      <label>出題順</label>
+      <select id="order">
+        <option value="shuffle">ランダム</option>
+        <option value="seq">CSVの順番</option>
+      </select>
+
+      <button class="btn btn-main" id="startBtn" style="margin-top:20px">スタート</button>
+
+      <div class="filebox">
+        <div class="small" style="margin-bottom:6px">自分の問題を読み込む（任意）</div>
+        <input type="file" id="csvFile" accept=".csv,text/csv" class="small">
+        <div class="small" id="loadInfo" style="margin-top:6px"></div>
+      </div>
+    </div>
+    <p class="small" style="text-align:center">
+      CSV列：問題文,選択肢1,選択肢2,正解,解説,カテゴリ ／ 問題文の空所は <b>( )</b> で表記
+    </p>
+  </section>
+
+  <!-- ===== QUIZ ===== -->
+  <section id="quiz" class="hide">
+    <div class="card">
+      <div class="topbar">
+        <span class="count"><span id="cur">1</span> / <span id="tot">10</span></span>
+        <button class="quit" id="quitBtn">やめる</button>
+      </div>
+      <div class="bar"><i id="prog"></i></div>
+      <span class="cat-tag" id="qcat"></span>
+      <p class="q" id="qtext"></p>
+      <div class="choices">
+        <button class="choice" id="c1"></button>
+        <button class="choice" id="c2"></button>
+      </div>
+      <div class="fb" id="fb">
+        <div class="head" id="fbHead"></div>
+        <div class="exp" id="fbExp"></div>
+      </div>
+      <button class="btn btn-main next hide" id="nextBtn">次へ →</button>
+    </div>
+  </section>
+
+  <!-- ===== RESULT ===== -->
+  <section id="result" class="hide">
+    <div class="card">
+      <h1 style="text-align:center">結果</h1>
+      <div class="score"><span id="rScore">0</span><small> / <span id="rTot">0</span></small></div>
+      <div class="acc" id="rAcc"></div>
+      <div class="row">
+        <button class="btn btn-ghost" id="retryWrong">間違いだけ再挑戦</button>
+        <button class="btn btn-main" id="again">もう一度</button>
+      </div>
+      <div class="review" id="review"></div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ===== 問題データ（サンプル：中1〜中3） ===== */
+let BANK = [
+  ["I ( ) a student.","am","are","am","主語が I のとき be 動詞は am。","be動詞"],
+  ["We ( ) good friends.","am","are","are","主語が複数（we）のとき be 動詞は are。","be動詞"],
+  ["( ) she a teacher?","Is","Does","Is","be 動詞の文の疑問文は Is で始める。","be動詞"],
+  ["She ( ) tennis every day.","play","plays","plays","主語が3人称単数・現在は動詞に s をつける。","三単現"],
+  ["He ( ) not have a car.","do","does","does","三単現の否定文は does not＋動詞の原形。","三単現"],
+  ["( ) you like music?","Do","Are","Do","一般動詞の疑問文は Do で始める。","一般動詞"],
+  ["They ( ) playing soccer now.","is","are","are","主語が複数の現在進行形は are＋ing。","現在進行形"],
+  ["I ( ) to school yesterday.","go","went","went","yesterday は過去。go の過去形は went。","過去形"],
+  ["( ) you busy yesterday?","Were","Did","Were","過去の be 動詞の疑問文は Were。","過去形"],
+  ["I have ( ) apple.","a","an","an","母音の音で始まる語の前は an。","冠詞"],
+  ["He can ( ) fast.","run","runs","run","助動詞 can のあとは動詞の原形。","助動詞"],
+  ["There ( ) two books on the desk.","is","are","are","複数（two books）が続くので are。","there is/are"],
+  ["This book is ( ) than that one.","easy","easier","easier","than があるので比較級 easier。","比較級"],
+  ["She is the ( ) girl in the class.","tall","tallest","tallest","the … in で最上級 tallest。","最上級"],
+  ["I like ( ).","he","him","him","動詞の目的語は目的格 him。","代名詞"],
+  ["This is ( ) bag.","I","my","my","名詞の前は所有格 my。","代名詞"],
+  ["I want ( ) eat lunch.","to","for","to","「〜すること」は to＋動詞の原形。","不定詞"],
+  ["He has ( ) in Osaka for ten years.","live","lived","lived","現在完了 has＋過去分詞 lived。","現在完了"]
+];
+
+/* ===== 状態 ===== */
+let queue=[], idx=0, score=0, wrongList=[];
+const PRAISE=["いいね！","その通り！","ナイス！","よくできました！","完璧！"];
+const $=id=>document.getElementById(id);
+
+/* ===== CSV読み込み ===== */
+function parseCSV(text){
+  const rows=[]; let f="",row=[],q=false;
+  for(let i=0;i<text.length;i++){const c=text[i];
+    if(q){ if(c==='"'){ if(text[i+1]==='"'){f+='"';i++;} else q=false; } else f+=c; }
+    else{ if(c==='"')q=true; else if(c===','){row.push(f);f="";}
+      else if(c==='\n'||c==='\r'){ if(f!==""||row.length){row.push(f);rows.push(row);row=[];f="";}
+        if(c==='\r'&&text[i+1]==='\n')i++; }
+      else f+=c; } }
+  if(f!==""||row.length){row.push(f);rows.push(row);}
+  return rows;
+}
+$("csvFile").addEventListener("change",e=>{
+  const file=e.target.files[0]; if(!file)return;
+  const r=new FileReader();
+  r.onload=()=>{
+    let rows=parseCSV(r.result).filter(x=>x.length>=4 && x[0].trim()!=="");
+    if(rows[0] && /問題|question/i.test(rows[0][0])) rows=rows.slice(1); // ヘッダ除去
+    const data=rows.map(x=>[x[0],x[1],x[2],x[3],x[4]||"",x[5]||"その他"]);
+    if(!data.length){$("loadInfo").textContent="読み込めませんでした。列の形式を確認してください。";return;}
+    BANK=data; buildCats();
+    $("loadInfo").innerHTML="<b style='color:var(--ok)'>"+data.length+"問</b> を読み込みました。";
+  };
+  r.readAsText(file,"UTF-8");
+});
+
+/* ===== カテゴリ ===== */
+let activeCats=new Set();
+function buildCats(){
+  const cats=[...new Set(BANK.map(q=>q[5]))];
+  activeCats=new Set(cats);
+  const box=$("catChips"); box.innerHTML="";
+  const all=mkChip("すべて",true); all.dataset.all="1";
+  all.onclick=()=>{const on=!all.classList.contains("on");
+    [...box.children].forEach(c=>c.classList.toggle("on",on));
+    activeCats=on?new Set(cats):new Set();};
+  box.appendChild(all);
+  cats.forEach(cat=>{
+    const c=mkChip(cat,true);
+    c.onclick=()=>{ c.classList.toggle("on");
+      c.classList.contains("on")?activeCats.add(cat):activeCats.delete(cat);
+      all.classList.toggle("on", activeCats.size===cats.length); };
+    box.appendChild(c);
+  });
+}
+function mkChip(t,on){const b=document.createElement("button");
+  b.className="chip"+(on?" on":""); b.textContent=t; return b;}
+
+/* ===== 出題 ===== */
+$("startBtn").onclick=()=>{
+  let pool=BANK.filter(q=>activeCats.has(q[5]));
+  if(!pool.length){alert("カテゴリを1つ以上選んでください。");return;}
+  if($("order").value==="shuffle") pool=shuffle([...pool]);
+  let n=parseInt($("numQ").value)||pool.length;
+  queue=pool.slice(0,Math.min(n,pool.length));
+  idx=0;score=0;wrongList=[];
+  show("quiz"); render();
+};
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function render(){
+  const q=queue[idx];
+  $("tot").textContent=queue.length; $("cur").textContent=idx+1;
+  $("prog").style.width=(idx/queue.length*100)+"%";
+  $("qcat").textContent=q[5];
+  $("qtext").innerHTML=q[0].replace(/\(\s*\)/,'<span class="blank">?</span>');
+  // 選択肢の並びをランダムに
+  const opts=Math.random()<.5?[q[1],q[2]]:[q[2],q[1]];
+  setChoice($("c1"),opts[0],q[3]); setChoice($("c2"),opts[1],q[3]);
+  $("fb").className="fb"; $("nextBtn").classList.add("hide");
+}
+function setChoice(btn,word,correct){
+  btn.textContent=word; btn.disabled=false;
+  btn.className="choice";
+  btn.onclick=()=>judge(btn,word,correct);
+}
+function judge(btn,word,correct){
+  $("c1").disabled=true; $("c2").disabled=true;
+  const q=queue[idx];
+  const fb=$("fb");
+  if(word===correct){
+    btn.classList.add("correct"); score++;
+    fb.className="fb ok show";
+    $("fbHead").textContent=PRAISE[Math.random()*PRAISE.length|0];
+  }else{
+    btn.classList.add("wrong");
+    [$("c1"),$("c2")].forEach(b=>{if(b.textContent===correct)b.classList.add("correct");});
+    fb.className="fb ng show";
+    $("fbHead").textContent="正解は "+correct;
+    wrongList.push(q);
+  }
+  $("fbExp").textContent=q[4]||"";
+  if(!q[4])$("fbExp").textContent=" ";
+  $("nextBtn").classList.remove("hide");
+}
+$("nextBtn").onclick=()=>{ idx++; idx<queue.length?render():finish(); };
+$("quitBtn").onclick=()=>{ if(confirm("テストをやめますか？"))show("start"); };
+
+/* ===== 結果 ===== */
+function finish(){
+  $("prog").style.width="100%";
+  show("result");
+  $("rScore").textContent=score; $("rTot").textContent=queue.length;
+  const pct=Math.round(score/queue.length*100);
+  $("rAcc").textContent="正答率 "+pct+"％"+(pct===100?"　全問正解！":pct>=80?"　よくできました":"");
+  const rv=$("review"); rv.innerHTML="";
+  if(wrongList.length){
+    const h=document.createElement("div"); h.className="small"; h.style.marginBottom="6px";
+    h.textContent="まちがえた問題"; rv.appendChild(h);
+    wrongList.forEach(q=>{
+      const d=document.createElement("div"); d.className="ritem";
+      d.innerHTML='<div class="qx">'+esc(q[0])+'</div>'+
+        '<div class="ax">正解 <b>'+esc(q[3])+'</b>'+(q[4]?'　'+esc(q[4]):'')+'</div>';
+      rv.appendChild(d);
+    });
+  }
+}
+$("again").onclick=()=>$("startBtn").click();
+$("retryWrong").onclick=()=>{
+  if(!wrongList.length){alert("間違いはありません。");return;}
+  queue=shuffle([...wrongList]); idx=0;score=0;wrongList=[];
+  show("quiz"); render();
+};
+function esc(s){return s.replace(/[<>&]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]));}
+
+/* ===== 画面切替 ===== */
+function show(id){["start","quiz","result"].forEach(s=>$(s).classList.toggle("hide",s!==id));
+  window.scrollTo(0,0);}
+
+/* ===== 既定CSVの自動読み込み（GitHub Pages: grammar.csv） ===== */
+buildCats();  // まず内蔵サンプルで表示
+fetch("grammar.csv",{cache:"no-store"})
+  .then(r=>{ if(!r.ok) throw 0; return r.text(); })
+  .then(t=>{
+    t=t.replace(/^\uFEFF/,"");
+    let rows=parseCSV(t).filter(x=>x.length>=4 && x[0].trim()!=="");
+    if(rows[0] && /問題|question/i.test(rows[0][0])) rows=rows.slice(1);
+    const data=rows.map(x=>[x[0],x[1],x[2],x[3],x[4]||"",x[5]||"その他"]);
+    if(data.length){ BANK=data; buildCats();
+      $("loadInfo").innerHTML="grammar.csv から <b style='color:var(--ok)'>"+data.length+"問</b> 読み込み済み。"; }
+  })
+  .catch(()=>{ /* ローカルで開いた等で読めない場合は内蔵サンプルを使用 */ });
+</script>
+</body>
+</html>
