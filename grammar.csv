@@ -1,19 +1,381 @@
 \xEF\xBB\xBF問題文,選択肢1,選択肢2,正解,解説,カテゴリ
-I ( ) a studenttttttttttttttttttt.,am,are,am,主語が I のとき be 動詞は am。,be動詞
-We ( ) good friendsssssssssssssss.,am,are,are,主語が複数（we）のとき be 動詞は are。,be動詞
-( ) she a teacher?????????????????,Is,Does,Is,be 動詞の文の疑問文は Is で始める。,be動詞
-She ( ) tennis every day.,play,plays,plays,主語が3人称単数・現在は動詞に s をつける。,三単現
-He ( ) not have a car.,do,does,does,三単現の否定文は does not＋動詞の原形。,三単現
-( ) you like music?,Do,Are,Do,一般動詞の疑問文は Do で始める。,一般動詞
-They ( ) playing soccer now.,is,are,are,主語が複数の現在進行形は are＋ing。,現在進行形
-I ( ) to school yesterday.,go,went,went,yesterday は過去。go の過去形は went。,過去形
-( ) you busy yesterday?,Were,Did,Were,過去の be 動詞の疑問文は Were。,過去形
-I have ( ) apple.,a,an,an,母音の音で始まる語の前は an。,冠詞
-He can ( ) fast.,run,runs,run,助動詞 can のあとは動詞の原形。,助動詞
-There ( ) two books on the desk.,is,are,are,複数（two books）が続くので are。,there is/are
-This book is ( ) than that one.,easy,easier,easier,than があるので比較級 easier。,比較級
-She is the ( ) girl in the class.,tall,tallest,tallest,the … in で最上級 tallest。,最上級
-I like ( ).,he,him,him,動詞の目的語は目的格 him。,代名詞
-This is ( ) bag.,I,my,my,名詞の前は所有格 my。,代名詞
-I want ( ) eat lunch.,to,for,to,「〜すること」は to＋動詞の原形。,不定詞
-He has ( ) in Osaka for ten years.,live,lived,lived,現在完了 has＋過去分詞 lived。,現在完了
+I ( ) a student.,am,are,am,主語が I のとき be 動詞は am。student の前で I が主語なので am。,be動詞,習った
+I ( ) thirteen years old.,is,am,am,主語が I のとき be 動詞は am。年齢を表す文で I が主語なので am。,be動詞,習った
+I ( ) from Osaka.,am,are,am,主語が I のとき be 動詞は am。出身を表す文で I が主語なので am。,be動詞,習った
+I ( ) happy.,is,am,am,主語が I のとき be 動詞は am。状態を表す文で I が主語なので am。,be動詞,習った
+I ( ) ready.,am,are,am,主語が I のとき be 動詞は am。状態を表す文で I が主語なので am。,be動詞,習った
+I ( ) in the classroom.,is,am,am,主語が I のとき be 動詞は am。場所を表す文で I が主語なので am。,be動詞,習った
+I ( ) not tired.,am,are,am,主語が I のとき be 動詞は am。I の否定文は am not。,be動詞,習った
+I ( ) not late.,is,am,am,主語が I のとき be 動詞は am。I の否定文は am not。,be動詞,習った
+I ( ) on the soccer team.,am,are,am,主語が I のとき be 動詞は am。所属を表す文で I が主語なので am。,be動詞,習った
+I ( ) good at English.,is,am,am,主語が I のとき be 動詞は am。I が主語なので am。,be動詞,習った
+He ( ) new.,is,are,is,彼は単数の主語なので be 動詞は is。,be動詞,習った
+She ( ) old.,is,are,is,彼女は単数の主語なので be 動詞は is。,be動詞,習った
+Tom ( ) big.,is,are,is,Tom は単数の主語なので be 動詞は is。,be動詞,習った
+Mary ( ) small.,is,are,is,Mary は単数の主語なので be 動詞は is。,be動詞,習った
+My brother ( ) nice.,is,are,is,My brother は単数の主語なので be 動詞は is。,be動詞,習った
+My sister ( ) interesting.,is,are,is,My sister は単数の主語なので be 動詞は is。,be動詞,習った
+My father ( ) beautiful.,is,are,is,My father は単数の主語なので be 動詞は is。,be動詞,習った
+My mother ( ) red.,is,are,is,My mother は単数の主語なので be 動詞は is。,be動詞,習った
+The boy ( ) blue.,is,are,is,The boy は単数の主語なので be 動詞は is。,be動詞,習った
+The girl ( ) clean.,is,are,is,The girl は単数の主語なので be 動詞は is。,be動詞,習った
+Mr. Brown ( ) famous.,is,are,is,Mr. Brown は単数の主語なので be 動詞は is。,be動詞,習った
+Ms. Green ( ) important.,is,are,is,Ms. Green は単数の主語なので be 動詞は is。,be動詞,習った
+We ( ) small.,is,are,are,We は複数の主語なので be 動詞は are。,be動詞,習った
+They ( ) nice.,is,are,are,They は複数の主語なので be 動詞は are。,be動詞,習った
+Tom and Ken ( ) interesting.,is,are,are,Tom and Ken は複数の主語なので be 動詞は are。,be動詞,習った
+Mary and Yuki ( ) beautiful.,is,are,are,Mary and Yuki は複数の主語なので be 動詞は are。,be動詞,習った
+My friends ( ) red.,is,are,are,My friends は複数の主語なので be 動詞は are。,be動詞,習った
+The students ( ) blue.,is,are,are,The students は複数の主語なので be 動詞は are。,be動詞,習った
+The boys ( ) clean.,is,are,are,The boys は複数の主語なので be 動詞は are。,be動詞,習った
+The girls ( ) famous.,is,are,are,The girls は複数の主語なので be 動詞は are。,be動詞,習った
+My parents ( ) important.,is,are,are,My parents は複数の主語なので be 動詞は are。,be動詞,習った
+These students ( ) new.,is,are,are,These students は複数の主語なので be 動詞は are。,be動詞,習った
+Those boys ( ) old.,is,are,are,Those boys は複数の主語なので be 動詞は are。,be動詞,習った
+The teachers ( ) big.,is,are,are,The teachers は複数の主語なので be 動詞は are。,be動詞,習った
+This ( ) interesting.,is,are,is,This は単数なので is。,be動詞,習った
+That ( ) beautiful.,is,are,is,That は単数なので is。,be動詞,習った
+It ( ) red.,is,are,is,It は単数なので is。,be動詞,習った
+My bag ( ) blue.,is,are,is,My bag は単数なので is。,be動詞,習った
+The book ( ) clean.,is,are,is,The book は単数なので is。,be動詞,習った
+The cat ( ) famous.,is,are,is,The cat は単数なので is。,be動詞,習った
+The dog ( ) important.,is,are,is,The dog は単数なので is。,be動詞,習った
+His bike ( ) new.,is,are,is,His bike は単数なので is。,be動詞,習った
+Her pencil ( ) old.,is,are,is,Her pencil は単数なので is。,be動詞,習った
+The room ( ) big.,is,are,is,The room は単数なので is。,be動詞,習った
+These ( ) red.,is,are,are,These は複数なので are。,be動詞,習った
+Those ( ) blue.,is,are,are,Those は複数なので are。,be動詞,習った
+They ( ) clean.,is,are,are,They は複数なので are。,be動詞,習った
+My books ( ) famous.,is,are,are,My books は複数なので are。,be動詞,習った
+The cats ( ) important.,is,are,are,The cats は複数なので are。,be動詞,習った
+The dogs ( ) new.,is,are,are,The dogs は複数なので are。,be動詞,習った
+His bikes ( ) old.,is,are,are,His bikes は複数なので are。,be動詞,習った
+Her pencils ( ) big.,is,are,are,Her pencils は複数なので are。,be動詞,習った
+The rooms ( ) small.,is,are,are,The rooms は複数なので are。,be動詞,習った
+The boxes ( ) nice.,is,are,are,The boxes は複数なので are。,be動詞,習った
+He ( ) a teacher.,is,are,is,彼は単数なので is。,be動詞,習った
+She ( ) a student.,is,are,is,彼女は単数なので is。,be動詞,習った
+Tom ( ) a doctor.,is,are,is,Tom は単数なので is。,be動詞,習った
+Mary ( ) a singer.,is,are,is,Mary は単数なので is。,be動詞,習った
+My brother ( ) a tennis player.,is,are,is,My brother は単数なので is。,be動詞,習った
+My sister ( ) my friend.,is,are,is,My sister は単数なので is。,be動詞,習った
+My father ( ) our teacher.,is,are,is,My father は単数なので is。,be動詞,習った
+My mother ( ) a good boy.,is,are,is,My mother は単数なので is。,be動詞,習った
+The boy ( ) a kind girl.,is,are,is,The boy は単数なので is。,be動詞,習った
+The girl ( ) a new student.,is,are,is,The girl は単数なので is。,be動詞,習った
+We ( ) students.,is,are,are,We は複数なので are。,be動詞,習った
+They ( ) teachers.,is,are,are,They は複数なので are。,be動詞,習った
+Tom and Ken ( ) friends.,is,are,are,Tom and Ken は複数なので are。,be動詞,習った
+Mary and Yuki ( ) soccer players.,is,are,are,Mary and Yuki は複数なので are。,be動詞,習った
+My friends ( ) good singers.,is,are,are,My friends は複数なので are。,be動詞,習った
+The students ( ) classmates.,is,are,are,The students は複数なので are。,be動詞,習った
+The boys ( ) my brothers.,is,are,are,The boys は複数なので are。,be動詞,習った
+The girls ( ) our friends.,is,are,are,The girls は複数なので are。,be動詞,習った
+My parents ( ) new students.,is,are,are,My parents は複数なので are。,be動詞,習った
+These students ( ) kind people.,is,are,are,These students は複数なので are。,be動詞,習った
+He ( ) in Japan.,is,are,is,彼は単数の主語なので is。,be動詞,習った
+She ( ) in the park.,am,are,is,彼女は単数の主語なので is。,be動詞,習った
+Tom ( ) at school.,is,are,is,Tom は単数の主語なので is。,be動詞,習った
+Mary ( ) at home.,am,are,is,Mary は単数の主語なので is。,be動詞,習った
+My brother ( ) in the library.,is,are,is,My brother は単数の主語なので is。,be動詞,習った
+My sister ( ) near the station.,am,are,is,My sister は単数の主語なので is。,be動詞,習った
+My father ( ) under the desk.,is,are,is,My father は単数の主語なので is。,be動詞,習った
+My mother ( ) on the table.,am,are,is,My mother は単数の主語なので is。,be動詞,習った
+This ( ) in Osaka.,is,are,is,This は単数なので is。単数の主語なので is。,be動詞,習った
+That ( ) from China.,am,are,is,That は単数なので is。単数の主語なので is。,be動詞,習った
+It ( ) in Japan.,is,are,is,It は単数なので is。単数の主語なので is。,be動詞,習った
+My bag ( ) in the park.,am,are,is,My bag は単数なので is。単数の主語なので is。,be動詞,習った
+The book ( ) at school.,is,are,is,The book は単数なので is。単数の主語なので is。,be動詞,習った
+The cat ( ) at home.,am,are,is,The cat は単数なので is。単数の主語なので is。,be動詞,習った
+The dog ( ) in the library.,is,are,is,The dog は単数なので is。単数の主語なので is。,be動詞,習った
+His bike ( ) near the station.,am,are,is,His bike は単数なので is。単数の主語なので is。,be動詞,習った
+We ( ) at school.,is,are,are,We は複数の主語なので are。,be動詞,習った
+They ( ) at home.,is,are,are,They は複数の主語なので are。,be動詞,習った
+Tom and Ken ( ) in the library.,is,are,are,Tom and Ken は複数の主語なので are。,be動詞,習った
+Mary and Yuki ( ) near the station.,is,are,are,Mary and Yuki は複数の主語なので are。,be動詞,習った
+My friends ( ) under the desk.,is,are,are,My friends は複数の主語なので are。,be動詞,習った
+The students ( ) on the table.,is,are,are,The students は複数の主語なので are。,be動詞,習った
+The boys ( ) in Osaka.,is,are,are,The boys は複数の主語なので are。,be動詞,習った
+The girls ( ) from China.,is,are,are,The girls は複数の主語なので are。,be動詞,習った
+These ( ) in Japan.,is,are,are,These は複数なので are。複数の主語なので are。,be動詞,習った
+Those ( ) in the park.,is,are,are,Those は複数なので are。複数の主語なので are。,be動詞,習った
+They ( ) at school.,is,are,are,They は複数なので are。複数の主語なので are。,be動詞,習った
+My books ( ) at home.,is,are,are,My books は複数なので are。複数の主語なので are。,be動詞,習った
+The cats ( ) in the library.,is,are,are,The cats は複数なので are。複数の主語なので are。,be動詞,習った
+The dogs ( ) near the station.,is,are,are,The dogs は複数なので are。複数の主語なので are。,be動詞,習った
+His bikes ( ) under the desk.,is,are,are,His bikes は複数なので are。複数の主語なので are。,be動詞,習った
+Her pencils ( ) on the table.,is,are,are,Her pencils は複数なので are。複数の主語なので are。,be動詞,習った
+You ( ) busy.,are,is,are,主語が you のとき be 動詞は are。,be動詞,習った
+You ( ) a student.,are,is,are,主語が you のとき be 動詞は are。,be動詞,習った
+You ( ) from Tokyo.,are,is,are,主語が you のとき be 動詞は are。,be動詞,習った
+You ( ) ready.,are,is,are,主語が you のとき be 動詞は are。,be動詞,習った
+You ( ) my friend.,are,is,are,主語が you のとき be 動詞は are。,be動詞,習った
+You ( ) in class.,are,is,are,主語が you のとき be 動詞は are。,be動詞,習った
+You ( ) good at math.,are,is,are,主語が you のとき be 動詞は are。,be動詞,習った
+You ( ) on the team.,are,is,are,主語が you のとき be 動詞は are。,be動詞,習った
+You ( ) happy.,are,is,are,主語が you のとき be 動詞は are。,be動詞,習った
+You ( ) late.,are,is,are,主語が you のとき be 動詞は are。,be動詞,習った
+He ( ) tired.,is not,are not,is not,彼は単数なので否定文は is not。,be動詞,習った
+She ( ) tired.,is not,are not,is not,彼女は単数なので否定文は is not。,be動詞,習った
+Tom ( ) tired.,is not,are not,is not,Tom は単数なので否定文は is not。,be動詞,習った
+Mary ( ) tired.,is not,are not,is not,Mary は単数なので否定文は is not。,be動詞,習った
+My brother ( ) tired.,is not,are not,is not,My brother は単数なので否定文は is not。,be動詞,習った
+My sister ( ) tired.,is not,are not,is not,My sister は単数なので否定文は is not。,be動詞,習った
+My father ( ) tired.,is not,are not,is not,My father は単数なので否定文は is not。,be動詞,習った
+My mother ( ) tired.,is not,are not,is not,My mother は単数なので否定文は is not。,be動詞,習った
+The boy ( ) tired.,is not,are not,is not,The boy は単数なので否定文は is not。,be動詞,習った
+The girl ( ) tired.,is not,are not,is not,The girl は単数なので否定文は is not。,be動詞,習った
+This ( ) tired.,is not,are not,is not,This は単数なので is。単数なので否定文は is not。,be動詞,習った
+That ( ) tired.,is not,are not,is not,That は単数なので is。単数なので否定文は is not。,be動詞,習った
+It ( ) tired.,is not,are not,is not,It は単数なので is。単数なので否定文は is not。,be動詞,習った
+My bag ( ) tired.,is not,are not,is not,My bag は単数なので is。単数なので否定文は is not。,be動詞,習った
+The book ( ) tired.,is not,are not,is not,The book は単数なので is。単数なので否定文は is not。,be動詞,習った
+The cat ( ) tired.,is not,are not,is not,The cat は単数なので is。単数なので否定文は is not。,be動詞,習った
+The dog ( ) tired.,is not,are not,is not,The dog は単数なので is。単数なので否定文は is not。,be動詞,習った
+His bike ( ) tired.,is not,are not,is not,His bike は単数なので is。単数なので否定文は is not。,be動詞,習った
+We ( ) tired.,is not,are not,are not,We は複数なので否定文は are not。,be動詞,習った
+They ( ) tired.,is not,are not,are not,They は複数なので否定文は are not。,be動詞,習った
+Tom and Ken ( ) tired.,is not,are not,are not,Tom and Ken は複数なので否定文は are not。,be動詞,習った
+Mary and Yuki ( ) tired.,is not,are not,are not,Mary and Yuki は複数なので否定文は are not。,be動詞,習った
+My friends ( ) tired.,is not,are not,are not,My friends は複数なので否定文は are not。,be動詞,習った
+The students ( ) tired.,is not,are not,are not,The students は複数なので否定文は are not。,be動詞,習った
+The boys ( ) tired.,is not,are not,are not,The boys は複数なので否定文は are not。,be動詞,習った
+The girls ( ) tired.,is not,are not,are not,The girls は複数なので否定文は are not。,be動詞,習った
+My parents ( ) tired.,is not,are not,are not,My parents は複数なので否定文は are not。,be動詞,習った
+These students ( ) tired.,is not,are not,are not,These students は複数なので否定文は are not。,be動詞,習った
+These ( ) tired.,is not,are not,are not,These は複数なので are。複数なので否定文は are not。,be動詞,習った
+Those ( ) tired.,is not,are not,are not,Those は複数なので are。複数なので否定文は are not。,be動詞,習った
+They ( ) tired.,is not,are not,are not,They は複数なので are。複数なので否定文は are not。,be動詞,習った
+My books ( ) tired.,is not,are not,are not,My books は複数なので are。複数なので否定文は are not。,be動詞,習った
+The cats ( ) tired.,is not,are not,are not,The cats は複数なので are。複数なので否定文は are not。,be動詞,習った
+The dogs ( ) tired.,is not,are not,are not,The dogs は複数なので are。複数なので否定文は are not。,be動詞,習った
+His bikes ( ) tired.,is not,are not,are not,His bikes は複数なので are。複数なので否定文は are not。,be動詞,習った
+Her pencils ( ) tired.,is not,are not,are not,Her pencils は複数なので are。複数なので否定文は are not。,be動詞,習った
+I ( ) busy.,am not,are not,am not,I の否定文は am not。,be動詞,習った
+I ( ) late.,am not,are not,am not,I の否定文は am not。,be動詞,習った
+I ( ) a teacher.,am not,are not,am not,I の否定文は am not。,be動詞,習った
+I ( ) from Tokyo.,am not,are not,am not,I の否定文は am not。,be動詞,習った
+I ( ) at home.,am not,are not,am not,I の否定文は am not。,be動詞,習った
+He ( ) ready.,isn't,aren't,isn't,彼は単数なので短縮形は isn't。,be動詞,習った
+She ( ) ready.,isn't,aren't,isn't,彼女は単数なので短縮形は isn't。,be動詞,習った
+Tom ( ) ready.,isn't,aren't,isn't,Tom は単数なので短縮形は isn't。,be動詞,習った
+Mary ( ) ready.,isn't,aren't,isn't,Mary は単数なので短縮形は isn't。,be動詞,習った
+My brother ( ) ready.,isn't,aren't,isn't,My brother は単数なので短縮形は isn't。,be動詞,習った
+My sister ( ) ready.,isn't,aren't,isn't,My sister は単数なので短縮形は isn't。,be動詞,習った
+My father ( ) ready.,isn't,aren't,isn't,My father は単数なので短縮形は isn't。,be動詞,習った
+My mother ( ) ready.,isn't,aren't,isn't,My mother は単数なので短縮形は isn't。,be動詞,習った
+This ( ) ready.,isn't,aren't,isn't,This は単数なので is。単数なので短縮形は isn't。,be動詞,習った
+That ( ) ready.,isn't,aren't,isn't,That は単数なので is。単数なので短縮形は isn't。,be動詞,習った
+It ( ) ready.,isn't,aren't,isn't,It は単数なので is。単数なので短縮形は isn't。,be動詞,習った
+My bag ( ) ready.,isn't,aren't,isn't,My bag は単数なので is。単数なので短縮形は isn't。,be動詞,習った
+The book ( ) ready.,isn't,aren't,isn't,The book は単数なので is。単数なので短縮形は isn't。,be動詞,習った
+The cat ( ) ready.,isn't,aren't,isn't,The cat は単数なので is。単数なので短縮形は isn't。,be動詞,習った
+We ( ) ready.,isn't,aren't,aren't,We は複数なので短縮形は aren't。,be動詞,習った
+They ( ) ready.,isn't,aren't,aren't,They は複数なので短縮形は aren't。,be動詞,習った
+Tom and Ken ( ) ready.,isn't,aren't,aren't,Tom and Ken は複数なので短縮形は aren't。,be動詞,習った
+Mary and Yuki ( ) ready.,isn't,aren't,aren't,Mary and Yuki は複数なので短縮形は aren't。,be動詞,習った
+My friends ( ) ready.,isn't,aren't,aren't,My friends は複数なので短縮形は aren't。,be動詞,習った
+The students ( ) ready.,isn't,aren't,aren't,The students は複数なので短縮形は aren't。,be動詞,習った
+The boys ( ) ready.,isn't,aren't,aren't,The boys は複数なので短縮形は aren't。,be動詞,習った
+The girls ( ) ready.,isn't,aren't,aren't,The girls は複数なので短縮形は aren't。,be動詞,習った
+These ( ) ready.,isn't,aren't,aren't,These は複数なので are。複数なので短縮形は aren't。,be動詞,習った
+Those ( ) ready.,isn't,aren't,aren't,Those は複数なので are。複数なので短縮形は aren't。,be動詞,習った
+They ( ) ready.,isn't,aren't,aren't,They は複数なので are。複数なので短縮形は aren't。,be動詞,習った
+My books ( ) ready.,isn't,aren't,aren't,My books は複数なので are。複数なので短縮形は aren't。,be動詞,習った
+The cats ( ) ready.,isn't,aren't,aren't,The cats は複数なので are。複数なので短縮形は aren't。,be動詞,習った
+The dogs ( ) ready.,isn't,aren't,aren't,The dogs は複数なので are。複数なので短縮形は aren't。,be動詞,習った
+You ( ) tired.,aren't,isn't,aren't,主語が you の否定文は are not。短縮形は aren't。,be動詞,習った
+You ( ) happy.,aren't,isn't,aren't,主語が you の否定文は are not。短縮形は aren't。,be動詞,習った
+You ( ) from Osaka.,aren't,isn't,aren't,主語が you の否定文は are not。短縮形は aren't。,be動詞,習った
+You ( ) in the club.,aren't,isn't,aren't,主語が you の否定文は are not。短縮形は aren't。,be動詞,習った
+You ( ) a baseball fan.,aren't,isn't,aren't,主語が you の否定文は are not。短縮形は aren't。,be動詞,習った
+( ) he happy?,Is,Are,Is,彼は単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) she happy?,Is,Are,Is,彼女は単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) Tom happy?,Is,Are,Is,Tom は単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) Mary happy?,Is,Are,Is,Mary は単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) My brother happy?,Is,Are,Is,My brother は単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) My sister happy?,Is,Are,Is,My sister は単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) My father happy?,Is,Are,Is,My father は単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) My mother happy?,Is,Are,Is,My mother は単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) The boy happy?,Is,Are,Is,The boy は単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) The girl happy?,Is,Are,Is,The girl は単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) Mr. Brown happy?,Is,Are,Is,Mr. Brown は単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) Ms. Green happy?,Is,Are,Is,Ms. Green は単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) This happy?,Is,Are,Is,This は単数なので is。単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) That happy?,Is,Are,Is,That は単数なので is。単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) it happy?,Is,Are,Is,It は単数なので is。単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) My bag happy?,Is,Are,Is,My bag は単数なので is。単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) The book happy?,Is,Are,Is,The book は単数なので is。単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) The cat happy?,Is,Are,Is,The cat は単数なので is。単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) The dog happy?,Is,Are,Is,The dog は単数なので is。単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) His bike happy?,Is,Are,Is,His bike は単数なので is。単数の be 動詞の疑問文は Is で始める。,be動詞,習った
+( ) we happy?,Is,Are,Are,We は複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) they happy?,Is,Are,Are,They は複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) Tom and Ken happy?,Is,Are,Are,Tom and Ken は複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) Mary and Yuki happy?,Is,Are,Are,Mary and Yuki は複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) My friends happy?,Is,Are,Are,My friends は複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) The students happy?,Is,Are,Are,The students は複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) The boys happy?,Is,Are,Are,The boys は複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) The girls happy?,Is,Are,Are,The girls は複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) My parents happy?,Is,Are,Are,My parents は複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) These students happy?,Is,Are,Are,These students は複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) Those boys happy?,Is,Are,Are,Those boys は複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) The teachers happy?,Is,Are,Are,The teachers は複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) These happy?,Is,Are,Are,These は複数なので are。複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) Those happy?,Is,Are,Are,Those は複数なので are。複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) they happy?,Is,Are,Are,They は複数なので are。複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) My books happy?,Is,Are,Are,My books は複数なので are。複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) The cats happy?,Is,Are,Are,The cats は複数なので are。複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) The dogs happy?,Is,Are,Are,The dogs は複数なので are。複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) His bikes happy?,Is,Are,Are,His bikes は複数なので are。複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) Her pencils happy?,Is,Are,Are,Her pencils は複数なので are。複数の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) you busy?,Are,Is,Are,主語が you の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) you a student?,Are,Is,Are,主語が you の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) you from Osaka?,Are,Is,Are,主語が you の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) you ready?,Are,Is,Are,主語が you の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) you in the classroom?,Are,Is,Are,主語が you の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) you good at English?,Are,Is,Are,主語が you の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) you on the team?,Are,Is,Are,主語が you の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) you happy?,Are,Is,Are,主語が you の be 動詞の疑問文は Are で始める。,be動詞,習った
+( ) I late?,Am,Are,Am,主語が I の be 動詞の疑問文は Am で始める。,be動詞,習った
+( ) I right?,Am,Are,Am,主語が I の be 動詞の疑問文は Am で始める。,be動詞,習った
+( ) I your friend?,Am,Are,Am,主語が I の be 動詞の疑問文は Am で始める。,be動詞,習った
+( ) I in the right room?,Am,Are,Am,主語が I の be 動詞の疑問文は Am で始める。,be動詞,習った
+( ) I on time?,Am,Are,Am,主語が I の be 動詞の疑問文は Am で始める。,be動詞,習った
+( ) He from Japan?,Is,Do,Is,from Japan は be 動詞を使う文なので Is で始める。,be動詞,習った
+( ) She from Japan?,Is,Do,Is,from Japan は be 動詞を使う文なので Is で始める。,be動詞,習った
+( ) Tom from Japan?,Is,Do,Is,from Japan は be 動詞を使う文なので Is で始める。,be動詞,習った
+( ) Mary from Japan?,Is,Do,Is,from Japan は be 動詞を使う文なので Is で始める。,be動詞,習った
+( ) My brother from Japan?,Is,Do,Is,from Japan は be 動詞を使う文なので Is で始める。,be動詞,習った
+( ) My sister from Japan?,Is,Do,Is,from Japan は be 動詞を使う文なので Is で始める。,be動詞,習った
+( ) My father from Japan?,Is,Do,Is,from Japan は be 動詞を使う文なので Is で始める。,be動詞,習った
+( ) My mother from Japan?,Is,Do,Is,from Japan は be 動詞を使う文なので Is で始める。,be動詞,習った
+( ) This from Japan?,Is,Do,Is,from Japan は be 動詞を使う文なので Is で始める。,be動詞,習った
+( ) That from Japan?,Is,Do,Is,from Japan は be 動詞を使う文なので Is で始める。,be動詞,習った
+( ) It from Japan?,Is,Do,Is,from Japan は be 動詞を使う文なので Is で始める。,be動詞,習った
+( ) My bag from Japan?,Is,Do,Is,from Japan は be 動詞を使う文なので Is で始める。,be動詞,習った
+( ) We from Japan?,Are,Do,Are,from Japan は be 動詞を使う文なので Are で始める。,be動詞,習った
+( ) They from Japan?,Are,Do,Are,from Japan は be 動詞を使う文なので Are で始める。,be動詞,習った
+( ) Tom and Ken from Japan?,Are,Do,Are,from Japan は be 動詞を使う文なので Are で始める。,be動詞,習った
+( ) Mary and Yuki from Japan?,Are,Do,Are,from Japan は be 動詞を使う文なので Are で始める。,be動詞,習った
+( ) My friends from Japan?,Are,Do,Are,from Japan は be 動詞を使う文なので Are で始める。,be動詞,習った
+( ) The students from Japan?,Are,Do,Are,from Japan は be 動詞を使う文なので Are で始める。,be動詞,習った
+( ) The boys from Japan?,Are,Do,Are,from Japan は be 動詞を使う文なので Are で始める。,be動詞,習った
+( ) The girls from Japan?,Are,Do,Are,from Japan は be 動詞を使う文なので Are で始める。,be動詞,習った
+( ) These from Japan?,Are,Do,Are,from Japan は be 動詞を使う文なので Are で始める。,be動詞,習った
+( ) Those from Japan?,Are,Do,Are,from Japan は be 動詞を使う文なので Are で始める。,be動詞,習った
+( ) They from Japan?,Are,Do,Are,from Japan は be 動詞を使う文なので Are で始める。,be動詞,習った
+( ) My books from Japan?,Are,Do,Are,from Japan は be 動詞を使う文なので Are で始める。,be動詞,習った
+( ) you from China?,Are,Do,Are,be 動詞を使う文なので Do ではなく Are で始める。,be動詞,習った
+( ) you in the tennis club?,Are,Do,Are,be 動詞を使う文なので Do ではなく Are で始める。,be動詞,習った
+( ) you a student?,Are,Do,Are,be 動詞を使う文なので Do ではなく Are で始める。,be動詞,習った
+( ) you busy?,Are,Do,Are,be 動詞を使う文なので Do ではなく Are で始める。,be動詞,習った
+( ) you ready?,Are,Do,Are,be 動詞を使う文なので Do ではなく Are で始める。,be動詞,習った
+"Is he a student? Yes, he ( ).",is,are,is,"Is で聞かれた単数の答えは Yes, he/she/it is。",be動詞,習った
+"Is he busy? No, he ( ).",isn't,aren't,isn't,"Is で聞かれた単数の否定の答えは No, he/she/it isn't。",be動詞,習った
+"Is she a student? Yes, she ( ).",is,are,is,"Is で聞かれた単数の答えは Yes, he/she/it is。",be動詞,習った
+"Is she busy? No, she ( ).",isn't,aren't,isn't,"Is で聞かれた単数の否定の答えは No, he/she/it isn't。",be動詞,習った
+"Is Tom a student? Yes, he ( ).",is,are,is,"Is で聞かれた単数の答えは Yes, he/she/it is。",be動詞,習った
+"Is Tom busy? No, he ( ).",isn't,aren't,isn't,"Is で聞かれた単数の否定の答えは No, he/she/it isn't。",be動詞,習った
+"Is Mary a student? Yes, she ( ).",is,are,is,"Is で聞かれた単数の答えは Yes, he/she/it is。",be動詞,習った
+"Is Mary busy? No, she ( ).",isn't,aren't,isn't,"Is で聞かれた単数の否定の答えは No, he/she/it isn't。",be動詞,習った
+"Is it a student? Yes, it ( ).",is,are,is,"Is で聞かれた単数の答えは Yes, he/she/it is。",be動詞,習った
+"Is it busy? No, it ( ).",isn't,aren't,isn't,"Is で聞かれた単数の否定の答えは No, he/she/it isn't。",be動詞,習った
+"Is this book a student? Yes, it ( ).",is,are,is,"Is で聞かれた単数の答えは Yes, he/she/it is。",be動詞,習った
+"Is this book busy? No, it ( ).",isn't,aren't,isn't,"Is で聞かれた単数の否定の答えは No, he/she/it isn't。",be動詞,習った
+"Are they ready? Yes, they ( ).",are,is,are,"Are で聞かれた複数の答えは Yes, they/we are。",be動詞,習った
+"Are they tired? No, they ( ).",aren't,isn't,aren't,"Are で聞かれた複数の否定の答えは No, they/we aren't。",be動詞,習った
+"Are we ready? Yes, we ( ).",are,is,are,"Are で聞かれた複数の答えは Yes, they/we are。",be動詞,習った
+"Are we tired? No, we ( ).",aren't,isn't,aren't,"Are で聞かれた複数の否定の答えは No, they/we aren't。",be動詞,習った
+"Are Tom and Ken ready? Yes, they ( ).",are,is,are,"Are で聞かれた複数の答えは Yes, they/we are。",be動詞,習った
+"Are Tom and Ken tired? No, they ( ).",aren't,isn't,aren't,"Are で聞かれた複数の否定の答えは No, they/we aren't。",be動詞,習った
+"Are the students ready? Yes, they ( ).",are,is,are,"Are で聞かれた複数の答えは Yes, they/we are。",be動詞,習った
+"Are the students tired? No, they ( ).",aren't,isn't,aren't,"Are で聞かれた複数の否定の答えは No, they/we aren't。",be動詞,習った
+"Are these books ready? Yes, they ( ).",are,is,are,"Are で聞かれた複数の答えは Yes, they/we are。",be動詞,習った
+"Are these books tired? No, they ( ).",aren't,isn't,aren't,"Are で聞かれた複数の否定の答えは No, they/we aren't。",be動詞,習った
+"Are the dogs ready? Yes, they ( ).",are,is,are,"Are で聞かれた複数の答えは Yes, they/we are。",be動詞,習った
+"Are the dogs tired? No, they ( ).",aren't,isn't,aren't,"Are で聞かれた複数の否定の答えは No, they/we aren't。",be動詞,習った
+"Are you busy? Yes, I ( ).",am,are,am,"Are you ...? への自分の答えは Yes, I am。",be動詞,習った
+"Are you busy? No, I ( ).",am not,are not,am not,"Are you ...? への自分の否定の答えは No, I am not。",be動詞,習った
+"Are you ready? Yes, I ( ).",am,are,am,"Are you ...? への自分の答えは Yes, I am。",be動詞,習った
+"Are you ready? No, I ( ).",am not,are not,am not,"Are you ...? への自分の否定の答えは No, I am not。",be動詞,習った
+"Are you from Osaka? Yes, I ( ).",am,are,am,"Are you ...? への自分の答えは Yes, I am。",be動詞,習った
+"Are you from Osaka? No, I ( ).",am not,are not,am not,"Are you ...? への自分の否定の答えは No, I am not。",be動詞,習った
+"Are you a student? Yes, I ( ).",am,are,am,"Are you ...? への自分の答えは Yes, I am。",be動詞,習った
+"Are you a student? No, I ( ).",am not,are not,am not,"Are you ...? への自分の否定の答えは No, I am not。",be動詞,習った
+"Are you happy? Yes, I ( ).",am,are,am,"Are you ...? への自分の答えは Yes, I am。",be動詞,習った
+"Are you happy? No, I ( ).",am not,are not,am not,"Are you ...? への自分の否定の答えは No, I am not。",be動詞,習った
+He ( ) in the first grade.,is,does,is,学年や状態を表す文は be 動詞を使う。単数なので is。,be動詞,習った
+She ( ) in the first grade.,is,does,is,学年や状態を表す文は be 動詞を使う。単数なので is。,be動詞,習った
+Tom ( ) in the first grade.,is,does,is,学年や状態を表す文は be 動詞を使う。単数なので is。,be動詞,習った
+Mary ( ) in the first grade.,is,does,is,学年や状態を表す文は be 動詞を使う。単数なので is。,be動詞,習った
+My brother ( ) in the first grade.,is,does,is,学年や状態を表す文は be 動詞を使う。単数なので is。,be動詞,習った
+My sister ( ) in the first grade.,is,does,is,学年や状態を表す文は be 動詞を使う。単数なので is。,be動詞,習った
+My father ( ) in the first grade.,is,does,is,学年や状態を表す文は be 動詞を使う。単数なので is。,be動詞,習った
+My mother ( ) in the first grade.,is,does,is,学年や状態を表す文は be 動詞を使う。単数なので is。,be動詞,習った
+The boy ( ) in the first grade.,is,does,is,学年や状態を表す文は be 動詞を使う。単数なので is。,be動詞,習った
+The girl ( ) in the first grade.,is,does,is,学年や状態を表す文は be 動詞を使う。単数なので is。,be動詞,習った
+We ( ) in the first grade.,are,do,are,学年や状態を表す文は be 動詞を使う。複数なので are。,be動詞,習った
+They ( ) in the first grade.,are,do,are,学年や状態を表す文は be 動詞を使う。複数なので are。,be動詞,習った
+Tom and Ken ( ) in the first grade.,are,do,are,学年や状態を表す文は be 動詞を使う。複数なので are。,be動詞,習った
+Mary and Yuki ( ) in the first grade.,are,do,are,学年や状態を表す文は be 動詞を使う。複数なので are。,be動詞,習った
+My friends ( ) in the first grade.,are,do,are,学年や状態を表す文は be 動詞を使う。複数なので are。,be動詞,習った
+The students ( ) in the first grade.,are,do,are,学年や状態を表す文は be 動詞を使う。複数なので are。,be動詞,習った
+The boys ( ) in the first grade.,are,do,are,学年や状態を表す文は be 動詞を使う。複数なので are。,be動詞,習った
+The girls ( ) in the first grade.,are,do,are,学年や状態を表す文は be 動詞を使う。複数なので are。,be動詞,習った
+My parents ( ) in the first grade.,are,do,are,学年や状態を表す文は be 動詞を使う。複数なので are。,be動詞,習った
+These students ( ) in the first grade.,are,do,are,学年や状態を表す文は be 動詞を使う。複数なので are。,be動詞,習った
+He ( ) not in the classroom.,is,does,is,not の前には be 動詞が入る。単数なので is。,be動詞,習った
+She ( ) not in the classroom.,is,does,is,not の前には be 動詞が入る。単数なので is。,be動詞,習った
+Tom ( ) not in the classroom.,is,does,is,not の前には be 動詞が入る。単数なので is。,be動詞,習った
+Mary ( ) not in the classroom.,is,does,is,not の前には be 動詞が入る。単数なので is。,be動詞,習った
+My brother ( ) not in the classroom.,is,does,is,not の前には be 動詞が入る。単数なので is。,be動詞,習った
+My sister ( ) not in the classroom.,is,does,is,not の前には be 動詞が入る。単数なので is。,be動詞,習った
+My father ( ) not in the classroom.,is,does,is,not の前には be 動詞が入る。単数なので is。,be動詞,習った
+My mother ( ) not in the classroom.,is,does,is,not の前には be 動詞が入る。単数なので is。,be動詞,習った
+This ( ) not in the classroom.,is,does,is,not の前には be 動詞が入る。単数なので is。,be動詞,習った
+That ( ) not in the classroom.,is,does,is,not の前には be 動詞が入る。単数なので is。,be動詞,習った
+It ( ) not in the classroom.,is,does,is,not の前には be 動詞が入る。単数なので is。,be動詞,習った
+My bag ( ) not in the classroom.,is,does,is,not の前には be 動詞が入る。単数なので is。,be動詞,習った
+We ( ) not in the classroom.,are,do,are,not の前には be 動詞が入る。複数なので are。,be動詞,習った
+They ( ) not in the classroom.,are,do,are,not の前には be 動詞が入る。複数なので are。,be動詞,習った
+Tom and Ken ( ) not in the classroom.,are,do,are,not の前には be 動詞が入る。複数なので are。,be動詞,習った
+Mary and Yuki ( ) not in the classroom.,are,do,are,not の前には be 動詞が入る。複数なので are。,be動詞,習った
+My friends ( ) not in the classroom.,are,do,are,not の前には be 動詞が入る。複数なので are。,be動詞,習った
+The students ( ) not in the classroom.,are,do,are,not の前には be 動詞が入る。複数なので are。,be動詞,習った
+The boys ( ) not in the classroom.,are,do,are,not の前には be 動詞が入る。複数なので are。,be動詞,習った
+The girls ( ) not in the classroom.,are,do,are,not の前には be 動詞が入る。複数なので are。,be動詞,習った
+These ( ) not in the classroom.,are,do,are,not の前には be 動詞が入る。複数なので are。,be動詞,習った
+Those ( ) not in the classroom.,are,do,are,not の前には be 動詞が入る。複数なので are。,be動詞,習った
+They ( ) not in the classroom.,are,do,are,not の前には be 動詞が入る。複数なので are。,be動詞,習った
+My books ( ) not in the classroom.,are,do,are,not の前には be 動詞が入る。複数なので are。,be動詞,習った
+There ( ) a book on the desk.,is,are,is,There is/are の後ろが単数なので is。,be動詞,習った
+There ( ) a pen on the desk.,is,are,is,There is/are の後ろが単数なので is。,be動詞,習った
+There ( ) a cat on the desk.,is,are,is,There is/are の後ろが単数なので is。,be動詞,習った
+There ( ) one student on the desk.,is,are,is,There is/are の後ろが単数なので is。,be動詞,習った
+There ( ) a ball on the desk.,is,are,is,There is/are の後ろが単数なので is。,be動詞,習った
+There ( ) an apple on the desk.,is,are,is,There is/are の後ろが単数なので is。,be動詞,習った
+There ( ) a desk on the desk.,is,are,is,There is/are の後ろが単数なので is。,be動詞,習った
+There ( ) a picture on the desk.,is,are,is,There is/are の後ろが単数なので is。,be動詞,習った
+There ( ) a bike on the desk.,is,are,is,There is/are の後ろが単数なので is。,be動詞,習った
+There ( ) a notebook on the desk.,is,are,is,There is/are の後ろが単数なので is。,be動詞,習った
+There ( ) two books in the room.,is,are,are,There is/are の後ろが複数なので are。,be動詞,習った
+There ( ) three pens in the room.,is,are,are,There is/are の後ろが複数なので are。,be動詞,習った
+There ( ) many students in the room.,is,are,are,There is/are の後ろが複数なので are。,be動詞,習った
+There ( ) some cats in the room.,is,are,are,There is/are の後ろが複数なので are。,be動詞,習った
+There ( ) five balls in the room.,is,are,are,There is/are の後ろが複数なので are。,be動詞,習った
+There ( ) three apples in the room.,is,are,are,There is/are の後ろが複数なので are。,be動詞,習った
+There ( ) two desks in the room.,is,are,are,There is/are の後ろが複数なので are。,be動詞,習った
+There ( ) many pictures in the room.,is,are,are,There is/are の後ろが複数なので are。,be動詞,習った
+There ( ) some bikes in the room.,is,are,are,There is/are の後ろが複数なので are。,be動詞,習った
+There ( ) four notebooks in the room.,is,are,are,There is/are の後ろが複数なので are。,be動詞,習った
+( ) there a book on the table?,Is,Are,Is,There is/are の疑問文で後ろが単数なので Is。,be動詞,習った
+( ) there a pen on the table?,Is,Are,Is,There is/are の疑問文で後ろが単数なので Is。,be動詞,習った
+( ) there a student on the table?,Is,Are,Is,There is/are の疑問文で後ろが単数なので Is。,be動詞,習った
+( ) there an apple on the table?,Is,Are,Is,There is/are の疑問文で後ろが単数なので Is。,be動詞,習った
+( ) there a bike on the table?,Is,Are,Is,There is/are の疑問文で後ろが単数なので Is。,be動詞,習った
+( ) there two books on the table?,Is,Are,Are,There is/are の疑問文で後ろが複数なので Are。,be動詞,習った
+( ) there three pens on the table?,Is,Are,Are,There is/are の疑問文で後ろが複数なので Are。,be動詞,習った
+( ) there many students on the table?,Is,Are,Are,There is/are の疑問文で後ろが複数なので Are。,be動詞,習った
+( ) there some apples on the table?,Is,Are,Are,There is/are の疑問文で後ろが複数なので Are。,be動詞,習った
+( ) there two bikes on the table?,Is,Are,Are,There is/are の疑問文で後ろが複数なので Are。,be動詞,習った
