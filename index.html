@@ -6,10 +6,17 @@
 <title>豊中市立 第十七中学校 ｜ 英語</title>
 <style>
   :root{
-    --bg:#E7EEE3; --card:#FCFEFB; --ink:#243027; --sub:#5E6B60;
-    --line:#D5DECF; --brand:#3F7D5A; --brand-d:#2F6346; --deep:#21452F;
-    --cream:#F4F8EF; --gold:#E2B23C;
-    --shadow:0 4px 16px rgba(36,48,39,.10), 0 1px 3px rgba(36,48,39,.05);
+    /* ベース：さわやかな水色 */
+    --bg:#E9F4F9; --card:#FFFFFF; --ink:#1E3B49; --sub:#5C7682;
+    --line:#D3E6EE; --cream:#FFFFFF;
+    --brand:#2E8FC0; --brand-d:#1F6FA8; --gold:#F4C84A;
+
+    /* メニューのアクセント（水色系で統一） */
+    --aqua:#16A6A0;  --aqua-bg:#DCF1F0;   /* 英単語：アクアグリーン */
+    --ocean:#2E80C2; --ocean-bg:#DCEBF7;  /* 文法：オーシャンブルー */
+    --sky:#2BB0D6;   --sky-bg:#D9F0F8;    /* 夏休み：スカイシアン */
+
+    --shadow:0 4px 16px rgba(30,59,73,.10), 0 1px 3px rgba(30,59,73,.05);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0}
@@ -21,43 +28,44 @@
   }
   .wrap{width:100%; max-width:640px}
 
-  /* ===== HERO ===== */
+  /* ===== HERO（さわやかな水色グラデーション）===== */
   .hero{
     position:relative; overflow:hidden; border-radius:26px;
-    background:linear-gradient(155deg,#3A6E4C 0%,#2A5638 55%,#21452F 100%);
-    color:var(--cream); padding:40px 30px 34px; box-shadow:var(--shadow);
+    background:linear-gradient(150deg,#56C2E6 0%,#37A1D2 48%,#2480BA 100%);
+    color:#FFFFFF; padding:40px 30px 34px; box-shadow:var(--shadow);
   }
   .hero .watermark{
     position:absolute; right:-26px; bottom:-46px; font-size:15rem; font-weight:900;
-    line-height:1; color:rgba(255,255,255,.07); letter-spacing:-.04em; pointer-events:none;
+    line-height:1; color:rgba(255,255,255,.12); letter-spacing:-.04em; pointer-events:none;
   }
-  .crest{
-    display:flex; align-items:center; gap:14px; margin-bottom:22px;
-  }
+  .crest{display:flex; align-items:center; gap:14px; margin-bottom:22px}
   .crest .badge{
     width:64px; height:64px; flex:0 0 auto; border-radius:50%;
-    background:var(--cream); color:var(--deep);
+    background:var(--cream); color:var(--brand-d);
     display:flex; align-items:center; justify-content:center;
     font-weight:900; font-size:1.7rem; letter-spacing:-.04em;
-    box-shadow:0 0 0 4px rgba(226,178,60,.45);
+    box-shadow:0 0 0 4px rgba(244,200,74,.55);
   }
-  .crest .pref{font-size:.86rem; opacity:.85; letter-spacing:.18em; margin-bottom:2px}
-  .crest .eng{font-size:.8rem; opacity:.7; letter-spacing:.32em}
+  .crest .pref{font-size:.86rem; opacity:.92; letter-spacing:.18em; margin-bottom:2px}
+  .crest .eng{font-size:.8rem; opacity:.78; letter-spacing:.32em}
   .schoolname{
     font-size:clamp(2.1rem,9vw,3.2rem); font-weight:900; letter-spacing:.02em;
-    line-height:1.1; margin:0 0 4px; position:relative;
+    line-height:1.1; margin:0 0 4px; text-shadow:0 2px 10px rgba(15,50,70,.30);
   }
   .dept{
     display:inline-block; font-size:.82rem; letter-spacing:.28em; font-weight:700;
-    color:var(--deep); background:var(--gold); padding:4px 14px; border-radius:99px;
+    color:#1F6FA8; background:var(--gold); padding:4px 14px; border-radius:99px;
     margin-bottom:24px;
   }
-  .message{position:relative}
   .message .lead{
-    font-size:clamp(1.35rem,5.6vw,1.85rem); font-weight:800; line-height:1.4; margin:0 0 10px;
+    font-size:clamp(1.35rem,5.6vw,1.85rem); font-weight:800; line-height:1.4;
+    margin:0 0 10px; text-shadow:0 2px 10px rgba(15,50,70,.30);
   }
-  .message .lead .hl{color:var(--gold)}
-  .message .desc{font-size:.95rem; opacity:.9; margin:0; line-height:1.7}
+  .message .lead .hl{color:#FFE08A}
+  .message .desc{
+    font-size:.95rem; opacity:.95; margin:0; line-height:1.7;
+    text-shadow:0 1px 6px rgba(15,50,70,.26);
+  }
 
   /* ===== MENU ===== */
   .secttl{
@@ -68,19 +76,26 @@
   .menu{display:flex; flex-direction:column; gap:15px}
   a.card{
     display:flex; align-items:center; gap:16px; text-decoration:none;
-    background:var(--card); border:1px solid var(--line); border-radius:20px;
+    background:var(--card); border:1px solid var(--line);
+    border-left:6px solid var(--ac, var(--line)); border-radius:20px;
     box-shadow:var(--shadow); padding:22px 24px; color:var(--ink);
     transition:transform .06s, box-shadow .15s;
   }
   a.card:active{transform:scale(.99)}
-  a.card:hover{box-shadow:0 8px 22px rgba(36,48,39,.14)}
+  a.card:hover{box-shadow:0 8px 22px rgba(30,59,73,.14)}
   .icon{flex:0 0 auto; width:56px; height:56px; border-radius:16px;
-    background:#E7F0E9; color:var(--brand-d); display:flex; align-items:center;
-    justify-content:center; font-size:1.6rem; font-weight:900}
+    background:var(--ac-bg,#E3EEF3); color:var(--ac,#5C7682);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.6rem; font-weight:900}
   .txt{flex:1}
   .txt .t{font-size:1.16rem; font-weight:800; margin-bottom:3px}
   .txt .d{font-size:.85rem; color:var(--sub)}
-  .arrow{flex:0 0 auto; color:var(--brand); font-size:1.4rem; font-weight:800}
+  .arrow{flex:0 0 auto; color:var(--ac,var(--brand)); font-size:1.4rem; font-weight:800}
+
+  /* 各メニューの水色系カラー */
+  .card.aqua{--ac:var(--aqua);   --ac-bg:var(--aqua-bg)}
+  .card.ocean{--ac:var(--ocean); --ac-bg:var(--ocean-bg)}
+  .card.sky{--ac:var(--sky);     --ac-bg:var(--sky-bg)}
 
   footer{margin:30px 0 6px; text-align:center; color:var(--sub); font-size:.82rem; line-height:1.8}
   footer .motto{color:var(--brand-d); font-weight:700; font-size:.92rem}
@@ -112,7 +127,7 @@
   <!-- MENU -->
   <div class="secttl">学習メニュー</div>
   <div class="menu">
-    <a class="card" href="index2.html">
+    <a class="card aqua" href="index2.html">
       <span class="icon">A</span>
       <span class="txt">
         <span class="t">がんばれ英単語検定</span>
@@ -121,11 +136,20 @@
       <span class="arrow">→</span>
     </a>
 
-    <a class="card" href="index3.html">
+    <a class="card ocean" href="index3.html">
       <span class="icon">G</span>
       <span class="txt">
         <span class="t">すらすら解ける文法力をめざして</span>
         <span class="d">二択で文法をたしかめ、自信をつける</span>
+      </span>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="card sky" href="natsushuku.html">
+      <span class="icon">夏</span>
+      <span class="txt">
+        <span class="t">夏休みの宿題</span>
+        <span class="d">休みの間も、コツコツ前へ進もう</span>
       </span>
       <span class="arrow">→</span>
     </a>
