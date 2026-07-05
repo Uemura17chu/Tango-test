@@ -102,7 +102,7 @@
 単語の意味,4択,kiwi,キウイ,バナナ,スイカ,レモン,キウイ,
 単語の意味,4択,Thursday,木曜日,水曜日,月曜日,金曜日,木曜日,
 単語の意味,4択,bookstore,本屋,神社,駅,図書館,本屋,
-単語の意味,4択,guitar,ギター,フルート,ドラム,ピアノ,ギター,
+単語の意味,4択,recorder,リコーダー,ギター,ピアノ,ドラム,リコーダー,
 単語の意味,4択,pizza,ピザ,サラダ,ジャム,クッキー,ピザ,
 単語の意味,4択,cake,ケーキ,ピザ,クッキー,ジャム,ケーキ,
 単語の意味,4択,bitter,苦い,とてもおいしい,すっぱい,甘い,苦い,
@@ -576,13 +576,13 @@
 文法,二択,They ( ) students.,is,are,,,are,複数の主語なので are。
 文法,二択,You ( ) Japanese.,study,studies,,,study,主語が You なので s はつけない。
 文法,二択,They ( ) Japanese.,study,studies,,,study,主語が They なので s はつけない。
-文法,二択,This is ( ) bag.（あなたの）,your,you,,,your,「あなたの」は your。
+文法,二択,This is ( ) notebook.（あなたの）,your,you,,,your,「あなたの」は your。
 文法,二択,You ( ) music.,like,likes,,,like,主語が You なので s はつけない。
 文法,二択,I ( ) a banana.,want,wants,,,want,主語が I なので s はつけない。
 文法,二択,We ( ) a dog.,have,has,,,have,主語が We なので s はつけない。
 文法,二択,We ( ) comics.,read,reads,,,read,主語が We なので s はつけない。
 文法,二択,I ( ) books.,read,reads,,,read,主語が I なので s はつけない。
-文法,二択,This is ( ) bag.（あなたの）,your,my,,,your,「あなたの」は your。
+文法,二択,This is ( ) dog.（あなたの）,your,my,,,your,「あなたの」は your。
 文法,二択,( ) you like tennis?,Do,Are,,,Do,一般動詞の疑問文は Do。
 文法,二択,This is ( ) bike.（私の）,my,your,,,my,「私の」は my。
 文法,二択,You ( ) science.,like,likes,,,like,主語が You なので s はつけない。
@@ -867,7 +867,7 @@
 英文えらび,4択,彼らはウマが好きです。,They like horses.,They likes horses.,They are like horses.,They like horse.,They like horses.,
 英文えらび,4択,彼らは鳥が好きです。,They like birds.,They likes birds.,They are like birds.,They like bird.,They like birds.,
 英文えらび,4択,彼らはサッカーが好きです。,They like soccer.,They likes soccer.,They are like soccer.,They like a soccer.,They like soccer.,
-英文えらび,4択,たけしとくみははテニスが好きです。,Takashi and Kumi like tennis.,Takashi and Kumi  likes tennis.,Takashi and Kumi are like tennis.,Takashi and Kumi like a tennis.,Takashi and Kumi liking tennis.,
+英文えらび,4択,たけしとくみははテニスが好きです。,Takashi and Kumi like tennis.,Takashi and Kumi  likes tennis.,Takashi and Kumi are like tennis.,Takashi and Kumi like a tennis.,Takashi and Kumi like tennis.,
 英文えらび,4択,彼らは野球が好きです。,They like baseball.,They likes baseball.,They are like baseball.,They like a baseball.,They like baseball.,
 英文えらび,4択,彼らは音楽が好きです。,They like music.,They likes music.,They are like music.,They like a music.,They like music.,
 英文えらび,4択,彼らは美術が好きです。,They like art.,They likes art.,They are like art.,They like an art.,They like art.,
