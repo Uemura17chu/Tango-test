@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>1年生 夏休みの宿題</title>
+<style>
+  :root{
+    --aqua:#46b6d6; --aqua-d:#2b8fad; --aqua-l:#e6f6fb;
+    --ink:#16323c; --sub:#5a7782; --line:#cfe6ee;
+    --gold:#f2b705; --gold-d:#c98a00; --good:#1aa86b; --bad:#e85a4f;
+    --card:#ffffff;
+    --font:"UD デジタル教科書体 NK-R","UD Digi Kyokasho NK-R","UDデジタル教科書体 NK-R",
+           "Hiragino Maru Gothic ProN","ヒラギノ丸ゴ ProN W4","Yu Gothic UI",sans-serif;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--font); color:var(--ink);
+    background:
+      radial-gradient(1200px 400px at 50% -120px,#bfeaf6 0%,rgba(191,234,246,0) 70%),
+      linear-gradient(180deg,#eaf8fc 0%,#f4fbfd 40%,#f4fbfd 100%);
+    min-height:100vh; line-height:1.6; -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:680px; margin:0 auto; padding:18px 16px 40px;}
+  .hide{display:none !important;}
+
+  .top{display:flex; align-items:center; gap:10px; margin-bottom:14px;}
+  .emblem{
+    width:46px; height:46px; border-radius:50%; flex:0 0 auto;
+    background:radial-gradient(circle at 35% 30%,#6fd0ea,var(--aqua-d));
+    color:#fff; display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:20px; box-shadow:0 4px 0 var(--aqua-d),0 6px 14px rgba(43,143,173,.35);
+    border:3px solid #fff;
+  }
+  .top h1{font-size:19px; margin:0; letter-spacing:.02em;}
+  .top .sub{font-size:12px; color:var(--sub); margin-top:1px;}
+
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:18px;
+    padding:20px 18px; box-shadow:0 8px 22px rgba(43,143,173,.10); margin-bottom:14px;
+  }
+  h2{font-size:18px; margin:0 0 6px;}
+  .lead{color:var(--sub); font-size:14px; margin:0 0 14px;}
+
+  .num-input{
+    width:100%; font-size:30px; letter-spacing:.35em; text-align:center;
+    padding:14px 10px; border:2px solid var(--line); border-radius:14px;
+    font-family:var(--font); color:var(--ink); background:#fff; outline:none;
+  }
+  .num-input:focus{border-color:var(--aqua);}
+  .hint{font-size:13px; color:var(--sub); text-align:center; margin-top:8px; min-height:18px;}
+
+  .btn{
+    display:block; width:100%; border:none; border-radius:14px; cursor:pointer;
+    font-family:var(--font); font-size:18px; font-weight:800; padding:15px; color:#fff;
+    background:linear-gradient(180deg,#56c2e0,var(--aqua-d)); box-shadow:0 4px 0 var(--aqua-d);
+    transition:transform .05s,box-shadow .05s;
+  }
+  .btn:active{transform:translateY(3px); box-shadow:0 1px 0 var(--aqua-d);}
+  .btn.ghost{background:#fff; color:var(--aqua-d); border:2px solid var(--aqua); box-shadow:0 4px 0 var(--line);}
+  .btn.ghost:active{box-shadow:0 1px 0 var(--line);}
+  .btn.gold{background:linear-gradient(180deg,#ffd24a,var(--gold-d)); box-shadow:0 4px 0 var(--gold-d); color:#5a3d00;}
+  .btn.gold:active{box-shadow:0 1px 0 var(--gold-d);}
+  .btn.report{background:linear-gradient(180deg,#ff8fab,#d6447a); box-shadow:0 4px 0 #b23566; color:#fff;}
+  .btn.report:active{box-shadow:0 1px 0 #b23566;}
+  .btn.sm{font-size:15px; padding:11px;}
+  .btn-row{display:flex; gap:10px;} .btn-row>.btn{flex:1;}
+
+  .who{font-size:13px; color:var(--sub); text-align:center; margin-bottom:12px;}
+  .who b{color:var(--aqua-d); font-size:15px;}
+  .part{
+    display:flex; align-items:center; gap:14px; width:100%; text-align:left;
+    background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:14px; margin-bottom:12px; cursor:pointer;
+    box-shadow:0 5px 14px rgba(43,143,173,.08); transition:transform .05s;
+  }
+  .part:active{transform:scale(.99);}
+  .part .pic{width:50px;height:50px;flex:0 0 auto;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;background:var(--aqua-l);}
+  .part .body{flex:1; min-width:0;}
+  .part .name{font-weight:800; font-size:16px;}
+  .part .desc{font-size:12px; color:var(--sub);}
+  .part .go{flex:0 0 auto; color:var(--aqua-d); font-weight:800; font-size:20px;}
+
+  .note{font-size:13px; color:var(--sub); background:var(--aqua-l); border-radius:12px; padding:12px 14px; margin-top:4px;}
+
+  .qbar{display:flex; align-items:center; justify-content:space-between; font-size:13px; color:var(--sub); margin-bottom:10px;}
+  .prog{height:8px; background:#e7f1f4; border-radius:999px; overflow:hidden; margin-bottom:16px;}
+  .prog>i{display:block; height:100%; background:linear-gradient(90deg,#7fd6ee,var(--aqua-d)); width:0; transition:width .3s;}
+  .qtype{display:inline-block; font-size:12px; font-weight:800; color:var(--aqua-d); background:var(--aqua-l); padding:3px 10px; border-radius:999px; margin-bottom:10px;}
+  .qtext{font-size:22px; font-weight:700; line-height:1.5; margin:6px 0 18px; min-height:40px;}
+  .qtext u{text-decoration:none; border-bottom:3px solid var(--aqua); padding:0 18px;}
+  .choices{display:flex; flex-direction:column; gap:12px;}
+  .choice{width:100%; text-align:center; font-family:var(--font); font-size:20px; font-weight:700; padding:16px; border-radius:14px; border:2px solid var(--line); background:#fff; color:var(--ink); cursor:pointer; transition:transform .05s;}
+  .choice:active{transform:scale(.99);}
+  .choice.correct{border-color:var(--good); background:#e7f8f0; color:var(--good);}
+  .choice.wrong{border-color:var(--bad); background:#fdeceb; color:var(--bad);}
+  .type-in{width:100%; font-size:26px; text-align:center; padding:14px; border:2px solid var(--line); border-radius:14px; font-family:var(--font); outline:none;}
+  .type-in:focus{border-color:var(--aqua);}
+
+  .fb{margin-top:16px; border-radius:14px; padding:14px; font-size:15px; display:none;}
+  .fb.show{display:block;}
+  .fb.ok{background:#e7f8f0; color:#0f7a4d; border:1px solid #b8e8d2;}
+  .fb.ng{background:#fdeceb; color:#b23a30; border:1px solid #f6c9c5;}
+  .fb .praise{font-weight:800; font-size:17px;}
+  .fb .ans{margin-top:4px;} .fb .ans b{font-size:18px;}
+  .fb .exp{margin-top:4px; color:var(--ink);}
+
+  .result-emoji{font-size:54px; text-align:center;}
+  .score-big{font-size:40px; font-weight:800; text-align:center; color:var(--aqua-d);}
+  .review{margin-top:14px;}
+  .ritem{border:1px solid var(--line); border-radius:12px; padding:10px 12px; margin-bottom:8px; font-size:14px;}
+  .ritem .rq{font-weight:700;} .ritem .ra{color:var(--good); margin-top:2px;}
+
+  /* 合格（煌びやか） */
+  .pass-stage{position:relative; border-radius:22px; padding:30px 20px 26px; text-align:center; overflow:hidden;
+    background:linear-gradient(135deg,#1b2a4a 0%,#2e2552 45%,#4a2d63 100%); box-shadow:0 12px 34px rgba(20,20,40,.35); color:#fff;}
+  .pass-stage::before{content:""; position:absolute; inset:-40% -40%; z-index:0;
+    background:conic-gradient(from 0deg,transparent 0 18%,rgba(255,210,80,.22) 22%,transparent 30% 100%); animation:spin 9s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .pass-inner{position:relative; z-index:2;}
+  .trophy{font-size:60px; filter:drop-shadow(0 4px 10px rgba(0,0,0,.35)); animation:pop .6s ease both;}
+  @keyframes pop{0%{transform:scale(.2);opacity:0;}70%{transform:scale(1.15);}100%{transform:scale(1);opacity:1;}}
+  .pass-title{font-size:30px; font-weight:900; letter-spacing:.08em; margin:6px 0 2px;
+    background:linear-gradient(180deg,#fff6cf,#ffd24a 55%,#e89b00); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; text-shadow:0 2px 12px rgba(255,200,60,.35);}
+  .pass-sub{font-size:14px; color:#e7defb; margin-bottom:16px;}
+  .pass-label{font-size:13px; color:#d9cffb; letter-spacing:.18em; margin-bottom:4px;}
+  .pass-num{font-size:44px; font-weight:900; letter-spacing:.1em; line-height:1.1; color:#1c1530;
+    background:linear-gradient(180deg,#fff7d6,#ffcf3f 60%,#f0a800); border-radius:16px; padding:14px 8px; margin:0 auto 6px; max-width:340px;
+    box-shadow:0 6px 0 #c98a00,0 10px 24px rgba(240,168,0,.4); animation:shine 2.4s ease-in-out infinite; word-break:break-all;}
+  @keyframes shine{0%,100%{filter:brightness(1);}50%{filter:brightness(1.12);}}
+  .pass-foot{font-size:13px; color:#efe9ff; margin-top:10px;}
+  .copied{font-size:13px; color:#9be15d; text-align:center; min-height:18px; margin-top:6px;}
+  .star{position:absolute; z-index:1; color:#ffe27a; animation:tw 1.6s ease-in-out infinite;}
+  @keyframes tw{0%,100%{opacity:.2;transform:scale(.7);}50%{opacity:1;transform:scale(1.1);}}
+  canvas#confetti{position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:50;}
+
+  /* 継続パス（チェックポイント） */
+  .cont-stage{position:relative; border-radius:22px; padding:26px 20px; text-align:center; overflow:hidden;
+    background:linear-gradient(135deg,#10707f 0%,#1f8f8a 60%,#2b8fad 100%); box-shadow:0 10px 28px rgba(16,80,90,.30); color:#fff;}
+  .cont-emoji{font-size:48px;}
+  .cont-title{font-size:24px; font-weight:900; margin:4px 0 2px; color:#fff;}
+  .cont-sub{font-size:14px; color:#d6f5f2; margin-bottom:14px;}
+  .cont-label{font-size:13px; color:#d6f5f2; letter-spacing:.16em;}
+  .cont-num{font-size:38px; font-weight:900; letter-spacing:.08em; color:#0d3b40;
+    background:linear-gradient(180deg,#eafff6,#bdeede); border-radius:14px; padding:12px 8px; margin:4px auto 6px; max-width:320px;
+    box-shadow:0 5px 0 #0f6f6a; word-break:break-all;}
+  .cont-foot{font-size:13px; color:#eafffb; margin-top:8px;}
+
+  .complete-strip{margin-top:14px; text-align:center; font-weight:800; color:var(--gold-d);
+    background:linear-gradient(180deg,#fff6d6,#ffe9a8); border:1px solid #f4d979; border-radius:14px; padding:12px;}
+
+  @media (prefers-reduced-motion: reduce){.pass-stage::before,.pass-num,.trophy,.star{animation:none !important;}}
+  @media (max-width:380px){.qtext{font-size:20px;} .pass-num{font-size:34px;} .cont-num{font-size:30px;}}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div class="wrap">
+
+  <div class="top">
+    <div class="emblem">17</div>
+    <div><h1>1年生 夏休みの宿題</h1><div class="sub">英語科 ／ 第十七中学校</div></div>
+  </div>
+
+  <!-- ① ゲート -->
+  <section id="gate" class="card">
+    <h2>はじめに</h2>
+    <p class="lead">自分の<b>出席番号（4けた）</b>を入れてスタート。<br>5つのパートがあり、各パート<b>200問</b>。<b>50問ずつ</b>すすめ、50・100・150問クリアで<b>継続パス</b>、200問クリアで<b>合格パス</b>が出ます（９割以上で合格）。</p>
+    <input id="sid" class="num-input" inputmode="numeric" maxlength="4" placeholder="____" autocomplete="off">
+    <div id="gateHint" class="hint">例）1年3組7番 → <b>1307</b>（千＝学年・百＝組・下2けた＝番号）</div>
+    <button id="startBtn" class="btn" style="margin-top:8px;">スタート</button>
+  </section>
+
+  <!-- ② メニュー -->
+  <section id="menu" class="hide">
+    <div class="who">きみの番号：<b id="whoNum">----</b> <span id="whoWho" style="color:var(--sub);font-weight:400"></span><span id="whoLoad"></span></div>
+    <div id="parts"></div>
+    <div class="note">各パートをえらぶと「最初から」か「継続パスで途中から」を選べます。継続パスを使えば、完全に最初からする必要はないので、継続パスが出たら<b>かならずメモ／スクショ</b>して途中からするために保存しておこう。</div>
+    <button id="changeId" class="btn ghost sm" style="margin-top:12px;">出席番号を入れ直す</button>
+  </section>
+
+  <!-- ③ 開始の選択 -->
+  <section id="startchoice" class="card hide">
+    <h2 id="scTitle">パート</h2>
+    <p class="lead" id="scLead">どこから始める？</p>
+    <button id="scBegin" class="btn">最初から（1問目）</button>
+    <div style="margin-top:14px;">
+      <div class="lead" style="margin-bottom:6px;">継続パスで途中から：</div>
+      <input id="scPass" class="num-input" inputmode="numeric" placeholder="継続パス番号" autocomplete="off" style="font-size:24px; letter-spacing:.1em;">
+      <div id="scHint" class="hint"></div>
+      <button id="scContinue" class="btn ghost" style="margin-top:8px;">このパスで続きから</button>
+    </div>
+    <button id="scBack" class="btn ghost sm" style="margin-top:14px;">メニューにもどる</button>
+  </section>
+
+  <!-- ④ クイズ -->
+  <section id="quiz" class="card hide">
+    <div class="qbar"><span id="qPart"></span><span id="qCount"></span></div>
+    <div class="prog"><i id="qBar"></i></div>
+    <div id="qType" class="qtype"></div>
+    <div id="qText" class="qtext"></div>
+    <div id="qArea"></div>
+    <div id="fb" class="fb"></div>
+    <button id="nextBtn" class="btn hide" style="margin-top:16px;">つぎへ</button>
+    <button id="quitBtn" class="btn ghost sm" style="margin-top:10px;">中断してメニューへ</button>
+  </section>
+
+  <!-- ⑤ 不合格／練習 -->
+  <section id="fail" class="card hide">
+    <div id="failEmoji" class="result-emoji">💪</div>
+    <h2 id="failTitle" style="text-align:center;">もう少し！</h2>
+    <div class="score-big"><span id="failScore"></span></div>
+    <p id="failLead" class="lead" style="text-align:center;">この50問を９割以上とるとクリアです。</p>
+    <div id="failReview" class="review"></div>
+    <div class="btn-row" style="margin-top:14px;">
+      <button id="retryAll" class="btn">この50問をやり直す</button>
+      <button id="retryWrong" class="btn ghost">まちがいを練習</button>
+    </div>
+    <p class="lead" style="text-align:center;font-size:13px;margin:10px 0 0;">継続パス・合格パスは「やり直す」でこの50問を<b>９割以上</b>とると出ます。練習では出ません。</p>
+    <button id="failMenu" class="btn ghost sm" style="margin-top:10px;">メニューにもどる</button>
+  </section>
+
+  <!-- ⑥ 継続パス -->
+  <section id="cont" class="card hide" style="padding:14px;">
+    <div class="cont-stage">
+      <div class="cont-emoji">🔑</div>
+      <div class="cont-title">チェックポイント通過！</div>
+      <div class="cont-sub" id="contSub"></div>
+      <div class="cont-label">継続パス番号</div>
+      <div class="cont-num" id="contNum">0</div>
+      <button id="contCopy" class="btn gold sm" style="max-width:240px;margin:6px auto 0;">番号をコピー</button>
+      <div class="copied" id="contCopied" style="color:#eafffb;"></div>
+      <div class="cont-foot">明日はこの番号を入れて<b>続きから</b>。<br>かならずメモ／スクショしてね。</div>
+    </div>
+    <button id="contNext" class="btn" style="margin-top:14px;">つづけて次の50問</button>
+    <button id="contMenu" class="btn ghost" style="margin-top:10px;">きょうはここまで（メニューへ）</button>
+  </section>
+
+  <!-- ⑦ 合格 -->
+  <section id="pass" class="card hide" style="padding:14px;">
+    <div class="pass-stage">
+      <span class="star" style="top:14px;left:18px;font-size:18px;">✦</span>
+      <span class="star" style="top:30px;right:24px;font-size:22px;animation-delay:.4s;">✦</span>
+      <span class="star" style="bottom:60px;left:30px;font-size:14px;animation-delay:.8s;">✦</span>
+      <span class="star" style="bottom:30px;right:30px;font-size:18px;animation-delay:.2s;">✦</span>
+      <div class="pass-inner">
+        <div class="trophy">🏆</div>
+        <div class="pass-title">ご う か く！</div>
+        <div class="pass-sub" id="passPartName"></div>
+        <div class="pass-label">合格パス番号</div>
+        <div class="pass-num" id="passNum">0</div>
+        <button id="copyPass" class="btn gold sm" style="max-width:240px;margin:8px auto 0;">番号をコピー</button>
+        <div class="copied" id="copied"></div>
+        <button id="reportBtn" class="btn report sm" style="max-width:280px;margin:12px auto 0;">先生に合格を報告</button>
+        <div class="pass-foot">①番号をコピー → ②「先生に合格を報告」でフォームズに記入</div>
+      </div>
+    </div>
+    <button id="passMenu" class="btn" style="margin-top:14px;">メニューにもどる</button>
+  </section>
+
+  <p style="text-align:center;color:#9ab4bd;font-size:11px;margin-top:18px;">第十七中学校 英語科</p>
+</div>
+
+<script>
+/* ============================================================
+   設定（先生がここを変えられます）
+   ============================================================ */
+const REPORT_FORM_URLS = {   // ← 各パートのフォームズ(Forms)URLをここに貼ると、そのパートの「先生に合格を報告」ボタンが飛びます
+  "文法":       "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=XAOYFsFhPEKzm9cxCnYU2k8mXNtKdMdCvBv4jfAeObRURU0yRUxTTllPSFRIQlQwREhWU0E3RlgyOS4u",
+  "単語の意味": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=XAOYFsFhPEKzm9cxCnYU2k8mXNtKdMdCvBv4jfAeObRUNFJPUk9LNU1GTlQyQThaTjg3SDMxWkxZOS4u",
+  "スペリング": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=XAOYFsFhPEKzm9cxCnYU2k8mXNtKdMdCvBv4jfAeObRUOEROTllNSlExM00wMlUwRkFRWUVDWFdWQS4u",
+  "文の訳":     "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=XAOYFsFhPEKzm9cxCnYU2k8mXNtKdMdCvBv4jfAeObRUQllIRk1OSE81VFBZRERSR0xDVzMzVlFTWC4u",
+  "英文えらび": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=XAOYFsFhPEKzm9cxCnYU2k8mXNtKdMdCvBv4jfAeObRUNjA5QTNLTjZSWDFaWjdDSFpUOTVOTkNWNC4u",
+};
+
+const PARTS = [
+  { id:"文法",       icon:"📝", desc:"二択で文法を選ぶ",     mult:197 },
+  { id:"単語の意味", icon:"📖", desc:"単語の正しい意味を選ぶ", mult:211 },
+  { id:"スペリング", icon:"⌨️", desc:"単語のスペルを入力する", mult:233 },
+  { id:"文の訳",     icon:"🔤", desc:"文の正しい訳を選ぶ",     mult:257 },
+  { id:"英文えらび", icon:"✅", desc:"正しい英文を選ぶ",       mult:271 },
+];
+const PASS_RATE = 0.90;   // 合格に必要な正答率（0.9 = 9わり）
+const BLOCK_SIZE = 50;    // 1ブロックの問題数（継続パスはこの区切りで出ます。動作テスト時は 5 などに下げると確認しやすい）
+const PART_TOTAL = 200;   // メニューに表示する各パートの総問題数
+
+const QLABEL = {
+  "文法":"ただしい方をえらぼう", "単語の意味":"ただしい意味をえらぼう",
+  "スペリング":"スペルを入力しよう", "文の訳":"ただしい訳をえらぼう", "英文えらび":"ただしい英文をえらぼう",
+};
+
+/* ============================================================
+   サンプル問題（homework.csv が無いときに使用）
+   列: パート,種類,問題文,選択肢1,選択肢2,選択肢3,選択肢4,正解,解説
+   種類: 二択 / 4択 / スペリング
+   ============================================================ */
+let BANK = [
+ ["文法","二択","I ( ) Ken.","am","are","","","am","主語が I のとき be 動詞は am。"],
+ ["文法","二択","You ( ) kind.","am","are","","","are","主語が you のとき be 動詞は are。"],
+ ["文法","二択","( ) you a student?","Are","Do","","","Are","be 動詞の疑問文は Are。"],
+ ["文法","二択","She ( ) tennis.","play","plays","","","plays","三単現の s。"],
+ ["文法","二択","He ( ) music.","like","likes","","","likes","三単現の s。"],
+ ["単語の意味","4択","apple","りんご","みかん","ぶどう","バナナ","りんご",""],
+ ["単語の意味","4択","school","学校","病院","駅","公園","学校",""],
+ ["単語の意味","4択","run","走る","歩く","泳ぐ","とぶ","走る",""],
+ ["単語の意味","4択","happy","うれしい","かなしい","ねむい","いそがしい","うれしい",""],
+ ["単語の意味","4択","eat","食べる","飲む","ねる","起きる","食べる",""],
+ ["スペリング","スペリング","「ねこ」を英語で","","","","","cat",""],
+ ["スペリング","スペリング","「いぬ」を英語で","","","","","dog",""],
+ ["スペリング","スペリング","「学校」を英語で","","","","","school",""],
+ ["スペリング","スペリング","「月曜日」を英語で","","","","","Monday","曜日は大文字。"],
+ ["スペリング","スペリング","「水」を英語で","","","","","water",""],
+ ["文の訳","4択","I am a student.","私は学生です","私は先生です","あなたは学生です","私は学生でした","私は学生です",""],
+ ["文の訳","4択","She likes music.","彼女は音楽が好きです","彼は音楽が好きです","彼女は音楽をひく","彼女は音楽が好きでした","彼女は音楽が好きです",""],
+ ["文の訳","4択","Do you play tennis?","あなたはテニスをしますか","あなたはテニスが好きですか","あなたはテニスを見ますか","あなたはテニスをしましたか","あなたはテニスをしますか",""],
+ ["文の訳","4択","He has a dog.","彼は犬を飼っています","彼は犬が好きです","彼は犬になりたい","彼らは犬を飼っています","彼は犬を飼っています",""],
+ ["文の訳","4択","This is my bag.","これは私のかばんです","あれは私のかばんです","これは私のぼうしです","これはあなたのかばんです","これは私のかばんです",""],
+ ["英文えらび","4択","私は毎日サッカーをします。","I play soccer every day.","I plays soccer every day.","I am soccer every day.","I playing soccer every day.","I play soccer every day.",""],
+ ["英文えらび","4択","彼女はピアノをひきます。","She plays the piano.","She play the piano.","She is play the piano.","She playing the piano.","She plays the piano.",""],
+ ["英文えらび","4択","これは私のかばんです。","This is my bag.","This are my bag.","This am my bag.","This my bag is.","This is my bag.",""],
+ ["英文えらび","4択","あなたは犬が好きですか。","Do you like dogs?","Are you like dogs?","Do you likes dogs?","You do like dogs?","Do you like dogs?",""],
+ ["英文えらび","4択","私は学生ではありません。","I am not a student.","I are not a student.","I do not a student.","I not am a student.","I am not a student.",""],
+];
+
+/* ============================================================
+   しくみ（ふつうは編集不要）
+   ============================================================ */
+const $=id=>document.getElementById(id);
+const PRAISE=["いいね！","すばらしい！","その調子！","正解！","やったね！","かんぺき！","ナイス！"];
+
+let SID="", sidNum=0;
+let curPart=null, curMult=0, partQs=[], total=0;
+let blockStart=0, blockEnd=0, queue=[], idx=0, score=0, wrongList=[], practiceMode=false;
+
+function parseCSV(t){
+  const rows=[]; let row=[],cell="",q=false;
+  for(let i=0;i<t.length;i++){const c=t[i];
+    if(q){ if(c==='"'){ if(t[i+1]==='"'){cell+='"';i++;} else q=false; } else cell+=c; }
+    else{ if(c==='"')q=true; else if(c===','){row.push(cell);cell="";}
+      else if(c==='\n'){row.push(cell);rows.push(row);row=[];cell="";}
+      else if(c==='\r'){} else cell+=c; } }
+  if(cell!==""||row.length){row.push(cell);rows.push(row);}
+  return rows;
+}
+function esc(s){return String(s).replace(/[<>&]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]));}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;}
+function partOf(id){return PARTS.find(p=>p.id===id);}
+function milestones(){ const m=[]; for(let k=BLOCK_SIZE;k<total;k+=BLOCK_SIZE)m.push(k); return m; } // 継続できる区切り
+
+/* 出席番号：1101〜3740（千=学年1-3 / 百=組1-7 / 下2けた=番号01-40） */
+function validSid(v){
+  if(!/^\d{4}$/.test(v)) return false;
+  const g=+v[0], c=+v[1], n=+v.slice(2);
+  return g>=1 && g<=3 && c>=1 && c<=7 && n>=1 && n<=40;
+}
+function decodeSid(v){ return (+v[0])+"年"+(+v[1])+"組"+(+v.slice(2))+"番"; }
+
+/* ===== ゲート ===== */
+$("sid").addEventListener("input",e=>{ e.target.value=e.target.value.replace(/[^0-9]/g,"").slice(0,4); });
+$("startBtn").onclick=()=>{
+  const v=$("sid").value;
+  if(!validSid(v)){
+    $("gateHint").textContent="出席番号は 1101〜3740（千=学年1〜3・百=組1〜7・下2けた=番号01〜40）";
+    $("gateHint").style.color="var(--bad)"; return;
+  }
+  SID=v; sidNum=Number(v);
+  $("whoNum").textContent=SID; $("whoWho").textContent="（"+decodeSid(v)+"）";
+  show("menu"); buildMenu();
+};
+$("sid").addEventListener("keydown",e=>{ if(e.key==="Enter")$("startBtn").click(); });
+$("changeId").onclick=()=>{ $("sid").value=SID; show("gate"); $("gateHint").style.color="var(--sub)"; };
+
+/* ===== メニュー ===== */
+function buildMenu(){
+  const box=$("parts"); box.innerHTML="";
+  PARTS.forEach(p=>{
+    const n=BANK.filter(r=>r[0]===p.id).length;
+    const el=document.createElement("button"); el.className="part";
+    el.innerHTML='<div class="pic">'+p.icon+'</div>'+
+      '<div class="body"><div class="name">'+esc(p.id)+'</div><div class="desc">'+esc(p.desc)+'（全'+PART_TOTAL+'問・50問ずつ）</div></div>'+
+      '<div class="go">›</div>';
+    el.onclick=()=>openPart(p.id);
+    box.appendChild(el);
+  });
+}
+
+/* ===== 開始の選択 ===== */
+function openPart(id){
+  curPart=id; curMult=partOf(id).mult;
+  partQs=BANK.filter(r=>r[0]===id); total=partQs.length;
+  if(!total){ alert("このパートの問題がまだありません。"); return; }
+  $("scTitle").textContent=id+"パート";
+  $("scLead").textContent="全"+total+"問。どこから始める？";
+  $("scPass").value=""; $("scHint").textContent=""; $("scHint").style.color="var(--sub)";
+  show("startchoice");
+}
+$("scBegin").onclick=()=>{ blockStart=0; startBlock(); };
+$("scContinue").onclick=()=>{
+  const code=Number(($("scPass").value||"").replace(/[^0-9]/g,""));
+  if(!code){ scErr("継続パス番号を入れてね"); return; }
+  const m=code - sidNum*curMult;
+  if(milestones().includes(m)){ blockStart=m; startBlock(); }
+  else if(m===total){ scErr("それは合格パスです。このパートはもう終わりです"); }
+  else{ scErr("このパスでは続きから始められません（番号・出席番号・パートを確認）"); }
+};
+function scErr(msg){ $("scHint").textContent=msg; $("scHint").style.color="var(--bad)"; }
+$("scPass").addEventListener("keydown",e=>{ if(e.key==="Enter")$("scContinue").click(); });
+$("scBack").onclick=()=>{ show("menu"); };
+
+/* ===== ブロック開始 ===== */
+function startBlock(){
+  blockEnd=Math.min(blockStart+BLOCK_SIZE,total);
+  queue=shuffle(partQs.slice(blockStart,blockEnd));
+  idx=0; score=0; wrongList=[]; practiceMode=false;
+  show("quiz"); render();
+}
+
+function render(){
+  const q=queue[idx];
+  $("qPart").textContent=curPart+"（"+(blockStart+1)+"〜"+blockEnd+"問目）";
+  $("qCount").textContent=(idx+1)+" / "+queue.length;
+  $("qBar").style.width=(idx/queue.length*100)+"%";
+  $("qType").textContent=QLABEL[curPart]||q[1];
+  $("fb").className="fb"; $("fb").innerHTML=""; $("nextBtn").classList.add("hide");
+  const area=$("qArea"); area.innerHTML="";
+  const kind=q[1];
+
+  if(kind==="スペリング"){
+    $("qText").innerHTML=esc(q[2]);
+    const inp=document.createElement("input");
+    inp.className="type-in"; inp.placeholder="ここに英語で入力"; inp.autocomplete="off"; inp.autocapitalize="off"; inp.spellcheck=false;
+    area.appendChild(inp);
+    const btn=document.createElement("button"); btn.className="btn"; btn.style.marginTop="14px"; btn.textContent="こたえ合わせ";
+    btn.onclick=()=>checkSpell(inp.value,q,btn,inp);
+    area.appendChild(btn);
+    inp.addEventListener("keydown",e=>{ if(e.key==="Enter")btn.click(); });
+    setTimeout(()=>inp.focus(),100);
+  } else {
+    $("qText").innerHTML=esc(q[2]).replace(/\(\s*\)/g,'<u>　　</u>');
+    const opts = kind==="4択" ? [q[3],q[4],q[5],q[6]].filter(x=>x!=="") : [q[3],q[4]];
+    const wrap=document.createElement("div"); wrap.className="choices";
+    shuffle(opts).forEach(opt=>{
+      const b=document.createElement("button"); b.className="choice"; b.textContent=opt;
+      b.onclick=()=>checkChoice(b,opt,q,wrap); wrap.appendChild(b);
+    });
+    area.appendChild(wrap);
+  }
+}
+function checkChoice(btn,picked,q,wrap){
+  [...wrap.children].forEach(b=>b.disabled=true);
+  if(picked===q[7]){ btn.classList.add("correct"); score++; feedback(true,q); }
+  else{ btn.classList.add("wrong"); [...wrap.children].forEach(b=>{ if(b.textContent===q[7])b.classList.add("correct"); }); wrongList.push(q); feedback(false,q); }
+  $("nextBtn").classList.remove("hide");
+}
+function checkSpell(val,q,btn,inp){
+  const ok=val.trim().toLowerCase()===q[7].trim().toLowerCase();
+  inp.disabled=true; btn.disabled=true;
+  if(ok){ score++; feedback(true,q); } else { wrongList.push(q); feedback(false,q); }
+  $("nextBtn").classList.remove("hide");
+}
+function feedback(ok,q){
+  const fb=$("fb");
+  if(ok){ fb.className="fb ok show"; fb.innerHTML='<div class="praise">'+PRAISE[Math.random()*PRAISE.length|0]+'</div>'+(q[8]?'<div class="exp">'+esc(q[8])+'</div>':''); }
+  else{ fb.className="fb ng show"; fb.innerHTML='<div class="ans">こたえは <b>'+esc(q[7])+'</b></div>'+(q[8]?'<div class="exp">'+esc(q[8])+'</div>':''); }
+}
+$("nextBtn").onclick=()=>{ idx++; if(idx<queue.length)render(); else finishBlock(); };
+$("quitBtn").onclick=()=>{ practiceMode=false; show("menu"); };
+
+/* ===== ブロック採点 ===== */
+function renderReview(){
+  const rv=$("failReview"); rv.innerHTML="";
+  if(!wrongList.length) return;
+  const h=document.createElement("div"); h.style.cssText="font-size:13px;color:var(--sub);margin-bottom:6px;"; h.textContent="まちがえた問題"; rv.appendChild(h);
+  wrongList.forEach(q=>{
+    const d=document.createElement("div"); d.className="ritem";
+    const stem=q[1]==="スペリング"?esc(q[2]):esc(q[2]).replace(/\(\s*\)/g,"（　）");
+    d.innerHTML='<div class="rq">'+stem+'</div><div class="ra">こたえ：'+esc(q[7])+'</div>'; rv.appendChild(d);
+  });
+}
+function finishBlock(){
+  $("qBar").style.width="100%";
+  if(practiceMode){
+    practiceMode=false;
+    $("failEmoji").textContent="🌱"; $("failTitle").textContent="れんしゅう おつかれさま！";
+    $("failScore").textContent=""; $("failLead").textContent="パスをもらうには「この50問をやり直す」で、ぜんぶ解こう。";
+    renderReview(); show("fail"); return;
+  }
+  const rate=queue.length?score/queue.length:0;
+  if(rate>=PASS_RATE){
+    if(blockEnd>=total){ const pass=sidNum*curMult+total; showPass(curPart,pass); }   // 最終ブロック→合格
+    else{ const code=sidNum*curMult+blockEnd; showCont(blockEnd,code); }               // 途中→継続パス
+  } else {
+    $("failEmoji").textContent="💪"; $("failTitle").textContent="もう少し！";
+    $("failScore").textContent=score+" / "+queue.length+" 問正解";
+    $("failLead").textContent="この50問を９割以上とるとクリアです。";
+    renderReview(); show("fail");
+  }
+}
+$("retryAll").onclick=()=>startBlock();
+$("retryWrong").onclick=()=>{
+  if(!wrongList.length){ startBlock(); return; }
+  practiceMode=true; queue=shuffle([...wrongList]); idx=0; score=0; wrongList=[]; show("quiz"); render();
+};
+$("failMenu").onclick=()=>{ show("menu"); };
+
+/* ===== 継続パス ===== */
+function showCont(done,code){
+  $("contSub").textContent=curPart+"パート ／ "+done+"問クリア！";
+  $("contNum").textContent=code; $("contCopied").textContent="";
+  show("cont");
+}
+$("contCopy").onclick=()=>copyNum($("contNum").textContent,$("contCopied"));
+$("contNext").onclick=()=>{ blockStart=blockEnd; startBlock(); };
+$("contMenu").onclick=()=>{ show("menu"); };
+
+/* ===== 合格 ===== */
+function showPass(id,pass){
+  $("passPartName").textContent=id+"パート 200問 ぜんぶ合格！";
+  $("passNum").textContent=pass; $("copied").textContent="";
+  show("pass"); launchConfetti();
+}
+$("copyPass").onclick=()=>copyNum($("passNum").textContent,$("copied"));
+$("reportBtn").onclick=()=>{
+  const url=REPORT_FORM_URLS[curPart]||"";
+  if(url && /^https?:\/\//.test(url)){ window.open(url,"_blank","noopener"); }
+  else{ alert("このパートの報告フォームURLがまだ設定されていません。先生が設定します。"); }
+};
+$("passMenu").onclick=()=>{ show("menu"); };
+
+function copyNum(n,el){
+  const done=()=>{ el.textContent="コピーしました ✓"; };
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(n).then(done).catch(()=>fallbackCopy(n,el,done)); }
+  else fallbackCopy(n,el,done);
+}
+function fallbackCopy(text,el,cb){
+  const ta=document.createElement("textarea"); ta.value=text; ta.style.position="fixed"; ta.style.opacity="0";
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand("copy"); cb(); }catch(e){ el.textContent="長押しでコピーしてね"; }
+  document.body.removeChild(ta);
+}
+
+/* ===== 紙吹雪 ===== */
+let confTimer=null;
+function launchConfetti(){
+  if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const cv=$("confetti"), ctx=cv.getContext("2d"); const dpr=Math.min(window.devicePixelRatio||1,2);
+  cv.width=innerWidth*dpr; cv.height=innerHeight*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+  const colors=["#ffd24a","#ff8fab","#7fd6ee","#9be15d","#c490ff","#fff3c4"]; const P=[];
+  for(let i=0;i<140;i++)P.push({x:Math.random()*innerWidth,y:-20-Math.random()*innerHeight*0.5,r:5+Math.random()*7,c:colors[i%colors.length],vx:(Math.random()-0.5)*2,vy:2+Math.random()*3.5,rot:Math.random()*6.28,vr:(Math.random()-0.5)*0.3});
+  let frames=0; if(confTimer)cancelAnimationFrame(confTimer);
+  (function frame(){ ctx.clearRect(0,0,innerWidth,innerHeight); frames++;
+    P.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.vy+=0.02; p.rot+=p.vr; ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle=p.c; ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*0.6); ctx.restore(); });
+    if(frames<260)confTimer=requestAnimationFrame(frame); else ctx.clearRect(0,0,innerWidth,innerHeight);
+  })();
+}
+
+/* ===== 画面切替 ===== */
+function show(id){ ["gate","menu","startchoice","quiz","fail","cont","pass"].forEach(s=>$(s).classList.toggle("hide",s!==id)); window.scrollTo(0,0); }
+
+/* ===== homework.csv 自動読み込み ===== */
+fetch("homework.csv",{cache:"no-store"})
+  .then(r=>{ if(!r.ok)throw 0; return r.text(); })
+  .then(t=>{ t=t.replace(/^\uFEFF/,"");
+    let rows=parseCSV(t).filter(x=>x.length>=8 && (x[0]||"").trim()!=="");
+    if(rows[0] && /パート|part/i.test(rows[0][0])) rows=rows.slice(1);
+    const data=rows.map(x=>[x[0].trim(),x[1].trim(),x[2],x[3]||"",x[4]||"",x[5]||"",x[6]||"",x[7]||"",x[8]||""]);
+    if(data.length){ BANK=data; if($("whoLoad")) $("whoLoad").innerHTML=' ／ <span style="color:var(--good)">問題 '+data.length+'問</span>'; }
+  })
+  .catch(()=>{});
+</script>
+</body>
+</html>
