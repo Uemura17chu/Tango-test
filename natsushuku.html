@@ -166,7 +166,7 @@
   <!-- ① ゲート -->
   <section id="gate" class="card">
     <h2>はじめに</h2>
-    <p class="lead">自分の<b>出席番号（4けた）</b>を入れてスタート。<br>5つのパートがあり、各パート<b>200問</b>。<b>50問ずつ</b>すすめ、50・100・150問クリアで<b>継続パス</b>、200問クリアで<b>合格パス</b>が出ます（9.5わり以上で合格）。</p>
+    <p class="lead">自分の<b>出席番号（4けた）</b>を入れてスタート。<br>5つのパートがあり、各パート<b>200問</b>。<b>50問ずつ</b>すすめ、50・100・150問クリアで<b>継続パス</b>、200問クリアで<b>合格パス</b>が出ます（９割以上で合格）。</p>
     <input id="sid" class="num-input" inputmode="numeric" maxlength="4" placeholder="____" autocomplete="off">
     <div id="gateHint" class="hint">例）1年8組7番 → <b>1807</b>（千＝学年・百＝組・下2けた＝番号）</div>
     <button id="startBtn" class="btn" style="margin-top:8px;">スタート</button>
@@ -203,7 +203,9 @@
     <div id="qArea"></div>
     <div id="fb" class="fb"></div>
     <button id="nextBtn" class="btn hide" style="margin-top:16px;">つぎへ</button>
-    <button id="quitBtn" class="btn ghost sm" style="margin-top:10px;">中断してメニューへ</button>
+    <div style="margin-top:44px; padding-top:14px; border-top:1px dashed var(--line); text-align:center;">
+      <button id="quitBtn" class="btn ghost sm" style="max-width:200px; margin:0 auto; font-size:13px; padding:9px; opacity:.85;">中断してメニューへ</button>
+    </div>
   </section>
 
   <!-- ⑤ 不合格／練習 -->
@@ -211,13 +213,13 @@
     <div id="failEmoji" class="result-emoji">💪</div>
     <h2 id="failTitle" style="text-align:center;">もう少し！</h2>
     <div class="score-big"><span id="failScore"></span></div>
-    <p id="failLead" class="lead" style="text-align:center;">この50問を9.5わり以上とるとクリアです。</p>
+    <p id="failLead" class="lead" style="text-align:center;">この50問を９割以上とるとクリアです。</p>
     <div id="failReview" class="review"></div>
     <div class="btn-row" style="margin-top:14px;">
       <button id="retryAll" class="btn">この50問をやり直す</button>
       <button id="retryWrong" class="btn ghost">まちがいを練習</button>
     </div>
-    <p class="lead" style="text-align:center;font-size:13px;margin:10px 0 0;">継続パス・合格パスは「やり直す」でこの50問を<b>9.5わり以上</b>とると出ます。練習では出ません。</p>
+    <p class="lead" style="text-align:center;font-size:13px;margin:10px 0 0;">継続パス・合格パスは「やり直す」でこの50問を<b>９割以上</b>とると出ます。練習では出ません。</p>
     <button id="failMenu" class="btn ghost sm" style="margin-top:10px;">メニューにもどる</button>
   </section>
 
@@ -281,7 +283,7 @@ const PARTS = [
   { id:"文の訳",     icon:"🔤", desc:"文の正しい訳を選ぶ",     mult:257 },
   { id:"英文えらび", icon:"✅", desc:"正しい英文を選ぶ",       mult:271 },
 ];
-const PASS_RATE = 0.95;   // 合格に必要な正答率（0.95 = 9.5わり）
+const PASS_RATE = 0.8999;   // 9わり以上で合格（0.9ちょうどの誤差対策で0.8999）
 const BLOCK_SIZE = 50;    // 1ブロックの問題数（継続パスはこの区切りで出ます。動作テスト時は 5 などに下げると確認しやすい）
 const PART_TOTAL = 200;   // メニューに表示する各パートの総問題数
 
@@ -465,7 +467,10 @@ function feedback(ok,q){
   else{ fb.className="fb ng show"; fb.innerHTML='<div class="ans">こたえは <b>'+esc(q[7])+'</b></div>'+(q[8]?'<div class="exp">'+esc(q[8])+'</div>':''); }
 }
 $("nextBtn").onclick=()=>{ idx++; if(idx<queue.length)render(); else finishBlock(); };
-$("quitBtn").onclick=()=>{ practiceMode=false; show("menu"); };
+$("quitBtn").onclick=()=>{
+  if(!confirm("中断してメニューにもどりますか？\nいまの50問のとちゅうの記録は消えます。")) return;
+  practiceMode=false; show("menu");
+};
 
 /* ===== ブロック採点 ===== */
 function renderReview(){
@@ -493,7 +498,7 @@ function finishBlock(){
   } else {
     $("failEmoji").textContent="💪"; $("failTitle").textContent="もう少し！";
     $("failScore").textContent=score+" / "+queue.length+" 問正解";
-    $("failLead").textContent="この50問を9.5わり以上とるとクリアです。";
+    $("failLead").textContent="この50問を９割以上とるとクリアです。";
     renderReview(); show("fail");
   }
 }
