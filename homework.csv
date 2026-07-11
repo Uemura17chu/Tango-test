@@ -409,7 +409,7 @@
 文法,二択,I ( ) water.,need,needs,,,need,主語が I なので s はつけない。
 文法,二択,This is ( ) book.（あなたの）,your,you,,,your,「あなたの」は your。
 文法,二択,I ( ) science.,like,likes,,,like,主語が I なので s はつけない。
-文法,二択,My teacher ( ) my friend.,is,are,,,is,主語が単数なので is。
+文法,二択,My teacher ( ) my friend's father.,is,are,,,is,主語が単数なので is。
 文法,二択,This is ( ) cat.（私の）,my,we,,,my,「私の」は my。
 文法,二択,( ) you have a dog?,Do,Are,,,Do,一般動詞の疑問文は Do。
 文法,二択,We ( ) a bike.,have,has,,,have,主語が We なので s はつけない。
@@ -429,7 +429,7 @@
 文法,二択,They ( ) baseball.,play,plays,,,play,主語が They なので s はつけない。
 文法,二択,You ( ) a teacher.,am,are,,,are,主語が you のとき be 動詞は are。
 文法,二択,I ( ) math.,study,studies,,,study,主語が I なので s はつけない。
-文法,二択,My mother ( ) a student.,is,are,,,is,主語が単数なので is。
+文法,二択,My mother ( ) a nurse.,is,are,,,is,主語が単数なので is。
 文法,二択,We ( ) Japanese.,study,studies,,,study,主語が We なので s はつけない。
 文法,二択,They ( ) the guitar.,play,plays,,,play,主語が They なので s はつけない。
 文法,二択,She ( ) a student.,is,are,,,is,主語が単数なので is。
@@ -558,7 +558,7 @@
 文法,二択,I ( ) a teacher.,am,are,,,am,主語が I のとき be 動詞は am。
 文法,二択,( ) you like cats?,Do,Are,,,Do,一般動詞の疑問文は Do。
 文法,二択,He ( ) a student.,is,are,,,is,主語が単数なので is。
-文法,二択,My mother ( ) my friend.,is,are,,,is,主語が単数なので is。
+文法,二択,My mother ( ) a doctor.,is,are,,,is,主語が単数なので is。
 文法,二択,Ken and I ( ) good friends.,is,are,,,are,複数の主語なので are。
 文法,二択,You ( ) from Osaka.,am,are,,,are,主語が you のとき be 動詞は are。
 文法,二択,( ) you like science?,Do,Are,,,Do,一般動詞の疑問文は Do。
@@ -596,7 +596,7 @@
 文法,二択,This ( ) my friend.,is,are,,,is,主語が単数なので is。
 文法,二択,This is ( ) house.（あなたの）,your,you,,,your,「あなたの」は your。
 文法,二択,I ( ) the piano.,play,plays,,,play,主語が I なので s はつけない。
-文法,二択,My father ( ) new.,is,are,,,is,主語が単数なので is。
+文法,二択,My father ( ) new here.,is,are,,,is,主語が単数なので is。
 文法,二択,They ( ) music.,like,likes,,,like,主語が They なので s はつけない。
 文法,二択,My father ( ) kind.,is,are,,,is,主語が単数なので is。
 文の訳,4択,I like apples.,私はリンゴが好きです。,私たちはリンゴが好きです。,私はテニスが好きです。,私はリンゴが好きではありません。,私はリンゴが好きです。,
@@ -633,7 +633,7 @@
 文の訳,4択,We like grapes.,私たちはブドウが好きです。,彼らはブドウが好きです。,私たちはネコが好きです。,私たちはブドウが好きではありません。,私たちはブドウが好きです。,
 文の訳,4択,We like strawberries.,私たちはイチゴが好きです。,彼らはイチゴが好きです。,私たちはリンゴが好きです。,私たちはイチゴが好きではありません。,私たちはイチゴが好きです。,
 文の訳,4択,We know the dog.,私たちはそのイヌを知っています。,私はそのイヌを知っています。,私たちはそのネコを知っています。,私はそのイヌを知っていません。,私たちはそのイヌを知っています。,
-文の訳,4択,We know the cats.,私たちはネコが好きです。,私はネコが好きです。,私たちはサッカーが好きです。,私たちはネコが好きではありません。,私たちはネコが好きです。,
+文の訳,4択,We play with the cat.,私たちはそのネコと遊びます。,私はそのネコと遊びます。,私たちはそのネコを飼っています。,私たちはそのネコと遊びません。,私たちはそのネコと遊びます。,
 文の訳,4択,We know the rabbit.,私たちはそのウサギを知っています。,私はそのウサギを知っています。,私たちはそのブドウを知っています。,私たちはそのウサギを知りません。,私たちはそのウサギを知っています。,
 文の訳,4択,We like lions.,私たちはライオンが好きです。,彼らはライオンが好きです。,私たちはバナナが好きです。,私たちはライオンが好きではありません。,私たちはライオンが好きです。,
 文の訳,4択,We like tigers.,私たちはトラが好きです。,私はトラが好きです。,私たちはレモンが好きです。,私たちはトラが好きではありません。,私たちはトラが好きです。,
