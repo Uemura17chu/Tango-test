@@ -1,4 +1,5 @@
-﻿set,label,english,japanese
+﻿※このシートを編集すると「がんばれ英単語TEST」の出題単語を差し替えできます。set列=1〜5／label列=画面表示名／english列=英語／japanese列=意味。,,,
+set,label,english,japanese
 1,中1 Program3＋Our Project1 (p.38-43),aunt,おば
 1,中1 Program3＋Our Project1 (p.38-43),bird,鳥
 1,中1 Program3＋Our Project1 (p.38-43),brother,兄、弟
@@ -65,7 +66,7 @@
 1,中1 Program3＋Our Project1 (p.38-43),talent,才能（のある人）
 1,中1 Program3＋Our Project1 (p.38-43),that,あれ（は）、あれ（を）
 1,中1 Program3＋Our Project1 (p.38-43),that's,（that isの短縮形）
-1,中1 Program3＋Our Project1 (p.38-43),the,互いにわかっていている名刺につける。(その)
+1,中1 Program3＋Our Project1 (p.38-43),the,互いにわかっていている名詞につける。(その)
 1,中1 Program3＋Our Project1 (p.38-43),then,それでは、それなら
 1,中1 Program3＋Our Project1 (p.38-43),thing,もの、こと
 1,中1 Program3＋Our Project1 (p.38-43),tree,木
