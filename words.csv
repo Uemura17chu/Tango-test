@@ -1,311 +1,581 @@
-set,label,english,japanese
-l:"中1 Program1,shy,はずかしい
-1,中1 Program1,pardon,許す
-1,中1 Program1,New York,ニューヨーク
-1,中1 Program1,city,街、市
-1,中1 Program1,just,ちょうど、まさに
-1,中1 Program1,Nice to meet you.,お会いできてうれしいです。
-1,中1 Program1,problem,問題
-1,中1 Program1,No problem,どういたしまして / 大丈夫だよ
-1,中1 Program1,quiet,静かな
-1,中1 Program1,of,～の
-1,中1 Program1,polite,礼儀正しい
-1,中1 Program1,cheerful,明るい、元気のよい
-1,中1 Program1,honest,正直な
-1,中1 Program1,careful,注意深い
-1,中1 Program1,social studies,社会科
-1,中1 Program1,be good at,～が上手である、～が得意である
-1,中1 Program1,brave,勇敢な
-1,中1 Program1,science,理科、科学
-1,中1 Program1,math,数学
-1,中1 Program1,Canada,カナダ
-2,中1 Program2,don't,(do not の短縮形)
-2,中1 Program2,after,(前)〜のあとに［で］
-2,中1 Program2,grow,(動)栽培する、育てる
-2,中1 Program2,grow,(動)育つ、成長する
-2,中1 Program2,use,(動)使う
-2,中1 Program2,at home,家で［に］
-2,中1 Program2,very,とても(1語)
-2,中1 Program2,very much,とても(2語)
-2,中1 Program2,after school,放課後
-2,中1 Program2,weekend,(名)週末
-2,中1 Program2,but,(接)しかし
-2,中1 Program2,before,(前)〜の前に
-2,中1 Program2,wow,(間)うわー
-2,中1 Program2,flip,(名)すばやくめくること
-2,中1 Program2,look at,～（のほう）を見る
-2,中1 Program2,question,(名)質問
-2,中1 Program2,sure,(副)（承諾の返事）もちろん、いいですよ
-2,中1 Program2,during,(前)〜の間
-2,中1 Program2,break,(名)休憩
-2,中1 Program2,break,(動)壊れる、壊す
-2,中1 Program2,tomorrow,(副)明日
-2,中1 Program2,any,(形)（疑問文で）いくらかの、いくつかの
-2,中1 Program2,any,(形)（否定文で）少しの〜も（…ない）
-3,中1 Word Web,Sunday,日曜日
-3,中1 Word Web,Monday,月曜日
-3,中1 Word Web,Tuesday,火曜日
-3,中1 Word Web,Wednesday,水曜日
-3,中1 Word Web,Thursday,木曜日
-3,中1 Word Web,Friday,金曜日
-3,中1 Word Web,Saturday,土曜日
-3,中1 Word Web,January,１月
-3,中1 Word Web,February,２月
-3,中1 Word Web,March,３月
-3,中1 Word Web,April,４月
-3,中1 Word Web,May,５月
-3,中1 Word Web,June,６月
-3,中1 Word Web,July,７月
-3,中1 Word Web,August,８月
-3,中1 Word Web,September,９月
-3,中1 Word Web,October,１０月
-3,中1 Word Web,November,１１月
-3,中1 Word Web,December,１２月
-4,中1 アクションワード(p36),clean,掃除する
-4,中1 アクションワード(p36),close,閉じる
-4,中1 アクションワード(p36),drink,飲む
-4,中1 アクションワード(p36),eat,食べる
-4,中1 アクションワード(p36),make,作る
-4,中1 アクションワード(p36),open,開く
-4,中1 アクションワード(p36),play,(球技を)する、(楽器を)演奏する
-4,中1 アクションワード(p36),read,読む
-4,中1 アクションワード(p36),sing,歌う
-4,中1 アクションワード(p36),speak,話す（発声する）
-4,中1 アクションワード(p36),study,勉強する
-4,中1 アクションワード(p36),touch,触る
-4,中1 アクションワード(p36),wash,洗う
-4,中1 アクションワード(p36),write,書く
-4,中1 アクションワード(p36),watch,観る
-4,中1 アクションワード(p36),cook,料理する
-4,中1 アクションワード(p36),use,使う
-5,中1 小学校単語(パートナーp2～p11),go,行く
-5,中1 小学校単語(パートナーp2～p11),boy,(名)少年
-5,中1 小学校単語(パートナーp2～p11),girl,(名)少女
-5,中1 小学校単語(パートナーp2～p11),friend,(名)友だち
-5,中1 小学校単語(パートナーp2～p11),classmate,(名)級友、クラスメート
-5,中1 小学校単語(パートナーp2～p11),teacher,(名)先生、教師
-5,中1 小学校単語(パートナーp2～p11),player,(名)（運動）選手
-5,中1 小学校単語(パートナーp2～p11),father,(名)お父さん、父
-5,中1 小学校単語(パートナーp2～p11),mother,(名)お母さん、母
-5,中1 小学校単語(パートナーp2～p11),brother,(名)兄、弟
-5,中1 小学校単語(パートナーp2～p11),sister,(名)姉、妹
-5,中1 小学校単語(パートナーp2～p11),family,(名)家族
-5,中1 小学校単語(パートナーp2～p11),everyone,(代)みんな、だれでも
-5,中1 小学校単語(パートナーp2～p11),dog,(名)イヌ
-5,中1 小学校単語(パートナーp2～p11),cat,(名)ネコ
-5,中1 小学校単語(パートナーp2～p11),bird,(名)鳥
-5,中1 小学校単語(パートナーp2～p11),animal,(名)動物
-5,中1 小学校単語(パートナーp2～p11),curry,(名)カレー
-5,中1 小学校単語(パートナーp2～p11),rice,(名)米
-5,中1 小学校単語(パートナーp2～p11),bread,(名)パン
-5,中1 小学校単語(パートナーp2～p11),pizza,(名)ピザ、ピッツァ
-5,中1 小学校単語(パートナーp2～p11),cake,(名)ケーキ
-5,中1 小学校単語(パートナーp2～p11),food,(名)食べ物
-5,中1 小学校単語(パートナーp2～p11),vegetable,(名)野菜
-5,中1 小学校単語(パートナーp2～p11),fruit,(名)くだもの、フルーツ
-5,中1 小学校単語(パートナーp2～p11),water,(名)水
-5,中1 小学校単語(パートナーp2～p11),milk,(名)牛乳
-5,中1 小学校単語(パートナーp2～p11),coffee,(名)コーヒー
-5,中1 小学校単語(パートナーp2～p11),tea,(名)茶、紅茶
-5,中1 小学校単語(パートナーp2～p11),pen,(名)ペン
-5,中1 小学校単語(パートナーp2～p11),pencil,(名)鉛筆
-5,中1 小学校単語(パートナーp2～p11),book,(名)本
-5,中1 小学校単語(パートナーp2～p11),notebook,(名)ノート、帳面
-5,中1 小学校単語(パートナーp2～p11),textbook,(名)教科書
-5,中1 小学校単語(パートナーp2～p11),dictionary,(名)辞書
-5,中1 小学校単語(パートナーp2～p11),newspaper,(名)新聞
-5,中1 小学校単語(パートナーp2～p11),computer,(名)コンピュータ
-5,中1 小学校単語(パートナーp2～p11),TV,(名)テレビ
-5,中1 小学校単語(パートナーp2～p11),game,(名)試合、ゲーム
-5,中1 小学校単語(パートナーp2～p11),piano,(名)ピアノ
-5,中1 小学校単語(パートナーp2～p11),guitar,(名)ギター
-5,中1 小学校単語(パートナーp2～p11),picture,(名)絵、写真
-5,中1 小学校単語(パートナーp2～p11),map,(名)地図
-5,中1 小学校単語(パートナーp2～p11),umbrella,(名)かさ、雨がさ
-5,中1 小学校単語(パートナーp2～p11),present,(名)プレゼント、贈り物
-5,中1 小学校単語(パートナーp2～p11),flower,(名)花
-5,中1 小学校単語(パートナーp2～p11),bag,(名)かばん、袋、バッグ
-5,中1 小学校単語(パートナーp2～p11),chair,(名)いす
-5,中1 小学校単語(パートナーp2～p11),desk,(名)机
-5,中1 小学校単語(パートナーp2～p11),table,(名)テーブル、食卓
-5,中1 小学校単語(パートナーp2～p11),bed,(名)ベッド
-5,中1 小学校単語(パートナーp2～p11),clothes,(名)衣服、着物
-5,中1 小学校単語(パートナーp2～p11),bike,(名)自転車(4文字)
-5,中1 小学校単語(パートナーp2～p11),bus,(名)バス
-5,中1 小学校単語(パートナーp2～p11),train,(名)列車
-5,中1 小学校単語(パートナーp2～p11),airplane,(名)飛行機
-5,中1 小学校単語(パートナーp2～p11),classroom,(名)教室
-5,中1 小学校単語(パートナーp2～p11),school,(名)学校
-5,中1 小学校単語(パートナーp2～p11),house,(名)家
-5,中1 小学校単語(パートナーp2～p11),town,(名)町
-5,中1 小学校単語(パートナーp2～p11),park,(名)公園
-5,中1 小学校単語(パートナーp2～p11),zoo,(名)動物園
-5,中1 小学校単語(パートナーp2～p11),shop,(名)店　(動)買い物をする
-5,中1 小学校単語(パートナーp2～p11),library,(名)図書館、図書室
-5,中1 小学校単語(パートナーp2～p11),bookstore,(名)本屋
-5,中1 小学校単語(パートナーp2～p11),station,(名)駅
-5,中1 小学校単語(パートナーp2～p11),restaurant,(名)レストラン、料理店
-5,中1 小学校単語(パートナーp2～p11),museum,(名)博物館、美術館
-5,中1 小学校単語(パートナーp2～p11),hospital,(名)病院
-5,中1 小学校単語(パートナーp2～p11),street,(名)街路、通り
-5,中1 小学校単語(パートナーp2～p11),way,(名)道、方法　(名)方向
-5,中1 小学校単語(パートナーp2～p11),subway,(名)地下鉄
-5,中1 小学校単語(パートナーp2～p11),bridge,(名)橋
-5,中1 小学校単語(パートナーp2～p11),home,(名)家、家庭(副)家に［へ］
-5,中1 小学校単語(パートナーp2～p11),country,(名)国
-5,中1 小学校単語(パートナーp2～p11),sea,(名)海
-5,中1 小学校単語(パートナーp2～p11),beach,(名)砂浜、浜辺、海岸
-5,中1 小学校単語(パートナーp2～p11),tree,(名)木
-5,中1 小学校単語(パートナーp2～p11),mountain,(名)山
-5,中1 小学校単語(パートナーp2～p11),river,(名)川
-5,中1 小学校単語(パートナーp2～p11),lake,(名)湖
-5,中1 小学校単語(パートナーp2～p11),nature,(名)自然
-5,中1 小学校単語(パートナーp2～p11),English,(名)英語(形)英語の
-5,中1 小学校単語(パートナーp2～p11),Japanese,(名)日本語、国語、日本人(形)日本（語、人）の
-5,中1 小学校単語(パートナーp2～p11),math,(名)数学
-5,中1 小学校単語(パートナーp2～p11),subject,(名)教科、科目
-5,中1 小学校単語(パートナーp2～p11),soccer,(名)サッカー
-5,中1 小学校単語(パートナーp2～p11),tennis,(名)テニス
-5,中1 小学校単語(パートナーp2～p11),baseball,(名)野球
-5,中1 小学校単語(パートナーp2～p11),basketball,(名)バスケットボール
-5,中1 小学校単語(パートナーp2～p11),swimming,(名)水泳
-5,中1 小学校単語(パートナーp2～p11),sport,(名)スポーツ
-5,中1 小学校単語(パートナーp2～p11),team,(名)部、チーム
-5,中1 小学校単語(パートナーp2～p11),name,(名)名前
-5,中1 小学校単語(パートナーp2～p11),homework,(名)宿題
-5,中1 小学校単語(パートナーp2～p11),class,(名)クラス（の生徒たち）、学級
-5,中1 小学校単語(パートナーp2～p11),club,(名)部、クラブ
-5,中1 小学校単語(パートナーp2～p11),number,(名)（電話・住所などの）番号
-5,中1 小学校単語(パートナーp2～p11),color,(名)色
-5,中1 小学校単語(パートナーp2～p11),morning,(名)朝
-5,中1 小学校単語(パートナーp2～p11),afternoon,(名)午後
-5,中1 小学校単語(パートナーp2～p11),evening,(名)夕方、晩
-5,中1 小学校単語(パートナーp2～p11),night,(名)夜
-5,中1 小学校単語(パートナーp2～p11),day,(名)日、1日(名)昼間（⇔night）
-5,中1 小学校単語(パートナーp2～p11),week,(名)週、1週間
-5,中1 小学校単語(パートナーp2～p11),month,(名)（暦の）月、ひと月
-5,中1 小学校単語(パートナーp2～p11),season,(名)季節
-5,中1 小学校単語(パートナーp2～p11),year,(名)年
-5,中1 小学校単語(パートナーp2～p11),date,(名)日付
-5,中1 小学校単語(パートナーp2～p11),time,(名)時刻、時間
-5,中1 小学校単語(パートナーp2～p11),breakfast,(名)朝食
-5,中1 小学校単語(パートナーp2～p11),lunch,(名)昼食
-5,中1 小学校単語(パートナーp2～p11),dinner,(名)夕食
-5,中1 小学校単語(パートナーp2～p11),bath,(名)入浴
-5,中1 小学校単語(パートナーp2～p11),birthday,(名)誕生日
-5,中1 小学校単語(パートナーp2～p11),vacation,(名)休暇
-5,中1 小学校単語(パートナーp2～p11),festival,(名)祭り
-5,中1 小学校単語(パートナーp2～p11),event,(名)行事、出来事
-5,中1 小学校単語(パートナーp2～p11),life,(名)生活、人生(名)命、生命
-5,中1 小学校単語(パートナーp2～p11),job,(名)仕事
-5,中1 小学校単語(パートナーp2～p11),trip,(名)旅行
-5,中1 小学校単語(パートナーp2～p11),fun,(名)楽しみ、喜び
-5,中1 小学校単語(パートナーp2～p11),dream,(名)夢、願い、理想(動)夢に描く
-5,中1 小学校単語(パートナーp2～p11),memory,(名)思い出、記憶
-5,中1 小学校単語(パートナーp2～p11),future,(形)将来の、未来の(名)（ふつうtheをつけて）将来、未来
-5,中1 小学校単語(パートナーp2～p11),weather,(名)天気
-5,中1 小学校単語(パートナーp2～p11),world,(名)世界
-5,中1 小学校単語(パートナーp2～p11),be,(動)?になる、?である
-5,中1 小学校単語(パートナーp2～p11),want,(動)ほしい、望む
-5,中1 小学校単語(パートナーp2～p11),have,(動)持っている、?がある［いる］
-5,中1 小学校単語(パートナーp2～p11),like,(動)（?が）好きである、好む(前)?のような［に］、?に似ている(動)ほしい、望む(接)?のように
-5,中1 小学校単語(パートナーp2～p11),love,(動)大好きである、愛する
-5,中1 小学校単語(パートナーp2～p11),play,(動)（ゲーム、球技などを）する(動)（楽器を）ひく、演奏する(動)遊ぶ(名)プレー、（試合中の）行為
-5,中1 小学校単語(パートナーp2～p11),practice,(動)練習する
-5,中1 小学校単語(パートナーp2～p11),study,(動)勉強する
-5,中1 小学校単語(パートナーp2～p11),teach,(動)教える
-5,中1 小学校単語(パートナーp2～p11),read,(動)（本などを）読む
-5,中1 小学校単語(パートナーp2～p11),write,(動)書く
-5,中1 小学校単語(パートナーp2～p11),listen,(動)聞く、耳を傾ける
-5,中1 小学校単語(パートナーp2～p11),speak,(動)話す
-5,中1 小学校単語(パートナーp2～p11),talk,(動)話す
-5,中1 小学校単語(パートナーp2～p11),draw,(動)（線で絵を）描く(動)（線を）引く
-5,中1 小学校単語(パートナーp2～p11),look,(動)見る、目を向ける(動)?に見える
-5,中1 小学校単語(パートナーp2～p11),watch,(動)見る(名)腕時計
-5,中1 小学校単語(パートナーp2～p11),see,(動)わかる(動)会う
-5,中1 小学校単語(パートナーp2～p11),meet,(動)会う(動)（災難・事故などに）遭遇する、直面する
-5,中1 小学校単語(パートナーp2～p11),eat,(動)食べる
-5,中1 小学校単語(パートナーp2～p11),drink,(動)飲む(名)飲み物、ドリンク
-5,中1 小学校単語(パートナーp2～p11),cook,(動)料理する(名)コック、料理人
-5,中1 小学校単語(パートナーp2～p11),make,(動)作る(動)生じさせる、引き起こす(動)（人・物を）?にする(動)（人・物に）?させる
-5,中1 小学校単語(パートナーp2～p11),clean,(動)掃除する(形)きれいな、清潔な
-5,中1 小学校単語(パートナーp2～p11),wash,(動)洗う
-5,中1 小学校単語(パートナーp2～p11),stand,(名)屋台(動)立つ
-5,中1 小学校単語(パートナーp2～p11),walk,(動)（イヌなどを）散歩させる(名)歩くこと、散歩
-5,中1 小学校単語(パートナーp2～p11),run,(動)走る
-5,中1 小学校単語(パートナーp2～p11),swim,(動)泳ぐ
-5,中1 小学校単語(パートナーp2～p11),enjoy,(動)楽しむ
-5,中1 小学校単語(パートナーp2～p11),use,(動)使う
-5,中1 小学校単語(パートナーp2～p11),ride,(動)（ウマ・自動車・オートバイなどに）乗る
-5,中1 小学校単語(パートナーp2～p11),buy,(動)買う
-5,中1 小学校単語(パートナーp2～p11),try,(動)ためす(動)～しようとする［努力する］
-5,中1 小学校単語(パートナーp2～p11),help,(動)助ける、手伝う(名)助け、手伝い(動)（?が…するのを）手伝う
-5,中1 小学校単語(パートナーp2～p11),take,(動)持っていく、取る、（写真を）とる(動)（乗り物などに）乗る、
-5,中1 小学校単語(パートナーp2～p11),live,(動)住む、住んでいる
-5,中1 小学校単語(パートナーp2～p11),go,(動)行く(動)（事が）進行する
-5,中1 小学校単語(パートナーp2～p11),leave,(動)出発する、去る(動)置いて［残して］いく
-5,中1 小学校単語(パートナーp2～p11),turn,(動)曲がる
-5,中1 小学校単語(パートナーp2～p11),visit,(動)訪問する、訪れる
-5,中1 小学校単語(パートナーp2～p11),travel,(動)旅行する
-5,中1 小学校単語(パートナーp2～p11),know,(動)知る、知っている、わかる
-5,中1 小学校単語(パートナーp2～p11),think,(動)考える、思う
-5,中1 小学校単語(パートナーp2～p11),guess,(動)推測する、思う
-5,中1 小学校単語(パートナーp2～p11),happy,(形)幸福な、楽しい、（あいさつで）おめでとう
-5,中1 小学校単語(パートナーp2～p11),sad,(形)悲しい
-5,中1 小学校単語(パートナーp2～p11),busy,(形)忙しい
-5,中1 小学校単語(パートナーp2～p11),tired,(形)疲れて
-5,中1 小学校単語(パートナーp2～p11),hungry,(形)おなかがすいて
-5,中1 小学校単語(パートナーp2～p11),sleepy,(形)眠い
-5,中1 小学校単語(パートナーp2～p11),good,(形)じょうずな、得意な(形)よい
-5,中1 小学校単語(パートナーp2～p11),nice,(形)よい、すてきな(形)親切な
-5,中1 小学校単語(パートナーp2～p11),kind,(形)親切な(名)種類
-5,中1 小学校単語(パートナーp2～p11),big,(形)大きい　(bで始まる)
-5,中1 小学校単語(パートナーp2～p11),large,(形)大きい、広い(ｌで始まる)
-5,中1 小学校単語(パートナーp2～p11),small,(形)小さい
-5,中1 小学校単語(パートナーp2～p11),new,(形)新しい
-5,中1 小学校単語(パートナーp2～p11),old,(形)古い
-5,中1 小学校単語(パートナーp2～p11),hot,(形)熱い、暑い(形)辛い
-5,中1 小学校単語(パートナーp2～p11),cold,(形)寒い、冷たい(名)（病気の）かぜ
-5,中1 小学校単語(パートナーp2～p11),long,(形)長い(副)（時間が）長く、長い間
-5,中1 小学校単語(パートナーp2～p11),short,(形)短い(形)背が低い
-5,中1 小学校単語(パートナーp2～p11),easy,(形)やさしい、簡単な
-5,中1 小学校単語(パートナーp2～p11),difficult,(形)難しい
-5,中1 小学校単語(パートナーp2～p11),same,(形)同じ、同様な
-5,中1 小学校単語(パートナーp2～p11),different,(形)違う
-5,中1 小学校単語(パートナーp2～p11),cute,(形)かわいい
-5,中1 小学校単語(パートナーp2～p11),beautiful,(形)美しい、すばらしい
-5,中1 小学校単語(パートナーp2～p11),wonderful,(形)すばらしい
-5,中1 小学校単語(パートナーp2～p11),interesting,(形)興味深い、おもしろい
-5,中1 小学校単語(パートナーp2～p11),exciting,(形)わくわくさせるような
-5,中1 小学校単語(パートナーp2～p11),famous,(形)有名な
-5,中1 小学校単語(パートナーp2～p11),delicious,(形)とてもおいしい
-5,中1 小学校単語(パートナーp2～p11),favorite,(形)お気に入りの、大好きな
-5,中1 小学校単語(パートナーp2～p11),best,(形)もっともよい
-5,中1 小学校単語(パートナーp2～p11),many,(形)たくさんの(代)多数の人［もの］
-5,中1 小学校単語(パートナーp2～p11),all,(形)すべての(代)みんな、全部
-5,中1 小学校単語(パートナーp2～p11),very,(副)たいへん、とても
-5,中1 小学校単語(パートナーp2～p11),really,(副)ほんとうに
-5,中1 小学校単語(パートナーp2～p11),well,(副)じょうずに(間)えーと
-5,中1 小学校単語(パートナーp2～p11),hard,(副)一生懸命に
-5,中1 小学校単語(パートナーp2～p11),hard,(形)きつい
-5,中1 小学校単語(パートナーp2～p11),hard,(形)かたい
-5,中1 小学校単語(パートナーp2～p11),hard,(形)難しい
-5,中1 小学校単語(パートナーp2～p11),fast,(副)速く(形)速い
-5,中1 小学校単語(パートナーp2～p11),straight,(副)まっすぐに
-5,中1 小学校単語(パートナーp2～p11),right,(形)正しい
-5,中1 小学校単語(パートナーp2～p11),left,(副)左に［へ］(名)左（側）(形)左の
-5,中1 小学校単語(パートナーp2～p11),here,(副)ここに[で］(名)ここ
-5,中1 小学校単語(パートナーp2～p11),together,(副)いっしょに
-5,中1 小学校単語(パートナーp2～p11),always,(副)いつも
-5,中1 小学校単語(パートナーp2～p11),usually,(副)ふつう、たいてい
-5,中1 小学校単語(パートナーp2～p11),sometimes,(副)ときどき
-5,中1 小学校単語(パートナーp2～p11),never,(副)一度も～ない、決して～ない
-5,中1 小学校単語(パートナーp2～p11),again,(副)再び、また
-5,中1 小学校単語(パートナーp2～p11),right,(形)正しい
-5,中1 小学校単語(パートナーp2～p11),right,(副)右に(名)右側(形)右の
-5,中1 小学校単語(パートナーp2～p11),right,(名)右側(形)右の
-5,中1 小学校単語(パートナーp2～p11),right,(間)（同意を表して）そのとおり
-5,中1 小学校単語(パートナーp2～p11),right,(間)（確認のための表現）いいですね
-5,中1 小学校単語(パートナーp2～p11),right,(副)すぐ、ただちに、ちょうど
-5,中1 小学校単語(パートナーp2～p11),right,(形)正常な、通常の
-5,中1 小学校単語(パートナーp2～p11),right,(名)権利
+﻿set,label,english,japanese
+1,中1 Program3＋Our Project1 (p.38-43),aunt,おば
+1,中1 Program3＋Our Project1 (p.38-43),bird,鳥
+1,中1 Program3＋Our Project1 (p.38-43),brother,兄、弟
+1,中1 Program3＋Our Project1 (p.38-43),cannot,～できない
+1,中1 Program3＋Our Project1 (p.38-43),can’t,（cannotの短縮形）
+1,中1 Program3＋Our Project1 (p.38-43),carry,運ぶ
+1,中1 Program3＋Our Project1 (p.38-43),Chinese,中国語
+1,中1 Program3＋Our Project1 (p.38-43),choose,選ぶ
+1,中1 Program3＋Our Project1 (p.38-43),climb,登る
+1,中1 Program3＋Our Project1 (p.38-43),cousin,いとこ
+1,中1 Program3＋Our Project1 (p.38-43),curry,カレー
+1,中1 Program3＋Our Project1 (p.38-43),dance,踊る
+1,中1 Program3＋Our Project1 (p.38-43),dance,踊り、ダンス
+1,中1 Program3＋Our Project1 (p.38-43),dancer,ダンサー、踊り子
+1,中1 Program3＋Our Project1 (p.38-43),delicious,とてもおいしい
+1,中1 Program3＋Our Project1 (p.38-43),excited,わくわくして
+1,中1 Program3＋Our Project1 (p.38-43),fast,速く
+1,中1 Program3＋Our Project1 (p.38-43),father,お父さん、父
+1,中1 Program3＋Our Project1 (p.38-43),find,見つける
+1,中1 Program3＋Our Project1 (p.38-43),fish,魚（複数形も同形）
+1,中1 Program3＋Our Project1 (p.38-43),fly,飛ぶ
+1,中1 Program3＋Our Project1 (p.38-43),for,（利益・目的・原因・理由を表して）〜のために［の］
+1,中1 Program3＋Our Project1 (p.38-43),French,フランス語
+1,中1 Program3＋Our Project1 (p.38-43),good,よい
+1,中1 Program3＋Our Project1 (p.38-43),good,おいしい
+1,中1 Program3＋Our Project1 (p.38-43),grandfather,おじいさん、祖父
+1,中1 Program3＋Our Project1 (p.38-43),grandmother,おばあさん、祖母
+1,中1 Program3＋Our Project1 (p.38-43),guitar,ギター
+1,中1 Program3＋Our Project1 (p.38-43),have,（行事などを）する
+1,中1 Program3＋Our Project1 (p.38-43),heavy,重い
+1,中1 Program3＋Our Project1 (p.38-43),help,助ける、手伝う
+1,中1 Program3＋Our Project1 (p.38-43),internet,（theをつけて）インターネット
+1,中1 Program3＋Our Project1 (p.38-43),Japanese,日本（語、人）の
+1,中1 Program3＋Our Project1 (p.38-43),key,カギ
+1,中1 Program3＋Our Project1 (p.38-43),kilometer,キロメートル
+1,中1 Program3＋Our Project1 (p.38-43),know,知る、知っている、わかる
+1,中1 Program3＋Our Project1 (p.38-43),luck,幸運
+1,中1 Program3＋Our Project1 (p.38-43),Good luck!,幸運を祈ります。
+1,中1 Program3＋Our Project1 (p.38-43),magic,魔法の
+1,中1 Program3＋Our Project1 (p.38-43),map,地図
+1,中1 Program3＋Our Project1 (p.38-43),mother,お母さん、母
+1,中1 Program3＋Our Project1 (p.38-43),nice,すてきな、おいしい
+1,中1 Program3＋Our Project1 (p.38-43),often,しばしば、よく、たびたび
+1,中1 Program3＋Our Project1 (p.38-43),OK,わかりました、いいですよ
+1,中1 Program3＋Our Project1 (p.38-43),omelet,オムレツ
+1,中1 Program3＋Our Project1 (p.38-43),on,（手段・情報源を表して）〜で、〜に出て
+1,中1 Program3＋Our Project1 (p.38-43),on,（場所を表して）〜（の上）に［で］
+1,中1 Program3＋Our Project1 (p.38-43),our,私たちの
+1,中1 Program3＋Our Project1 (p.38-43),people,人々
+1,中1 Program3＋Our Project1 (p.38-43),perform,行う、演じる
+1,中1 Program3＋Our Project1 (p.38-43),play,遊ぶ
+1,中1 Program3＋Our Project1 (p.38-43),rescue,救助
+1,中1 Program3＋Our Project1 (p.38-43),robot,ロボット
+1,中1 Program3＋Our Project1 (p.38-43),roll,巻いたもの
+1,中1 Program3＋Our Project1 (p.38-43),show,見せ物、ショー、番組
+1,中1 Program3＋Our Project1 (p.38-43),skate,スケートをする
+1,中1 Program3＋Our Project1 (p.38-43),ski,スキーをする
+1,中1 Program3＋Our Project1 (p.38-43),sky,空
+1,中1 Program3＋Our Project1 (p.38-43),so,とても、非常に
+1,中1 Program3＋Our Project1 (p.38-43),so,だから、それで
+1,中1 Program3＋Our Project1 (p.38-43),soup,スープ
+1,中1 Program3＋Our Project1 (p.38-43),summer,夏
+1,中1 Program3＋Our Project1 (p.38-43),swim,泳ぐ
+1,中1 Program3＋Our Project1 (p.38-43),talent,才能（のある人）
+1,中1 Program3＋Our Project1 (p.38-43),that,あれ、それ
+1,中1 Program3＋Our Project1 (p.38-43),that’s,（that isの短縮形）
+1,中1 Program3＋Our Project1 (p.38-43),the,（ただ1つのものにつける）
+1,中1 Program3＋Our Project1 (p.38-43),then,それでは、それなら
+1,中1 Program3＋Our Project1 (p.38-43),thing,もの、こと
+1,中1 Program3＋Our Project1 (p.38-43),tree,木
+1,中1 Program3＋Our Project1 (p.38-43),trick,芸
+1,中1 Program3＋Our Project1 (p.38-43),uncle,おじ
+1,中1 Program3＋Our Project1 (p.38-43),walk,歩く、歩いていく
+1,中1 Program3＋Our Project1 (p.38-43),water,水面、水
+1,中1 Program3＋Our Project1 (p.38-43),well,じょうずに
+1,中1 Program3＋Our Project1 (p.38-43),winter,冬
+1,中1 Program3＋Our Project1 (p.38-43),with,〜といっしょに
+1,中1 Program3＋Our Project1 (p.38-43),wonderful,すばらしい
+2,中1 Program4 (p.51-59),answer,答え
+2,中1 Program4 (p.51-59),ant,アリ
+2,中1 Program4 (p.51-59),banana,バナナ
+2,中1 Program4 (p.51-59),boy,少年
+2,中1 Program4 (p.51-59),brand,ブランド、銘柄
+2,中1 Program4 (p.51-59),butterfly,チョウ
+2,中1 Program4 (p.51-59),buy,買う
+2,中1 Program4 (p.51-59),chef,シェフ、料理長
+2,中1 Program4 (p.51-59),cherry,サクランボ
+2,中1 Program4 (p.51-59),classmate,級友、クラスメート
+2,中1 Program4 (p.51-59),cookie,クッキー
+2,中1 Program4 (p.51-59),cool,かっこいい、すごい
+2,中1 Program4 (p.51-59),corn,トウモロコシ
+2,中1 Program4 (p.51-59),court,（テニスなどの）コート、中庭
+2,中1 Program4 (p.51-59),custard pudding,カスタードプリン
+2,中1 Program4 (p.51-59),deep-fried,たっぷりの油で揚げた
+2,中1 Program4 (p.51-59),drone,ドローン（無線操縦の無人機）
+2,中1 Program4 (p.51-59),elephant,ゾウ
+2,中1 Program4 (p.51-59),excellent,すばらしい、優れた
+2,中1 Program4 (p.51-59),famous,有名な
+2,中1 Program4 (p.51-59),fast,速い
+2,中1 Program4 (p.51-59),favorite,お気に入りの、大好きな
+2,中1 Program4 (p.51-59),fruit,くだもの、フルーツ
+2,中1 Program4 (p.51-59),get,わかる、理解する
+2,中1 Program4 (p.51-59),I got it!,わかった。
+2,中1 Program4 (p.51-59),got,get（わかる）の過去形
+2,中1 Program4 (p.51-59),ha-ha,あはは（笑い声）
+2,中1 Program4 (p.51-59),he,彼は［が］
+2,中1 Program4 (p.51-59),he’s,（he isの短縮形）
+2,中1 Program4 (p.51-59),high school,高校
+2,中1 Program4 (p.51-59),hint,ヒント、手がかり
+2,中1 Program4 (p.51-59),horse,ウマ
+2,中1 Program4 (p.51-59),isn’t,（is notの短縮形）
+2,中1 Program4 (p.51-59),jelly,ゼリー
+2,中1 Program4 (p.51-59),lady,女の人、貴婦人
+2,中1 Program4 (p.51-59),legend,伝説
+2,中1 Program4 (p.51-59),like,ほしい、望む
+2,中1 Program4 (p.51-59),long,長い
+2,中1 Program4 (p.51-59),man,男性、男の人
+2,中1 Program4 (p.51-59),meat,肉
+2,中1 Program4 (p.51-59),years old,（人が）〜歳の、（物が）（できてから）〜経った
+2,中1 Program4 (p.51-59),on,（所属を表して）〜の一員で
+2,中1 Program4 (p.51-59),programmer,（コンピュータの）プログラマー
+2,中1 Program4 (p.51-59),ready,準備ができて
+2,中1 Program4 (p.51-59),right,正しい
+2,中1 Program4 (p.51-59),That’s right.,そのとおりです。
+2,中1 Program4 (p.51-59),round,丸い
+2,中1 Program4 (p.51-59),runner,走者、ランナー
+2,中1 Program4 (p.51-59),she,彼女は［が］
+2,中1 Program4 (p.51-59),she’s,（she isの短縮形）
+2,中1 Program4 (p.51-59),sister,姉、妹
+2,中1 Program4 (p.51-59),sour,すっぱい
+2,中1 Program4 (p.51-59),street singer,ストリートシンガー、路上歌手
+2,中1 Program4 (p.51-59),sweet,（味覚が）甘い
+2,中1 Program4 (p.51-59),Texas,テキサス（アメリカ合衆国南部の州）
+2,中1 Program4 (p.51-59),that,あの、その
+2,中1 Program4 (p.51-59),this,これ、こちら
+2,中1 Program4 (p.51-59),tomato,トマト
+2,中1 Program4 (p.51-59),towel,タオル
+2,中1 Program4 (p.51-59),track and field,陸上競技
+2,中1 Program4 (p.51-59),traditional,伝統的な
+2,中1 Program4 (p.51-59),vegetable,野菜
+2,中1 Program4 (p.51-59),who,だれ、だれが
+2,中1 Program4 (p.51-59),who’s,（who isの短縮形）
+2,中1 Program4 (p.51-59),with,〜を連れた、〜を持った
+2,中1 Program4 (p.51-59),woman,女性、女の人
+2,中1 Program4 (p.51-59),worry,心配する
+2,中1 Program4 (p.51-59),would,willの過去形
+2,中1 Program4 (p.51-59),Would you like～?,～はいかがですか。
+2,中1 Program4 (p.51-59),year,年
+2,中1 Program4 (p.51-59),years old,～歳、～才
+2,中1 Program4 (p.51-59),yellow,黄色（い）
+2,中1 Program4 (p.51-59),zebra,シマウマ
+3,中1 ハンバーガーショップへ行こう (p.50),an,1つの、1人の
+3,中1 ハンバーガーショップへ行こう (p.50),can,（許可）〜してもよい
+3,中1 ハンバーガーショップへ行こう (p.50),Can I～?,～してもよいですか。
+3,中1 ハンバーガーショップへ行こう (p.50),cent,セント（アメリカ、カナダ、オーストラリア、ニュージーランドなどの貨幣単位。1ドルの100分の1）
+3,中1 ハンバーガーショップへ行こう (p.50),cheeseburger,チーズバーガー
+3,中1 ハンバーガーショップへ行こう (p.50),coffee,コーヒー
+3,中1 ハンバーガーショップへ行こう (p.50),cola,コーラ（飲み物の名）
+3,中1 ハンバーガーショップへ行こう (p.50),dollar,ドル（アメリカ、カナダ、オーストラリア、ニュージーランドなどの貨幣単位）
+3,中1 ハンバーガーショップへ行こう (p.50),drink,飲み物、ドリンク
+3,中1 ハンバーガーショップへ行こう (p.50),For here or to go?,こちらでめしあがりますか、お持ち帰りになりますか。
+3,中1 ハンバーガーショップへ行こう (p.50),French fries,フライドポテト
+3,中1 ハンバーガーショップへ行こう (p.50),get,持ってくる、連れてくる
+3,中1 ハンバーガーショップへ行こう (p.50),ginger ale,ジンジャーエール（飲み物の名）
+3,中1 ハンバーガーショップへ行こう (p.50),green,緑色（の）
+3,中1 ハンバーガーショップへ行こう (p.50),hamburger,ハンバーガー
+3,中1 ハンバーガーショップへ行こう (p.50),have,食べる、とる
+3,中1 ハンバーガーショップへ行こう (p.50),here,ここに[で］
+3,中1 ハンバーガーショップへ行こう (p.50),here,ここ
+3,中1 ハンバーガーショップへ行こう (p.50),Here you are.,はい、どうぞ。
+3,中1 ハンバーガーショップへ行こう (p.50),it,それは［が］
+3,中1 ハンバーガーショップへ行こう (p.50),juice,ジュース、果汁
+3,中1 ハンバーガーショップへ行こう (p.50),large,大きい、広い
+3,中1 ハンバーガーショップへ行こう (p.50),meal,食事
+3,中1 ハンバーガーショップへ行こう (p.50),medium,中間の
+3,中1 ハンバーガーショップへ行こう (p.50),member,一員、メンバー
+3,中1 ハンバーガーショップへ行こう (p.50),menu,メニュー
+3,中1 ハンバーガーショップへ行こう (p.50),much,たくさん、多額
+3,中1 ハンバーガーショップへ行こう (p.50),How much～?,～はいくらですか。
+3,中1 ハンバーガーショップへ行こう (p.50),one,もの（名詞のくり返しを避けるために使う）
+3,中1 ハンバーガーショップへ行こう (p.50),or,または、それとも、あるいは
+3,中1 ハンバーガーショップへ行こう (p.50),orange,オレンジ
+3,中1 ハンバーガーショップへ行こう (p.50),pie,パイ（肉やくだものなどを練り粉で包んで焼いた料理・菓子）
+3,中1 ハンバーガーショップへ行こう (p.50),please,どうぞ、どうか、お願いします
+3,中1 ハンバーガーショップへ行こう (p.50),salad,サラダ
+3,中1 ハンバーガーショップへ行こう (p.50),six,6（の）
+3,中1 ハンバーガーショップへ行こう (p.50),size,大きさ、サイズ
+3,中1 ハンバーガーショップへ行こう (p.50),small,小さい
+3,中1 ハンバーガーショップへ行こう (p.50),staff,スタッフ、職員
+3,中1 ハンバーガーショップへ行こう (p.50),total,総計
+3,中1 ハンバーガーショップへ行こう (p.50),in total,合計で
+3,中1 ハンバーガーショップへ行こう (p.50),twenty,20（の）
+4,中1 Word Web (巻末 p.141-144),zero,0（の）
+4,中1 Word Web (巻末 p.141-144),one,1（の）
+4,中1 Word Web (巻末 p.141-144),two,2（の）
+4,中1 Word Web (巻末 p.141-144),three,3（の）
+4,中1 Word Web (巻末 p.141-144),four,4（の）
+4,中1 Word Web (巻末 p.141-144),five,5（の）
+4,中1 Word Web (巻末 p.141-144),six,6（の）
+4,中1 Word Web (巻末 p.141-144),seven,7（の）
+4,中1 Word Web (巻末 p.141-144),eight,8（の）
+4,中1 Word Web (巻末 p.141-144),nine,9（の）
+4,中1 Word Web (巻末 p.141-144),ten,10（の）
+4,中1 Word Web (巻末 p.141-144),eleven,11（の）
+4,中1 Word Web (巻末 p.141-144),twelve,12（の）
+4,中1 Word Web (巻末 p.141-144),thirteen,13（の）
+4,中1 Word Web (巻末 p.141-144),fourteen,14（の）
+4,中1 Word Web (巻末 p.141-144),fifteen,15（の）
+4,中1 Word Web (巻末 p.141-144),sixteen,16（の）
+4,中1 Word Web (巻末 p.141-144),seventeen,17（の）
+4,中1 Word Web (巻末 p.141-144),eighteen,18（の）
+4,中1 Word Web (巻末 p.141-144),nineteen,19（の）
+4,中1 Word Web (巻末 p.141-144),twenty,20（の）
+4,中1 Word Web (巻末 p.141-144),twenty-one,21（の）
+4,中1 Word Web (巻末 p.141-144),thirty,30（の）
+4,中1 Word Web (巻末 p.141-144),forty,40（の）
+4,中1 Word Web (巻末 p.141-144),fifty,50（の）
+4,中1 Word Web (巻末 p.141-144),sixty,60（の）
+4,中1 Word Web (巻末 p.141-144),seventy,70（の）
+4,中1 Word Web (巻末 p.141-144),eighty,80（の）
+4,中1 Word Web (巻末 p.141-144),ninety,90（の）
+4,中1 Word Web (巻末 p.141-144),hundred,100（の）
+4,中1 Word Web (巻末 p.141-144),thousand,1000（の）
+4,中1 Word Web (巻末 p.141-144),Sunday,日曜日
+4,中1 Word Web (巻末 p.141-144),Monday,月曜日
+4,中1 Word Web (巻末 p.141-144),Tuesday,火曜日
+4,中1 Word Web (巻末 p.141-144),Wednesday,水曜日
+4,中1 Word Web (巻末 p.141-144),Thursday,木曜日
+4,中1 Word Web (巻末 p.141-144),Friday,金曜日
+4,中1 Word Web (巻末 p.141-144),Saturday,土曜日
+4,中1 Word Web (巻末 p.141-144),month,月
+4,中1 Word Web (巻末 p.141-144),January,1月
+4,中1 Word Web (巻末 p.141-144),February,2月
+4,中1 Word Web (巻末 p.141-144),March,3月
+4,中1 Word Web (巻末 p.141-144),April,4月
+4,中1 Word Web (巻末 p.141-144),May,5月
+4,中1 Word Web (巻末 p.141-144),June,6月
+4,中1 Word Web (巻末 p.141-144),July,7月
+4,中1 Word Web (巻末 p.141-144),August,8月
+4,中1 Word Web (巻末 p.141-144),September,9月
+4,中1 Word Web (巻末 p.141-144),October,10月
+4,中1 Word Web (巻末 p.141-144),November,11月
+4,中1 Word Web (巻末 p.141-144),December,12月
+4,中1 Word Web (巻末 p.141-144),date,日付
+4,中1 Word Web (巻末 p.141-144),first,1日
+4,中1 Word Web (巻末 p.141-144),second,2日
+4,中1 Word Web (巻末 p.141-144),third,3日
+4,中1 Word Web (巻末 p.141-144),fourth,4日
+4,中1 Word Web (巻末 p.141-144),fifth,5日
+4,中1 Word Web (巻末 p.141-144),sixth,6日
+4,中1 Word Web (巻末 p.141-144),seventh,7日
+4,中1 Word Web (巻末 p.141-144),eighth,8日
+4,中1 Word Web (巻末 p.141-144),ninth,9日
+4,中1 Word Web (巻末 p.141-144),tenth,10日
+4,中1 Word Web (巻末 p.141-144),eleventh,11日
+4,中1 Word Web (巻末 p.141-144),twelfth,12日
+4,中1 Word Web (巻末 p.141-144),thirteenth,13日
+4,中1 Word Web (巻末 p.141-144),fourteenth,14日
+4,中1 Word Web (巻末 p.141-144),fifteenth,15日
+4,中1 Word Web (巻末 p.141-144),sixteenth,16日
+4,中1 Word Web (巻末 p.141-144),seventeenth,17日
+4,中1 Word Web (巻末 p.141-144),eighteenth,18日
+4,中1 Word Web (巻末 p.141-144),nineteenth,19日
+4,中1 Word Web (巻末 p.141-144),twentieth,20日
+4,中1 Word Web (巻末 p.141-144),twenty-first,21日
+4,中1 Word Web (巻末 p.141-144),twenty-second,22日
+4,中1 Word Web (巻末 p.141-144),twenty-third,23日
+4,中1 Word Web (巻末 p.141-144),twenty-fourth,24日
+4,中1 Word Web (巻末 p.141-144),twenty-fifth,25日
+4,中1 Word Web (巻末 p.141-144),twenty-sixth,26日
+4,中1 Word Web (巻末 p.141-144),twenty-seventh,27日
+4,中1 Word Web (巻末 p.141-144),twenty-eighth,28日
+4,中1 Word Web (巻末 p.141-144),twenty-ninth,29日
+4,中1 Word Web (巻末 p.141-144),thirtieth,30日
+4,中1 Word Web (巻末 p.141-144),thirty-first,31日
+4,中1 Word Web (巻末 p.141-144),weather,天気
+4,中1 Word Web (巻末 p.141-144),sunny,晴れの
+4,中1 Word Web (巻末 p.141-144),cloudy,くもりの
+4,中1 Word Web (巻末 p.141-144),rainy,雨の
+4,中1 Word Web (巻末 p.141-144),snowy,雪の
+4,中1 Word Web (巻末 p.141-144),hot,暑い
+4,中1 Word Web (巻末 p.141-144),warm,暖かい
+4,中1 Word Web (巻末 p.141-144),cold,寒い
+4,中1 Word Web (巻末 p.141-144),cool,涼しい
+4,中1 Word Web (巻末 p.141-144),chilly,肌寒い
+4,中1 Word Web (巻末 p.141-144),foggy,霧のかかった
+4,中1 Word Web (巻末 p.141-144),freezing,凍りつくほど寒い
+4,中1 Word Web (巻末 p.141-144),humid,蒸し暑い
+4,中1 Word Web (巻末 p.141-144),a strong wind,強風
+4,中1 Word Web (巻末 p.141-144),a heavy snow,大雪
+4,中1 Word Web (巻末 p.141-144),season,季節
+4,中1 Word Web (巻末 p.141-144),spring,春
+4,中1 Word Web (巻末 p.141-144),summer,夏
+4,中1 Word Web (巻末 p.141-144),fall,秋
+4,中1 Word Web (巻末 p.141-144),winter,冬
+4,中1 Word Web (巻末 p.141-144),subject,教科
+4,中1 Word Web (巻末 p.141-144),art,美術
+4,中1 Word Web (巻末 p.141-144),English,英語
+4,中1 Word Web (巻末 p.141-144),Japanese,国語
+4,中1 Word Web (巻末 p.141-144),math,数学
+4,中1 Word Web (巻末 p.141-144),music,音楽
+4,中1 Word Web (巻末 p.141-144),P.E.,体育
+4,中1 Word Web (巻末 p.141-144),science,理科
+4,中1 Word Web (巻末 p.141-144),social studies,社会
+4,中1 Word Web (巻末 p.141-144),industrial arts and home economics,技術・家庭
+4,中1 Word Web (巻末 p.141-144),moral education,道徳
+4,中1 Word Web (巻末 p.141-144),period for integrated studies,総合的な学習の時間
+4,中1 Word Web (巻末 p.141-144),classroom activities,学級活動
+4,中1 Word Web (巻末 p.141-144),special activities,特別活動
+4,中1 Word Web (巻末 p.141-144),family,家族
+4,中1 Word Web (巻末 p.141-144),parent,親、両親
+4,中1 Word Web (巻末 p.141-144),father,父 (dではじまる単語)
+4,中1 Word Web (巻末 p.141-144),mother,母(mで終わる単語)
+4,中1 Word Web (巻末 p.141-144),brother,兄、弟
+4,中1 Word Web (巻末 p.141-144),sister,姉、妹
+4,中1 Word Web (巻末 p.141-144),grandparent,祖父母
+4,中1 Word Web (巻末 p.141-144),grandfather,祖父
+4,中1 Word Web (巻末 p.141-144),grandmother,祖母
+4,中1 Word Web (巻末 p.141-144),baby,赤ちゃん
+4,中1 Word Web (巻末 p.141-144),uncle,おじ
+4,中1 Word Web (巻末 p.141-144),aunt,おば
+4,中1 Word Web (巻末 p.141-144),cousin,いとこ
+4,中1 Word Web (巻末 p.141-144),alligator,ワニ(aで始まる単語)
+4,中1 Word Web (巻末 p.141-144),bat,コウモリ
+4,中1 Word Web (巻末 p.141-144),cow,ウシ
+4,中1 Word Web (巻末 p.141-144),dolphin,イルカ
+4,中1 Word Web (巻末 p.141-144),donkey,ロバ
+4,中1 Word Web (巻末 p.141-144),elephant,ゾウ
+4,中1 Word Web (巻末 p.141-144),fox,キツネ
+4,中1 Word Web (巻末 p.141-144),frog,カエル
+4,中1 Word Web (巻末 p.141-144),giraffe,キリン
+4,中1 Word Web (巻末 p.141-144),hippo,カバ
+4,中1 Word Web (巻末 p.141-144),horse,ウマ
+4,中1 Word Web (巻末 p.141-144),kangaroo,カンガルー
+4,中1 Word Web (巻末 p.141-144),koala,コアラ
+4,中1 Word Web (巻末 p.141-144),lion,ライオン
+4,中1 Word Web (巻末 p.141-144),monkey,サル
+4,中1 Word Web (巻末 p.141-144),mouse,ハツカネズミ
+4,中1 Word Web (巻末 p.141-144),panda,パンダ
+4,中1 Word Web (巻末 p.141-144),pig,ブタ
+4,中1 Word Web (巻末 p.141-144),rabbit,ウサギ
+4,中1 Word Web (巻末 p.141-144),reindeer,トナカイ
+4,中1 Word Web (巻末 p.141-144),rhino,サイ
+4,中1 Word Web (巻末 p.141-144),seal,アザラシ
+4,中1 Word Web (巻末 p.141-144),sheep,ヒツジ
+4,中1 Word Web (巻末 p.141-144),snake,ヘビ
+4,中1 Word Web (巻末 p.141-144),squirrel,リス
+4,中1 Word Web (巻末 p.141-144),tiger,トラ
+4,中1 Word Web (巻末 p.141-144),turtle,カメ
+4,中1 Word Web (巻末 p.141-144),whale,クジラ
+4,中1 Word Web (巻末 p.141-144),wolf,オオカミ
+4,中1 Word Web (巻末 p.141-144),zebra,シマウマ
+4,中1 Word Web (巻末 p.141-144),bird,鳥
+4,中1 Word Web (巻末 p.141-144),crane,ツル
+4,中1 Word Web (巻末 p.141-144),flamingo,フラミンゴ
+4,中1 Word Web (巻末 p.141-144),hawk,タカ
+4,中1 Word Web (巻末 p.141-144),seagull,カモメ
+4,中1 Word Web (巻末 p.141-144),fish,魚
+4,中1 Word Web (巻末 p.141-144),carp,コイ
+4,中1 Word Web (巻末 p.141-144),crab,カニ
+4,中1 Word Web (巻末 p.141-144),ant,アリ
+4,中1 Word Web (巻末 p.141-144),beetle,カブトムシ
+4,中1 Word Web (巻末 p.141-144),butterfly,チョウ
+4,中1 Word Web (巻末 p.141-144),spider,クモ
+4,中1 Word Web (巻末 p.141-144),apple,リンゴ
+4,中1 Word Web (巻末 p.141-144),apricot,アンズ
+4,中1 Word Web (巻末 p.141-144),avocado,アボカド
+4,中1 Word Web (巻末 p.141-144),banana,バナナ
+4,中1 Word Web (巻末 p.141-144),dragon fruit,ドラゴンフルーツ
+4,中1 Word Web (巻末 p.141-144),grapes,ブドウ
+4,中1 Word Web (巻末 p.141-144),grapefruit,グレープフルーツ
+4,中1 Word Web (巻末 p.141-144),Japanese apricot,ウメ
+4,中1 Word Web (巻末 p.141-144),kiwi fruit,キウイ
+4,中1 Word Web (巻末 p.141-144),lemon,レモン
+4,中1 Word Web (巻末 p.141-144),mandarin orange,みかん
+4,中1 Word Web (巻末 p.141-144),mango,マンゴー
+4,中1 Word Web (巻末 p.141-144),melon,メロン
+4,中1 Word Web (巻末 p.141-144),orange,オレンジ
+4,中1 Word Web (巻末 p.141-144),papaya,パパイア
+4,中1 Word Web (巻末 p.141-144),peach,モモ
+4,中1 Word Web (巻末 p.141-144),pear,洋ナシ
+4,中1 Word Web (巻末 p.141-144),persimmon,カキ
+4,中1 Word Web (巻末 p.141-144),pineapple,パイナップル
+4,中1 Word Web (巻末 p.141-144),strawberry,イチゴ
+4,中1 Word Web (巻末 p.141-144),watermelon,スイカ
+4,中1 Word Web (巻末 p.141-144),accordion,アコーディオン
+4,中1 Word Web (巻末 p.141-144),castanets,カスタネット
+4,中1 Word Web (巻末 p.141-144),drums,ドラム
+4,中1 Word Web (巻末 p.141-144),flute,フルート
+4,中1 Word Web (巻末 p.141-144),guitar,ギター
+4,中1 Word Web (巻末 p.141-144),harmonica,ハーモニカ
+4,中1 Word Web (巻末 p.141-144),organ,オルガン
+4,中1 Word Web (巻末 p.141-144),piano,ピアノ
+4,中1 Word Web (巻末 p.141-144),tambourine,タンバリン
+4,中1 Word Web (巻末 p.141-144),trumpet,トランペット
+4,中1 Word Web (巻末 p.141-144),violin,バイオリン
+4,中1 Word Web (巻末 p.141-144),xylophone,木琴
+4,中1 Word Web (巻末 p.141-144),dance,ダンスをする
+4,中1 Word Web (巻末 p.141-144),skate,スケートをする
+4,中1 Word Web (巻末 p.141-144),ski,スキーをする
+4,中1 Word Web (巻末 p.141-144),swim,泳ぐ
+4,中1 Word Web (巻末 p.141-144),badminton,バドミントン
+4,中1 Word Web (巻末 p.141-144),baseball,野球
+4,中1 Word Web (巻末 p.141-144),basketball,バスケットボール
+4,中1 Word Web (巻末 p.141-144),hockey,ホッケー
+4,中1 Word Web (巻末 p.141-144),rugby,ラグビー
+4,中1 Word Web (巻末 p.141-144),soccer,サッカー
+4,中1 Word Web (巻末 p.141-144),soft tennis,ソフトテニス
+4,中1 Word Web (巻末 p.141-144),softball,ソフトボール
+4,中1 Word Web (巻末 p.141-144),table tennis,卓球
+4,中1 Word Web (巻末 p.141-144),tennis,テニス
+4,中1 Word Web (巻末 p.141-144),volleyball,バレーボール
+4,中1 Word Web (巻末 p.141-144),gymnastics,体操
+4,中1 Word Web (巻末 p.141-144),judo,柔道
+4,中1 Word Web (巻末 p.141-144),kendo,剣道
+4,中1 Word Web (巻末 p.141-144),track and field,陸上競技
+4,中1 Word Web (巻末 p.141-144),curry and rice,カレーライス
+4,中1 Word Web (巻末 p.141-144),fried noodles,焼きそば
+4,中1 Word Web (巻末 p.141-144),fried rice,チャーハン
+4,中1 Word Web (巻末 p.141-144),miso soup,みそ汁
+4,中1 Word Web (巻末 p.141-144),omelet,オムレツ
+4,中1 Word Web (巻末 p.141-144),pancake,ホットケーキ
+4,中1 Word Web (巻末 p.141-144),pizza,ピザ
+4,中1 Word Web (巻末 p.141-144),seafood,シーフード
+4,中1 Word Web (巻末 p.141-144),cake,ケーキ
+4,中1 Word Web (巻末 p.141-144),cookies,クッキー
+4,中1 Word Web (巻末 p.141-144),jam,ジャム
+4,中1 Word Web (巻末 p.141-144),pudding,プリン
+4,中1 Word Web (巻末 p.141-144),salad,サラダ
+4,中1 Word Web (巻末 p.141-144),sandwich,サンドイッチ
+4,中1 Word Web (巻末 p.141-144),clean my room,部屋を掃除する
+4,中1 Word Web (巻末 p.141-144),do volunteer work,ボランティア活動をする
+4,中1 Word Web (巻末 p.141-144),draw pictures,絵を描く
+4,中1 Word Web (巻末 p.141-144),eat at a restaurant,レストランで食事をする
+4,中1 Word Web (巻末 p.141-144),get up early,早く起きる
+4,中1 Word Web (巻末 p.141-144),go fishing,つりに行く
+4,中1 Word Web (巻末 p.141-144),go on a trip,旅行に行く
+4,中1 Word Web (巻末 p.141-144),go shopping,買い物に行く
+4,中1 Word Web (巻末 p.141-144),go to a concert,コンサートに行く
+4,中1 Word Web (巻末 p.141-144),go to a movie,映画に行く
+4,中1 Word Web (巻末 p.141-144),go to the beach,海岸に行く
+4,中1 Word Web (巻末 p.141-144),have a practice game,練習試合がある
+4,中1 Word Web (巻末 p.141-144),have club activities,部活がある
+4,中1 Word Web (巻末 p.141-144),listen to music,音楽を聞く
+4,中1 Word Web (巻末 p.141-144),make a cake,ケーキを作る
+4,中1 Word Web (巻末 p.141-144),make sweets,お菓子を作る
+4,中1 Word Web (巻末 p.141-144),meet my friends,友だちに会う
+4,中1 Word Web (巻末 p.141-144),play cards,トランプをする
+4,中1 Word Web (巻末 p.141-144),play soccer,サッカーをする
+4,中1 Word Web (巻末 p.141-144),play the guitar,ギターを弾く
+4,中1 Word Web (巻末 p.141-144),play the piano,ピアノを弾く
+4,中1 Word Web (巻末 p.141-144),play video games,テレビゲームをする
+4,中1 Word Web (巻末 p.141-144),practice dance,ダンスを練習する
+4,中1 Word Web (巻末 p.141-144),read books,読書をする
+4,中1 Word Web (巻末 p.141-144),read comics,マンガを読む
+4,中1 Word Web (巻末 p.141-144),ride a bike,自転車に乗る
+4,中1 Word Web (巻末 p.141-144),see a movie,映画を見る
+4,中1 Word Web (巻末 p.141-144),sing karaoke,カラオケで歌う
+4,中1 Word Web (巻末 p.141-144),stay home,家にいる
+4,中1 Word Web (巻末 p.141-144),study hard,一生懸命勉強する
+4,中1 Word Web (巻末 p.141-144),surf the internet,ネットサーフィンをする
+4,中1 Word Web (巻末 p.141-144),swim in a pool,プールで泳ぐ
+4,中1 Word Web (巻末 p.141-144),take a walk,散歩をする(=go for a walk)
+4,中1 Word Web (巻末 p.141-144),take pictures,写真を撮る
+4,中1 Word Web (巻末 p.141-144),visit my grandparents,祖父母を訪問する
+4,中1 Word Web (巻末 p.141-144),watch TV,テレビを見る
+4,中1 Word Web (巻末 p.141-144),write a letter,手紙を書く
+4,中1 Word Web (巻末 p.141-144),ambitious,野心的な
+4,中1 Word Web (巻末 p.141-144),brave,勇敢な
+4,中1 Word Web (巻末 p.141-144),careless,おっちょこちょいの
+4,中1 Word Web (巻末 p.141-144),clever,賢い
+4,中1 Word Web (巻末 p.141-144),creative,創造力のある
+4,中1 Word Web (巻末 p.141-144),easygoing,のんきな
+4,中1 Word Web (巻末 p.141-144),faithful,忠実な
+4,中1 Word Web (巻末 p.141-144),frank,気さくな
+4,中1 Word Web (巻末 p.141-144),friendly,人なつっこい
+4,中1 Word Web (巻末 p.141-144),gentle,おだやかな
+4,中1 Word Web (巻末 p.141-144),kind,親切な
+4,中1 Word Web (巻末 p.141-144),lazy,だらだらした
+4,中1 Word Web (巻末 p.141-144),mean,意地悪な
+4,中1 Word Web (巻末 p.141-144),mild,温厚な
+4,中1 Word Web (巻末 p.141-144),naughty,いたずら好きの
+4,中1 Word Web (巻末 p.141-144),positive,積極的な
+4,中1 Word Web (巻末 p.141-144),reliable,信頼できる
+4,中1 Word Web (巻末 p.141-144),responsible,責任感が強い
+4,中1 Word Web (巻末 p.141-144),romantic,ロマンチックな
+4,中1 Word Web (巻末 p.141-144),rude,無礼な
+4,中1 Word Web (巻末 p.141-144),selfish,わがままな
+4,中1 Word Web (巻末 p.141-144),sensitive,神経質な
+4,中1 Word Web (巻末 p.141-144),sociable,社交的な
+4,中1 Word Web (巻末 p.141-144),strict,厳しい
+4,中1 Word Web (巻末 p.141-144),strong,強い
+4,中1 Word Web (巻末 p.141-144),talented,才能のある
+4,中1 Word Web (巻末 p.141-144),talkative,話し好きな
+4,中1 Word Web (巻末 p.141-144),unkind,不親切な
+4,中1 Word Web (巻末 p.141-144),warm-hearted,心の温かい
+4,中1 Word Web (巻末 p.141-144),wise,賢明な
+4,中1 Word Web (巻末 p.141-144),bitter,苦い
+4,中1 Word Web (巻末 p.141-144),delicious,とてもおいしい
+4,中1 Word Web (巻末 p.141-144),fresh,新鮮な
+4,中1 Word Web (巻末 p.141-144),tasty,おいしい
+4,中1 Word Web (巻末 p.141-144),hot,辛い
+4,中1 Word Web (巻末 p.141-144),juicy,みずみずしい
+4,中1 Word Web (巻末 p.141-144),nice,すてきな、おいしい
+4,中1 Word Web (巻末 p.141-144),salty,塩辛い
+4,中1 Word Web (巻末 p.141-144),sour,すっぱい
+4,中1 Word Web (巻末 p.141-144),sweet,甘い
+4,中1 Word Web (巻末 p.141-144),amazing,見事な
+4,中1 Word Web (巻末 p.141-144),awesome,とてもよい
+4,中1 Word Web (巻末 p.141-144),beautiful,美しい
+4,中1 Word Web (巻末 p.141-144),cool,かっこいい
+4,中1 Word Web (巻末 p.141-144),cute,かわいい
+4,中1 Word Web (巻末 p.141-144),dangerous,危険な
+4,中1 Word Web (巻末 p.141-144),exciting,わくわくさせる
+4,中1 Word Web (巻末 p.141-144),fantastic,すばらしい
+4,中1 Word Web (巻末 p.141-144),funny,おかしい
+4,中1 Word Web (巻末 p.141-144),good,よい
+4,中1 Word Web (巻末 p.141-144),great,偉大な
+4,中1 Word Web (巻末 p.141-144),interesting,興味深い
+4,中1 Word Web (巻末 p.141-144),nice,すてきな
+4,中1 Word Web (巻末 p.141-144),terrible,ひどい
+4,中1 Word Web (巻末 p.141-144),wonderful,すばらしい
+4,中1 Word Web (巻末 p.141-144),aquarium,水族館
+4,中1 Word Web (巻末 p.141-144),art museum,美術館
+4,中1 Word Web (巻末 p.141-144),baseball stadium,野球場
+4,中1 Word Web (巻末 p.141-144),bookstore,本屋
+4,中1 Word Web (巻末 p.141-144),castle,城
+4,中1 Word Web (巻末 p.141-144),city hall,市役所
+4,中1 Word Web (巻末 p.141-144),fire station,消防署
+4,中1 Word Web (巻末 p.141-144),flower shop,花屋
+4,中1 Word Web (巻末 p.141-144),gym,体育館
+4,中1 Word Web (巻末 p.141-144),hospital,病院
+4,中1 Word Web (巻末 p.141-144),library,図書館
+4,中1 Word Web (巻末 p.141-144),police box,交番
+4,中1 Word Web (巻末 p.141-144),police station,警察署
+4,中1 Word Web (巻末 p.141-144),port,港
+4,中1 Word Web (巻末 p.141-144),shopping mall,ショッピングモール
+4,中1 Word Web (巻末 p.141-144),shrine,神社
+4,中1 Word Web (巻末 p.141-144),station,駅
+4,中1 Word Web (巻末 p.141-144),supermarket,スーパーマーケット
+4,中1 Word Web (巻末 p.141-144),swimming pool,プール
+4,中1 Word Web (巻末 p.141-144),temple,寺
+4,中1 Word Web (巻末 p.141-144),theater,劇場
+4,中1 Word Web (巻末 p.141-144),zoo,動物園
+5,中1 アクションワード（アクションカード①〜㊱）,clean your room,部屋をそうじする
+5,中1 アクションワード（アクションカード①〜㊱）,close your book,本を閉じる
+5,中1 アクションワード（アクションカード①〜㊱）,drink some tea,お茶を飲む
+5,中1 アクションワード（アクションカード①〜㊱）,eat breakfast,朝食を食べる
+5,中1 アクションワード（アクションカード①〜㊱）,make sushi,すしを作る
+5,中1 アクションワード（アクションカード①〜㊱）,open your book,本を開く
+5,中1 アクションワード（アクションカード①〜㊱）,play baseball,野球をする
+5,中1 アクションワード（アクションカード①〜㊱）,read a book,本を読む
+5,中1 アクションワード（アクションカード①〜㊱）,sing a song,歌を歌う
+5,中1 アクションワード（アクションカード①〜㊱）,speak English,英語を話す
+5,中1 アクションワード（アクションカード①〜㊱）,study English,英語を勉強する
+5,中1 アクションワード（アクションカード①〜㊱）,take a bath,ふろに入る
+5,中1 アクションワード（アクションカード①〜㊱）,touch your desk,つくえにさわる
+5,中1 アクションワード（アクションカード①〜㊱）,wash your face,顔をあらう
+5,中1 アクションワード（アクションカード①〜㊱）,write your name,名前を書く
+5,中1 アクションワード（アクションカード①〜㊱）,watch TV,テレビを見る
+5,中1 アクションワード（アクションカード①〜㊱）,cook dinner,夕食を作る
+5,中1 アクションワード（アクションカード①〜㊱）,use a computer,コンピュータを使う
+5,中1 アクションワード（アクションカード①〜㊱）,bring your camera,カメラを持ってくる
+5,中1 アクションワード（アクションカード①〜㊱）,come to school,学校に来る
+5,中1 アクションワード（アクションカード①〜㊱）,do your homework,宿題をする
+5,中1 アクションワード（アクションカード①〜㊱）,enjoy your stay,滞在を楽しむ
+5,中1 アクションワード（アクションカード①〜㊱）,find your key,かぎを見つける
+5,中1 アクションワード（アクションカード①〜㊱）,go to school,学校に行く
+5,中1 アクションワード（アクションカード①〜㊱）,help your friend,友だちを手伝う
+5,中1 アクションワード（アクションカード①〜㊱）,listen to music,音楽を聞く
+5,中1 アクションワード（アクションカード①〜㊱）,live in Hokkaido,北海道に住む
+5,中1 アクションワード（アクションカード①〜㊱）,look at me,私を見る
+5,中1 アクションワード（アクションカード①〜㊱）,meet you at the station,駅であなたに会う
+5,中1 アクションワード（アクションカード①〜㊱）,pick up your pencil,えんぴつを拾い上げる
+5,中1 アクションワード（アクションカード①〜㊱）,put down your pencil,えんぴつを置く
+5,中1 アクションワード（アクションカード①〜㊱）,say hello,こんにちはと言う
+5,中1 アクションワード（アクションカード①〜㊱）,see a movie,映画を見る
+5,中1 アクションワード（アクションカード①〜㊱）,teach English,英語を教える
+5,中1 アクションワード（アクションカード①〜㊱）,visit Kyoto,京都を訪れる
+5,中1 アクションワード（アクションカード①〜㊱）,want a new bike,新しい自転車がほしい
