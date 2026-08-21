@@ -24,7 +24,7 @@ set,label,english,japanese
 1,中1 Program3＋Our Project1 (p.38-43),for,（利益・目的・原因・理由を表して）〜のために［の］
 1,中1 Program3＋Our Project1 (p.38-43),French,フランス語
 1,中1 Program3＋Our Project1 (p.38-43),good,よい
-1,中1 Program3＋Our Project1 (p.38-43),good,おいしい
+1,中1 Program3＋Our Project1 (p.38-43),good,おいしい(gで始まる)
 1,中1 Program3＋Our Project1 (p.38-43),grandfather,おじいさん、祖父
 1,中1 Program3＋Our Project1 (p.38-43),grandmother,おばあさん、祖母
 1,中1 Program3＋Our Project1 (p.38-43),guitar,ギター
@@ -67,7 +67,7 @@ set,label,english,japanese
 1,中1 Program3＋Our Project1 (p.38-43),that,あれ（は）、あれ（を）
 1,中1 Program3＋Our Project1 (p.38-43),that's,（that isの短縮形）
 1,中1 Program3＋Our Project1 (p.38-43),the,互いにわかっていている名詞につける。(その)
-1,中1 Program3＋Our Project1 (p.38-43),then,それでは、それなら
+1,中1 Program3＋Our Project1 (p.38-43),then,それでは、それなら(tで始まる)
 1,中1 Program3＋Our Project1 (p.38-43),thing,もの、こと
 1,中1 Program3＋Our Project1 (p.38-43),tree,木
 1,中1 Program3＋Our Project1 (p.38-43),trick,芸
@@ -77,7 +77,7 @@ set,label,english,japanese
 1,中1 Program3＋Our Project1 (p.38-43),well,じょうずに
 1,中1 Program3＋Our Project1 (p.38-43),winter,冬
 1,中1 Program3＋Our Project1 (p.38-43),with,〜といっしょに(前置詞)
-1,中1 Program3＋Our Project1 (p.38-43),wonderful,すばらしい
+1,中1 Program3＋Our Project1 (p.38-43),wonderful,すばらしい(wではじまる)
 2,中1 Program4 (p.51-59),answer,答え
 2,中1 Program4 (p.51-59),ant,アリ
 2,中1 Program4 (p.51-59),banana,バナナ
@@ -96,7 +96,7 @@ set,label,english,japanese
 2,中1 Program4 (p.51-59),deep-fried,たっぷりの油で揚げた
 2,中1 Program4 (p.51-59),drone,ドローン（無線操縦の無人機）
 2,中1 Program4 (p.51-59),elephant,ゾウ
-2,中1 Program4 (p.51-59),excellent,すばらしい、優れた
+2,中1 Program4 (p.51-59),excellent,すばらしい、優れた(eで始まる)
 2,中1 Program4 (p.51-59),famous,有名な
 2,中1 Program4 (p.51-59),fast,速い
 2,中1 Program4 (p.51-59),favorite,お気に入りの、大好きな
@@ -140,7 +140,7 @@ set,label,english,japanese
 2,中1 Program4 (p.51-59),track and field,陸上競技
 2,中1 Program4 (p.51-59),traditional,伝統的な
 2,中1 Program4 (p.51-59),vegetable,野菜
-2,中1 Program4 (p.51-59),who,だれ、だれが
+2,中1 Program4 (p.51-59),who,だれ(が)、だれ(を)
 2,中1 Program4 (p.51-59),who's,（who isの短縮形）
 2,中1 Program4 (p.51-59),with,〜を連れた、〜を持った(前置詞)
 2,中1 Program4 (p.51-59),woman,女性、女の人
@@ -514,14 +514,14 @@ set,label,english,japanese
 4,中1 Word Web (巻末 p.141-144),cute,かわいい
 4,中1 Word Web (巻末 p.141-144),dangerous,危険な
 4,中1 Word Web (巻末 p.141-144),exciting,わくわくさせる
-4,中1 Word Web (巻末 p.141-144),fantastic,すばらしい
+4,中1 Word Web (巻末 p.141-144),fantastic,すばらしい(wではじまる)
 4,中1 Word Web (巻末 p.141-144),funny,おかしい
 4,中1 Word Web (巻末 p.141-144),good,よい
 4,中1 Word Web (巻末 p.141-144),great,偉大な
 4,中1 Word Web (巻末 p.141-144),interesting,興味深い
 4,中1 Word Web (巻末 p.141-144),nice,すてきな
 4,中1 Word Web (巻末 p.141-144),terrible,ひどい
-4,中1 Word Web (巻末 p.141-144),wonderful,すばらしい
+4,中1 Word Web (巻末 p.141-144),wonderful,すばらしい(wではじまる)
 4,中1 Word Web (巻末 p.141-144),aquarium,水族館
 4,中1 Word Web (巻末 p.141-144),art museum,美術館
 4,中1 Word Web (巻末 p.141-144),baseball stadium,野球場
@@ -575,7 +575,7 @@ set,label,english,japanese
 5,中1 アクションワード（アクションカード①〜㊱）,meet you at the station,駅であなたに会う
 5,中1 アクションワード（アクションカード①〜㊱）,pick up your pencil,えんぴつを拾い上げる
 5,中1 アクションワード（アクションカード①〜㊱）,put down your pencil,えんぴつを置く
-5,中1 アクションワード（アクションカード①〜㊱）,say hello,こんにちはと言う
+5,中1 アクションワード（アクションカード①〜㊱）,say hello,こんにちはと言う、よろしく伝える
 5,中1 アクションワード（アクションカード①〜㊱）,see a movie,映画を見る
 5,中1 アクションワード（アクションカード①〜㊱）,teach English,英語を教える
 5,中1 アクションワード（アクションカード①〜㊱）,visit Kyoto,京都を訪れる
