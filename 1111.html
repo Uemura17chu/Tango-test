@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ================================================================== -->
+<!--  ★★★  ここが「編集する場所」です  ★★★                            -->
+<!--                                                                    -->
+<!--  ● サイト名を変える → 名前:"○○○" の " " の中を書きかえる          -->
+<!--  ● URLを変える     → url:"https://..." の " " の中を書きかえる      -->
+<!--  ● サイトを追加    → { 名前:"...", url:"..." }, の1行をコピーして   -->
+<!--                       貼りつけ、名前とURLを書きかえる               -->
+<!--  ● サイトを消す    → その1行（{ ... },）を消す                     -->
+<!--  ● カテゴリー名    → カテゴリー:"..." の " " の中を書きかえる        -->
+<!--                                                                    -->
+<!--  【注意】" (ダブルクォート) と , (カンマ) は消さないでください。     -->
+<!--          URLは https:// から始まる形にしてください。               -->
+<!-- ================================================================== -->
+
+<title>職員室ThinkPad</title>
+<script>
+
+/* ▼ ページ上部に出す見出し（自由に書きかえOK） */
+const ページタイトル   = "職員室ThinkPad からのリンク集";
+const ページの説明     = "クリックすると新しいタブでサイトが開きます";
+
+/* ▼ サイト一覧 */
+const サイト一覧 = [
+
+
+  {
+    カテゴリー: "① 出欠、C4th、出退勤",
+    サイト: [
+      { 名前:"Codmon", url:"https://www.codmon.com/manage/#/dashboard/" },
+      { 名前:"C4th", url:"http://172.17.1.160/educom/c4th_login?center_id=C27_toyonaka" },
+      { 名前:"出退勤システム", url:"http://172.17.1.141/TimePro-VG/page/OVg00010t.aspx" },
+
+    ]
+  },
+
+ {
+    カテゴリー: "② 校務",
+    サイト: [
+
+
+      { 名前:"１年学年会", url:"https://toyonaka-edu.ent.box.com/folder/402767109309" },
+      { 名前:"１年学年会", url:"https://toyonaka-edu.ent.box.com/folder/402767109309" },
+      { 名前:"部", url:"https://toyonaka-edu.ent.box.com/folder/402761428678" },
+      { 名前:"委員会", url:"https://toyonaka-edu.ent.box.com/folder/402764013311" },
+      { 名前:"学年だより", url:"https://toyonaka-edu.ent.box.com/folder/402768872787" },
+      { 名前:"体育大会　審判", url:"https://toyonaka-edu.ent.box.com/folder/405678777187" },
+      { 名前:"市外教", url:"https://toyonaka-edu.ent.box.com/folder/402769861418" },
+      { 名前:"英語成績", url:"https://toyonaka-edu.ent.box.com/folder/402886239966" },
+
+    ]
+  },
+
+
+  {
+    カテゴリー: "③ メール・学級通信・時間割",
+    サイト: [
+
+      { 名前:"時間割_上村", url:"https://toyonakaeduc-my.sharepoint.com/:f:/g/personal/uemura-t_edu_toyonaka-osa_ed_jp/IgDjL3KrOihhTJuXCdaL0Bu1AdihhzP4QUb3oXowAtUA9qw?e=1e2mUA" },
+      { 名前:"学級通信", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer/Forms/AllItems.aspx?id=%2Fsites%2F67%2Dgak%2Djh17%2Ftecher%2F%E4%BB%A4%E5%92%8C8%E5%B9%B4%E5%BA%A6%282026%E5%B9%B4%E5%BA%A6%29%2F6%2E%E5%80%8B%E4%BA%BA%E3%83%95%E3%82%A9%E3%83%AB%E3%83%80%2F%E4%B8%8A%E6%9D%91%2F%E5%AD%A6%E7%B4%9A%E9%80%9A%E4%BF%A1&viewid=1f601060%2D1775%2D44f6%2D81dd%2D225ec5e3720b" },
+      { 名前:"学校メール", url:"https://outlook.cloud.microsoft/mail/" },
+
+    ]
+  },
+
+  {
+    カテゴリー: "④ AIツール",
+    サイト: [
+      { 名前:"ChatGPT", url:"https://openai.com/ja-JP/" },
+      { 名前:"Claude AI", url:"https://claude.ai/new" },
+      { 名前:"google", url:"https://www.google.com/" },
+      { 名前:"Yahoo!", url:"https://www.yahoo.co.jp/" },
+
+    ]
+  },
+  {
+    カテゴリー: "⑤ 個人フォルダ",
+    サイト: [
+      { 名前:"my個人フォルダ", url:"https://toyonakaeduc.sharepoint.com/_layouts/15/sharepoint.aspx/onedrive" },
+      { 名前:"Box個人フォルダ", url:"https://toyonaka-edu.ent.box.com/folder/392600970912" },
+      { 名前:"Teams(web)", url:"https://teams.cloud.microsoft/v2/" },
+    ]
+  },  
+
+  {
+    カテゴリー: "⑥ がんばれ英単語テスト",
+    サイト: [
+      { 名前:"全体", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer/Forms/AllItems.aspx?id=%2Fsites%2F67%2Dgak%2Djh17%2Ftecher%2F%E4%BB%A4%E5%92%8C8%E5%B9%B4%E5%BA%A6%282026%E5%B9%B4%E5%BA%A6%29%2F2%2E%E5%90%84%E6%95%99%E7%A7%91%2F10%2E%E8%8B%B1%E8%AA%9E%2F1%E5%B9%B4%2F%E4%B8%8A%E6%9D%91%2FJohn%E6%95%99%E6%9D%90%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%2F%E3%81%8C%E3%82%93%E3%81%B0%E3%82%8C%E5%8D%98%E8%AA%9E%E3%83%86%E3%82%B9%E3%83%88&viewid=1f601060%2D1775%2D44f6%2D81dd%2D225ec5e3720b" },
+      { 名前:"使用中", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer/Forms/AllItems.aspx?id=%2Fsites%2F67%2Dgak%2Djh17%2Ftecher%2F%E4%BB%A4%E5%92%8C8%E5%B9%B4%E5%BA%A6%282026%E5%B9%B4%E5%BA%A6%29%2F2%2E%E5%90%84%E6%95%99%E7%A7%91%2F10%2E%E8%8B%B1%E8%AA%9E%2F1%E5%B9%B4%2F%E4%B8%8A%E6%9D%91%2FJohn%E6%95%99%E6%9D%90%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%2F%E3%81%8C%E3%82%93%E3%81%B0%E3%82%8C%E5%8D%98%E8%AA%9E%E3%83%86%E3%82%B9%E3%83%88%2F%E4%BD%BF%E7%94%A8%E4%B8%AD&viewid=1f601060%2D1775%2D44f6%2D81dd%2D225ec5e3720b" },
+      { 名前:"GitHub", url:"https://github.com/Uemura17chu/Tango-test" },
+      { 名前:"合格パスの回収用Forms", url:"https://forms.cloud.microsoft/Pages/DesignPageV2.aspx?analysis=true&prevsubpage=design" },
+      { 名前:"アップロード先サイト", url:"https://uemura17chu.github.io/Tango-test/" },
+
+    ]
+  },
+
+
+ {
+    カテゴリー: "⑦ Sun Shine 教科書音源・画像・動画",
+    サイト: [
+      { 名前:"英語教科書Sunshine１年生", url:"https://www.kairyudo.co.jp/contents/02_chu/eigo/r7/qr/1/" },
+      { 名前:"英語教科書Sunshine２年生", url:"https://www.kairyudo.co.jp/contents/02_chu/eigo/r7/qr/2/" },
+      { 名前:"英語教科書Sunshine３年生", url:"https://www.kairyudo.co.jp/contents/02_chu/eigo/r7/qr/3/" },
+      { 名前:"教科書CD-R", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer/Forms/AllItems.aspx?id=%2Fsites%2F67%2Dgak%2Djh17%2Ftecher%2F%E4%BB%A4%E5%92%8C8%E5%B9%B4%E5%BA%A6%282026%E5%B9%B4%E5%BA%A6%29%2F2%2E%E5%90%84%E6%95%99%E7%A7%91%2F10%2E%E8%8B%B1%E8%AA%9E%2F1%E5%B9%B4%2F%E4%B8%8A%E6%9D%91%2FJohn%E6%95%99%E6%9D%90%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%2F1nenData%2F1nenKyozaiData&viewid=1f601060%2D1775%2D44f6%2D81dd%2D225ec5e3720b" },
+
+    ]
+  },
+
+
+  {
+    カテゴリー: "⑧ 授業準備・学習系サイト",
+    サイト: [
+      { 名前:"学習系サイト", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer" },
+      { 名前:"１年_Scenes", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer/Forms/AllItems.aspx?id=%2Fsites%2F67%2Dgak%2Djh17%2Ftecher%2F%E4%BB%A4%E5%92%8C8%E5%B9%B4%E5%BA%A6%282026%E5%B9%B4%E5%BA%A6%29%2F2%2E%E5%90%84%E6%95%99%E7%A7%91%2F10%2E%E8%8B%B1%E8%AA%9E%2F1%E5%B9%B4%2F%E4%B8%8A%E6%9D%91%2FJohn%E6%95%99%E6%9D%90%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%2F%E4%B8%AD%EF%BC%91%E5%B9%B4%E7%94%9F%2FJohn%E6%95%99%E6%9D%90%2F%E8%8B%B1%E8%AA%9E%2FScenes&viewid=1f601060%2D1775%2D44f6%2D81dd%2D225ec5e3720b" },
+      { 名前:"１年_Listen", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer/Forms/AllItems.aspx?id=%2Fsites%2F67%2Dgak%2Djh17%2Ftecher%2F%E4%BB%A4%E5%92%8C8%E5%B9%B4%E5%BA%A6%282026%E5%B9%B4%E5%BA%A6%29%2F2%2E%E5%90%84%E6%95%99%E7%A7%91%2F10%2E%E8%8B%B1%E8%AA%9E%2F1%E5%B9%B4%2F%E4%B8%8A%E6%9D%91%2FJohn%E6%95%99%E6%9D%90%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%2F%E4%B8%AD%EF%BC%91%E5%B9%B4%E7%94%9F%2FJohn%E6%95%99%E6%9D%90%2F%E8%8B%B1%E8%AA%9E%2FListen&viewid=1f601060%2D1775%2D44f6%2D81dd%2D225ec5e3720b" },
+      { 名前:"１年_Part", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer/Forms/AllItems.aspx?id=%2Fsites%2F67%2Dgak%2Djh17%2Ftecher%2F%E4%BB%A4%E5%92%8C8%E5%B9%B4%E5%BA%A6%282026%E5%B9%B4%E5%BA%A6%29%2F2%2E%E5%90%84%E6%95%99%E7%A7%91%2F10%2E%E8%8B%B1%E8%AA%9E%2F1%E5%B9%B4%2F%E4%B8%8A%E6%9D%91%2FJohn%E6%95%99%E6%9D%90%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%2F%E4%B8%AD%EF%BC%91%E5%B9%B4%E7%94%9F%2FJohn%E6%95%99%E6%9D%90%2F%E8%8B%B1%E8%AA%9E%2FPart&viewid=1f601060%2D1775%2D44f6%2D81dd%2D225ec5e3720b" },
+      { 名前:"１年_Action", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer/Forms/AllItems.aspx?id=%2Fsites%2F67%2Dgak%2Djh17%2Ftecher%2F%E4%BB%A4%E5%92%8C8%E5%B9%B4%E5%BA%A6%282026%E5%B9%B4%E5%BA%A6%29%2F2%2E%E5%90%84%E6%95%99%E7%A7%91%2F10%2E%E8%8B%B1%E8%AA%9E%2F1%E5%B9%B4%2F%E4%B8%8A%E6%9D%91%2FJohn%E6%95%99%E6%9D%90%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%2F%E4%B8%AD%EF%BC%91%E5%B9%B4%E7%94%9F%2FJohn%E6%95%99%E6%9D%90%2F%E8%8B%B1%E8%AA%9E%2FAction&viewid=1f601060%2D1775%2D44f6%2D81dd%2D225ec5e3720b" },
+      { 名前:"１年_Review and Retell", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer/Forms/AllItems.aspx?id=%2Fsites%2F67%2Dgak%2Djh17%2Ftecher%2F%E4%BB%A4%E5%92%8C8%E5%B9%B4%E5%BA%A6%282026%E5%B9%B4%E5%BA%A6%29%2F2%2E%E5%90%84%E6%95%99%E7%A7%91%2F10%2E%E8%8B%B1%E8%AA%9E%2F1%E5%B9%B4%2F%E4%B8%8A%E6%9D%91%2FJohn%E6%95%99%E6%9D%90%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%2F%E4%B8%AD%EF%BC%91%E5%B9%B4%E7%94%9F%2FJohn%E6%95%99%E6%9D%90%2F%E8%8B%B1%E8%AA%9E%2FReviewRetell&viewid=1f601060%2D1775%2D44f6%2D81dd%2D225ec5e3720b" },
+      { 名前:"１年_OueProject", url:"https://onedrive.live.com/my?id=%2Fpersonal%2Fad967dea7debae43%2FDocuments%2FScanShot%2F1%5F%E5%AD%A6%E7%BF%92%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%2FJohn%E6%95%99%E6%9D%90%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%2F%E4%B8%AD%EF%BC%91%E5%B9%B4%E7%94%9F%2FJohn%E6%95%99%E6%9D%90%2F%E8%8B%B1%E8%AA%9E%2FOurProject&sortField=LinkFilename&isAscending=true&viewid=b72eebd6%2D9ea6%2D428b%2Dbab2%2Dd9109c8c314e" },
+      { 名前:"１年_Steps", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer/Forms/AllItems.aspx?id=%2Fsites%2F67%2Dgak%2Djh17%2Ftecher%2F%E4%BB%A4%E5%92%8C8%E5%B9%B4%E5%BA%A6%282026%E5%B9%B4%E5%BA%A6%29%2F2%2E%E5%90%84%E6%95%99%E7%A7%91%2F10%2E%E8%8B%B1%E8%AA%9E%2F1%E5%B9%B4%2F%E4%B8%8A%E6%9D%91%2FJohn%E6%95%99%E6%9D%90%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%2F%E4%B8%AD%EF%BC%91%E5%B9%B4%E7%94%9F%2FJohn%E6%95%99%E6%9D%90%2F%E8%8B%B1%E8%AA%9E%2FSteps&viewid=1f601060%2D1775%2D44f6%2D81dd%2D225ec5e3720b" },
+      { 名前:"１年_Grammar", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer/Forms/AllItems.aspx?id=%2Fsites%2F67%2Dgak%2Djh17%2Ftecher%2F%E4%BB%A4%E5%92%8C8%E5%B9%B4%E5%BA%A6%282026%E5%B9%B4%E5%BA%A6%29%2F2%2E%E5%90%84%E6%95%99%E7%A7%91%2F10%2E%E8%8B%B1%E8%AA%9E%2F1%E5%B9%B4%2F%E4%B8%8A%E6%9D%91%2FJohn%E6%95%99%E6%9D%90%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%2F%E4%B8%AD%EF%BC%91%E5%B9%B4%E7%94%9F%2FJohn%E6%95%99%E6%9D%90%2F%E8%8B%B1%E8%AA%9E%2FGrammar&viewid=1f601060%2D1775%2D44f6%2D81dd%2D225ec5e3720b" },
+      { 名前:"１年_PowerUp", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer/Forms/AllItems.aspx?id=%2Fsites%2F67%2Dgak%2Djh17%2Ftecher%2F%E4%BB%A4%E5%92%8C8%E5%B9%B4%E5%BA%A6%282026%E5%B9%B4%E5%BA%A6%29%2F2%2E%E5%90%84%E6%95%99%E7%A7%91%2F10%2E%E8%8B%B1%E8%AA%9E%2F1%E5%B9%B4%2F%E4%B8%8A%E6%9D%91%2FJohn%E6%95%99%E6%9D%90%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%2F%E4%B8%AD%EF%BC%91%E5%B9%B4%E7%94%9F%2FJohn%E6%95%99%E6%9D%90%2F%E8%8B%B1%E8%AA%9E%2FPowerUp&viewid=1f601060%2D1775%2D44f6%2D81dd%2D225ec5e3720b" },
+      { 名前:"１年_PowerUp", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer/Forms/AllItems.aspx?id=%2Fsites%2F67%2Dgak%2Djh17%2Ftecher%2F%E4%BB%A4%E5%92%8C8%E5%B9%B4%E5%BA%A6%282026%E5%B9%B4%E5%BA%A6%29%2F2%2E%E5%90%84%E6%95%99%E7%A7%91%2F10%2E%E8%8B%B1%E8%AA%9E%2F1%E5%B9%B4%2F%E4%B8%8A%E6%9D%91%2FJohn%E6%95%99%E6%9D%90%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%2F%E4%B8%AD%EF%BC%91%E5%B9%B4%E7%94%9F%2FJohn%E6%95%99%E6%9D%90%2F%E8%8B%B1%E8%AA%9E%2FPowerUp&viewid=1f601060%2D1775%2D44f6%2D81dd%2D225ec5e3720b" },
+      { 名前:"１年_PowerUp", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer/Forms/AllItems.aspx?id=%2Fsites%2F67%2Dgak%2Djh17%2Ftecher%2F%E4%BB%A4%E5%92%8C8%E5%B9%B4%E5%BA%A6%282026%E5%B9%B4%E5%BA%A6%29%2F2%2E%E5%90%84%E6%95%99%E7%A7%91%2F10%2E%E8%8B%B1%E8%AA%9E%2F1%E5%B9%B4%2F%E4%B8%8A%E6%9D%91%2FJohn%E6%95%99%E6%9D%90%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%2F%E4%B8%AD%EF%BC%91%E5%B9%B4%E7%94%9F%2FJohn%E6%95%99%E6%9D%90%2F%E8%8B%B1%E8%AA%9E%2FPowerUp&viewid=1f601060%2D1775%2D44f6%2D81dd%2D225ec5e3720b" },
+      { 名前:"１年_PowerUp", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer/Forms/AllItems.aspx?id=%2Fsites%2F67%2Dgak%2Djh17%2Ftecher%2F%E4%BB%A4%E5%92%8C8%E5%B9%B4%E5%BA%A6%282026%E5%B9%B4%E5%BA%A6%29%2F2%2E%E5%90%84%E6%95%99%E7%A7%91%2F10%2E%E8%8B%B1%E8%AA%9E%2F1%E5%B9%B4%2F%E4%B8%8A%E6%9D%91%2FJohn%E6%95%99%E6%9D%90%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%2F%E4%B8%AD%EF%BC%91%E5%B9%B4%E7%94%9F%2FJohn%E6%95%99%E6%9D%90%2F%E8%8B%B1%E8%AA%9E%2FPowerUp&viewid=1f601060%2D1775%2D44f6%2D81dd%2D225ec5e3720b" },
+      { 名前:"１年_Worksheet", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer/Forms/AllItems.aspx?id=%2Fsites%2F67%2Dgak%2Djh17%2Ftecher%2F%E4%BB%A4%E5%92%8C8%E5%B9%B4%E5%BA%A6%282026%E5%B9%B4%E5%BA%A6%29%2F2%2E%E5%90%84%E6%95%99%E7%A7%91%2F10%2E%E8%8B%B1%E8%AA%9E%2F1%E5%B9%B4%2F%E4%B8%8A%E6%9D%91%2FJohn%E6%95%99%E6%9D%90%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%2F%E4%B8%AD%EF%BC%91%E5%B9%B4%E7%94%9F%2FJohn%E6%95%99%E6%9D%90%2F%E8%8B%B1%E8%AA%9E%2FWorkSheet&viewid=1f601060%2D1775%2D44f6%2D81dd%2D225ec5e3720b"},
+      { 名前:"１年_単語テスト", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer/Forms/AllItems.aspx?id=%2Fsites%2F67%2Dgak%2Djh17%2Ftecher%2F%E4%BB%A4%E5%92%8C8%E5%B9%B4%E5%BA%A6%282026%E5%B9%B4%E5%BA%A6%29%2F2%2E%E5%90%84%E6%95%99%E7%A7%91%2F10%2E%E8%8B%B1%E8%AA%9E%2F1%E5%B9%B4%2F%E4%B8%8A%E6%9D%91%2FJohn%E6%95%99%E6%9D%90%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%2F%E4%B8%AD%EF%BC%91%E5%B9%B4%E7%94%9F%2FJohn%E6%95%99%E6%9D%90%2F%E8%8B%B1%E8%AA%9E%2FWorkSheet%2F%E5%8D%98%E8%AA%9E%E3%83%86%E3%82%B9%E3%83%88&viewid=1f601060%2D1775%2D44f6%2D81dd%2D225ec5e3720b"},
+      { 名前:"１年_本文プリント", url:"https://toyonakaeduc.sharepoint.com/sites/67-gak-jh17/techer/Forms/AllItems.aspx?id=%2Fsites%2F67%2Dgak%2Djh17%2Ftecher%2F%E4%BB%A4%E5%92%8C8%E5%B9%B4%E5%BA%A6%282026%E5%B9%B4%E5%BA%A6%29%2F2%2E%E5%90%84%E6%95%99%E7%A7%91%2F10%2E%E8%8B%B1%E8%AA%9E%2F1%E5%B9%B4%2F%E4%B8%8A%E6%9D%91%2FJohn%E6%95%99%E6%9D%90%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%2F%E4%B8%AD%EF%BC%91%E5%B9%B4%E7%94%9F%2FJohn%E6%95%99%E6%9D%90%2F%E8%8B%B1%E8%AA%9E%2FWorkSheet%2F%E6%9C%AC%E6%96%87%E3%83%97%E3%83%AA%E3%83%B3%E3%83%88&viewid=1f601060%2D1775%2D44f6%2D81dd%2D225ec5e3720b"},
+    ]
+  },
+
+  {
+    カテゴリー: "⑨ デジタル教科書",
+    サイト: [
+      { 名前:"英語１年", url:"https://toyonaka-city.es.edumall.jp/edge/EduMallContents/0000000023/B8011056/2/entity/index.html" },
+      { 名前:"英語２年", url:"https://toyonaka-city.es.edumall.jp/edge/EduMallContents/0000000023/B8011057/2/entity/index.html" },
+      { 名前:"英語３年", url:"https://toyonaka-city.es.edumall.jp/edge/EduMallContents/0000000023/B8011058/4/entity/index.html" },
+      { 名前:"時計タイマーストップウォッチ", url:"https://toyonaka-city.es.edumall.jp/edge/EduMallContents/9000000002/Z9000884/7/entity/index.html?trialListeningFlg=0&edgeServerId=E000001226&gakkoId=SC00005278" },
+    ]
+  },
+
+];
+
+/* ================================================================== */
+/*  ここから下は書きかえなくて大丈夫です（見た目と動きの部分）        */
+/* ================================================================== */
+</script>
+
+<style>
+  :root{
+    --bg:        #eaf4fb;
+    --header:    #3d8bd4;
+    --header2:   #5aa9e6;
+    --card:      #ffffff;
+    --border:    #cfe3f5;
+    --text:      #1f3a52;
+    --muted:     #6b8299;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:"BIZ UDPGothic","Meiryo","Hiragino Kaku Gothic ProN","Segoe UI",system-ui,sans-serif;
+    line-height:1.5;
+  }
+
+  header{
+    background:linear-gradient(135deg,var(--header2),var(--header));
+    color:#fff;
+    padding:28px 24px;
+    box-shadow:0 2px 8px rgba(0,0,0,.12);
+  }
+  header h1{ margin:0; font-size:26px; letter-spacing:.02em; }
+  header p{ margin:6px 0 0; font-size:14px; opacity:.92; }
+
+  .wrap{ max-width:1100px; margin:0 auto; padding:22px 24px 60px; }
+
+  .search{
+    display:block; width:100%; max-width:360px;
+    margin:18px 0 8px;
+    padding:11px 14px; font-size:15px;
+    border:2px solid var(--border); border-radius:10px;
+    background:#fff; color:var(--text);
+  }
+  .search:focus{ outline:none; border-color:var(--header); }
+
+  .category{ margin-top:30px; }
+  .category h2{
+    font-size:18px; margin:0 0 12px;
+    padding-left:12px; border-left:6px solid var(--cat,#4a90d9);
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+    gap:14px;
+  }
+  a.card{
+    display:block;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-top:4px solid var(--cat,#4a90d9);
+    border-radius:12px;
+    padding:16px 16px 13px;
+    text-decoration:none; color:var(--text);
+    box-shadow:0 1px 3px rgba(30,60,90,.06);
+    transition:transform .08s ease, box-shadow .12s ease, border-color .12s ease;
+  }
+  a.card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 6px 16px rgba(30,60,90,.16);
+    border-color:var(--cat,#4a90d9);
+  }
+  a.card:focus-visible{ outline:3px solid var(--header); outline-offset:2px; }
+  a.card .name{ font-size:16px; font-weight:700; word-break:break-word; }
+  a.card .host{ font-size:12px; color:var(--muted); margin-top:6px; word-break:break-all; }
+
+  .empty{ color:var(--muted); font-size:14px; padding:8px 0; }
+  footer{ text-align:center; color:var(--muted); font-size:12px; padding:24px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 id="pageTitle"></h1>
+  <p id="pageDesc"></p>
+</header>
+
+<div class="wrap">
+  <input type="text" id="search" class="search" placeholder="🔍 サイト名でしぼりこむ">
+  <div id="list"></div>
+</div>
+
+<footer>クリックで新しいタブに開きます</footer>
+
+<script>
+  // カテゴリーごとの色（上から順に対応。足りなければ先頭からくり返し）
+  const 色 = ["#4a90d9","#43a047","#f57c00","#8e44ad","#00897b","#607d8b"];
+
+  document.getElementById("pageTitle").textContent = ページタイトル;
+  document.getElementById("pageDesc").textContent  = ページの説明;
+  document.title = ページタイトル;
+
+  // URLが https:// で始まっていなければ補う（書きまちがい対策）
+  function 整える(url){
+    url = (url || "").trim();
+    if(!url) return "";
+    if(!/^https?:\/\//i.test(url)) url = "https://" + url;
+    return url;
+  }
+  function ホスト名(url){
+    try{ return new URL(url).hostname.replace(/^www\./,""); }
+    catch(e){ return ""; }
+  }
+
+  const list = document.getElementById("list");
+
+  サイト一覧.forEach((グループ, i) => {
+    const color = 色[i % 色.length];
+
+    const section = document.createElement("div");
+    section.className = "category";
+    section.style.setProperty("--cat", color);
+
+    const h2 = document.createElement("h2");
+    h2.textContent = グループ.カテゴリー || "";
+    section.appendChild(h2);
+
+    const grid = document.createElement("div");
+    grid.className = "grid";
+
+    (グループ.サイト || []).forEach(サイト => {
+      const url = 整える(サイト.url);
+      const a = document.createElement("a");
+      a.className = "card";
+      a.href = url || "#";
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.dataset.search = (サイト.名前 || "") + " " + url;
+
+      const name = document.createElement("div");
+      name.className = "name";
+      name.textContent = サイト.名前 || "(名前なし)";
+
+      const host = document.createElement("div");
+      host.className = "host";
+      host.textContent = ホスト名(url);
+
+      a.appendChild(name);
+      a.appendChild(host);
+      grid.appendChild(a);
+    });
+
+    section.appendChild(grid);
+    list.appendChild(section);
+  });
+
+  // しぼりこみ
+  const search = document.getElementById("search");
+  search.addEventListener("input", () => {
+    const q = search.value.trim().toLowerCase();
+    document.querySelectorAll(".category").forEach(sec => {
+      let shown = 0;
+      sec.querySelectorAll("a.card").forEach(card => {
+        const hit = card.dataset.search.toLowerCase().includes(q);
+        card.style.display = hit ? "" : "none";
+        if(hit) shown++;
+      });
+      sec.style.display = shown ? "" : "none";
+    });
+  });
+</script>
+
+</body>
+</html>
