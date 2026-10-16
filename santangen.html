@@ -71,7 +71,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .q.q-writing{background:var(--peach);border-color:#f3c9b0}
 .qnum{display:inline-block;font-weight:900;margin-bottom:8px;font-size:1.05rem;color:#fff;background:var(--sky-dk);padding:2px 14px;border-radius:999px}
 .q.q-writing .qnum{background:var(--peach-dk)}
-.q>div:not(.qnum):not(.choices):not(.answer){font-size:1.32rem;font-weight:700}
+.q>div:not(.qnum):not(.choices):not(.answer):not(.caseBar):not(.wRow){font-size:1.32rem;font-weight:700}
 .q.q-writing>.muted{font-size:1rem!important;font-weight:600!important;color:#8a4f2c}
 .choices{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
 .choice{display:inline-block;border:3px solid #c3dff7;border-radius:14px;padding:11px 18px;font-size:1.28rem;font-weight:750;background:#fff;min-width:110px;cursor:pointer;box-shadow:0 3px 0 #c3dff7}
@@ -86,7 +86,21 @@ button:disabled{opacity:.45;cursor:not-allowed}
 [id^="f"].ok{display:inline-block;background:var(--mint);padding:4px 14px;border-radius:10px}
 [id^="f"].ng{display:inline-block;background:var(--pink);padding:4px 14px;border-radius:10px}
 #gradeChoices{background:var(--sky-dk);box-shadow:0 4px 0 #2c629f}
-#showAnswers{background:var(--peach-dk);color:#fff;box-shadow:0 4px 0 #964f2a}
+.caseBar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.caseLbl{font-size:.95rem;font-weight:800;color:#8a4f2c}
+.caseBtn{background:#fff;color:var(--text);border:3px solid #f3c9b0;box-shadow:0 3px 0 #f3c9b0;padding:9px 14px;font-size:1.05rem}
+.caseBtn.on{background:var(--peach-dk);color:#fff;border-color:#964f2a;box-shadow:0 3px 0 #964f2a}
+.wIn{display:block;width:100%;margin-top:10px;font-size:1.4rem;padding:12px 14px;border:3px solid #f3c9b0;border-radius:14px;background:#fff;color:var(--text);font-family:"Segoe UI",Arial,sans-serif}
+.wIn:focus{outline:4px solid #b9a6ff;outline-offset:1px}
+.wIn[readonly]{background:#f2fbf6;border-color:#a8dfc0}
+.wRow{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.checkBtn{background:var(--peach-dk);color:#fff;box-shadow:0 4px 0 #964f2a;font-size:1.15rem}
+.giveUp{font-size:.95rem;padding:10px 14px}
+.wfb{font-size:1.12rem;margin-top:10px;font-weight:800;line-height:1.6}
+.wfb.ok{display:block;background:var(--mint);padding:6px 14px;border-radius:10px}
+.wfb.ng{display:block;background:var(--pink);padding:6px 14px;border-radius:10px}
+.answer{user-select:none;-webkit-user-select:none}
+.yours{font-size:1rem;color:var(--ng);margin-top:6px;font-weight:700}
 #score{font-size:1.25rem;line-height:1.6}
 #score:not(:empty){background:var(--lav);border-radius:14px;padding:12px 16px;margin-top:14px}
 #lockMsg{background:#f4f1fa;border-radius:12px;padding:8px 14px}
@@ -117,7 +131,8 @@ button:disabled{opacity:.45;cursor:not-allowed}
  .levels{grid-template-columns:repeat(5,1fr)}
  .wrap{padding:10px 8px 30px}#gate{padding:20px 14px 0}.gateBar{margin:16px -14px 0;padding-left:14px;padding-right:14px}
  #enterBtn{width:100%}#gate h1{font-size:1.45rem}.gateLead{font-size:1rem}
- .q{font-size:1.16rem;padding:14px}.q>div:not(.qnum):not(.choices):not(.answer){font-size:1.23rem}
+ .q{font-size:1.16rem;padding:14px}.q>div:not(.qnum):not(.choices):not(.answer):not(.caseBar):not(.wRow){font-size:1.23rem}
+ .caseBtn{font-size:.95rem;padding:9px 10px}
  .choice{font-size:1.18rem;min-width:100px}.answer{font-size:1.25rem}}
 @media(prefers-reduced-motion:reduce){button{transition:none}}
 </style>
@@ -138,7 +153,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 <section id="training" class="panel hidden">
 <div class="row" style="justify-content:space-between"><div><h2 id="levelTitle"></h2><div id="levelNote" class="muted"></div></div></div>
 <div id="questions"></div>
-<div class="row"><button id="gradeChoices" class="primary">選択問題を採点</button><button id="showAnswers" class="secondary">英作文の答えを見る</button></div>
+<div class="row"><button id="gradeChoices" class="primary">選択問題を採点</button></div>
 <div id="score" style="margin-top:12px"></div><div id="lockMsg" class="muted" style="margin-top:8px"></div><button id="backToLevels" class="secondary hidden" style="margin-top:12px">Level選択へ戻る</button>
 </section>
 <section id="passPanel" class="panel hidden">
@@ -406,11 +421,11 @@ function makeSentence(l,is3,kind){
  if(kind==="wh"){
    const W={who:"Who",what:"What",where:"Where",when:"When"}[wt];
    let rest;
-   if(wt==="who"){toks=[T(W,"w"),T(v.t,"v")];rest=[obj2,place&&place.en,time&&time.en]}
+   if(wt==="who"){toks=[T(W,"w"),T(v.t,"v")];rest=[[obj2],[place&&place.en,"x"],[time&&time.en,"x"]]}
    else{toks=[T(W,"w"),T(is3?"does":"do","a"),T(lc(sub),"s"),T(v.b,"v")];
-     rest=wt==="what"?[place&&place.en,time&&time.en]:wt==="where"?[v.b==="go"?null:obj2,time&&time.en]:[obj2,place&&place.en]}
-   rest.filter(Boolean).forEach(x=>toks.push(T(x)));
- }else tail.forEach(x=>toks.push(T(x)));
+     rest=wt==="what"?[[place&&place.en,"x"],[time&&time.en,"x"]]:wt==="where"?[[v.b==="go"?null:obj2],[time&&time.en,"x"]]:[[obj2],[place&&place.en,"x"]]}
+   rest.filter(r=>r[0]).forEach(r=>toks.push(T(r[0],r[1])));
+ }else{toks.push(T(obj2));[manner,place,time].filter(Boolean).forEach(x=>toks.push(T(x.en,"x")))}
  const end=isQ?"?":".";
  const core=kind==="wh"?"":kind==="aff"?v.ja[oi]:kind==="neg"?negJa(v.ja[oi]):kind==="q"?v.ja[oi]+"か":kind==="can_aff"?v.d[oi]+"ことができます":kind==="can_neg"?v.d[oi]+"ことができません":v.d[oi]+"ことができますか";
  let jp;
@@ -509,7 +524,6 @@ document.getElementById("changeNo").onclick=()=>{
   window.scrollTo(0,0);
 };
 document.getElementById("gradeChoices").onclick=gradeChoices;
-document.getElementById("showAnswers").onclick=()=>{for(let i=2;i<5;i++)document.getElementById("a"+i).classList.remove("hidden");update()};
 document.getElementById("backToLevels").onclick=()=>{
   if(!finished) return;
   locked=false;
@@ -528,14 +542,104 @@ function build(){
  const box=document.getElementById("questions");box.innerHTML="";
  qs.forEach((q,i)=>{const d=document.createElement("div");d.className="q q-"+q.type;d.innerHTML='<div class="qnum">Q'+(i+1)+'</div>';
  if(q.type==="choice"){const p=document.createElement("div");p.textContent=q.prompt;d.appendChild(p);const c=document.createElement("div");c.className="choices";q.opts.forEach(o=>{const l=document.createElement("label");l.className="choice";l.innerHTML='<input type="radio" name="q'+i+'" value="'+o+'"> '+o;c.appendChild(l)});d.appendChild(c);const f=document.createElement("div");f.id="f"+i;d.appendChild(f)}
- else{const p=document.createElement("div");p.textContent=q.jp;d.appendChild(p);const h=document.createElement("div");h.className="muted";h.textContent="B5英文メモ用紙に英文を書いてください。";d.appendChild(h);const a=document.createElement("div");a.id="a"+i;a.className="answer hidden";a.innerHTML='<strong>答え：</strong> '+q.en+'<div class="muted" style="margin-top:6px">B5の英文と比べてください。</div><br><label class="choice"><input type="radio" name="m'+i+'" value="same"> そのままで正解だった</label>　<label class="choice"><input type="radio" name="m'+i+'" value="fixed"> 赤で訂正した</label>';d.appendChild(a)}box.appendChild(d)});
- for(let i=2;i<5;i++)document.querySelectorAll('input[name="m'+i+'"]').forEach(r=>r.onchange=()=>{marks[i-2]=r.value;update()});
+ else buildWriting(d,q,i);box.appendChild(d)});
+ caseMode="lower";oneShot=false;wst={2:"try",3:"try",4:"try"};refreshCaseBtns();
  document.getElementById("score").innerHTML="";
  document.getElementById("lockMsg").textContent="このLevelは、5問を最後まで終えるまで別のLevelへ移れません。";
  document.getElementById("backToLevels").classList.add("hidden");
  document.getElementById("passPanel").classList.add("hidden");
  document.getElementById("training").classList.remove("hidden");
  window.scrollTo(0,0);
+}
+// ===== 英作文：打ちこみ＆チェック =====
+let caseMode="lower",oneShot=false,capsKey=false,shiftKey=false,wst={};
+function refreshCaseBtns(){document.querySelectorAll(".caseBtn").forEach(b=>{const m=b.dataset.mode;b.classList.toggle("on",m==="one"?oneShot:(m===caseMode))})}
+function caseOf(ch){
+ if(!/[A-Za-z]/.test(ch))return ch;
+ let up;
+ if(oneShot){up=true;oneShot=false}
+ else if(caseMode==="upper")up=true;
+ else if(capsKey)up=shiftKey;            // Caps Lockが入っていても、ふつうは小文字・Shiftで大文字
+ else return ch;
+ return up?ch.toUpperCase():ch.toLowerCase();
+}
+function applyCase(inp){
+ const nv=inp.value,pv=inp.dataset.prev||"";
+ if(nv!==pv){
+   let a=0;while(a<pv.length&&a<nv.length&&pv[a]===nv[a])a++;
+   let b=0;while(b<pv.length-a&&b<nv.length-a&&pv[pv.length-1-b]===nv[nv.length-1-b])b++;
+   const ins=nv.slice(a,nv.length-b);
+   if(ins){const out=[...ins].map(caseOf).join("");
+     if(out!==ins){inp.value=nv.slice(0,a)+out+nv.slice(nv.length-b);const c=a+out.length;try{inp.setSelectionRange(c,c)}catch(e){}}}
+ }
+ inp.dataset.prev=inp.value;refreshCaseBtns();
+}
+function perms(a){if(a.length<=1)return [a];const r=[];a.forEach((x,i)=>perms(a.slice(0,i).concat(a.slice(i+1))).forEach(p=>r.push([x].concat(p))));return r}
+function answersOf(q){const head=q.toks.filter(x=>x.r!=="x").map(x=>x.t),xs=q.toks.filter(x=>x.r==="x").map(x=>x.t);return perms(xs).map(p=>head.concat(p).join(" ")+q.end)}
+function canon(t){return t.replace(/[‘’`´]/g,"'").replace(/\s+/g," ").replace(/\s+([.,?!])/g,"$1").trim()
+ .replace(/\bdoesn't\b/g,"does not").replace(/\bdon't\b/g,"do not").replace(/\bcan't\b/g,"cannot")}
+function judge(val,q){
+ const c=canon(val),A=answersOf(q).map(canon),strip=t=>t.replace(/[.?!]+$/,"");
+ if(A.includes(c))return "ok";
+ if(A.some(a=>a.toLowerCase()===c.toLowerCase()))return "case";
+ if(A.some(a=>strip(a)===strip(c)))return "punct";
+ if(A.some(a=>strip(a).toLowerCase()===strip(c).toLowerCase()))return "both";
+ return "ng";
+}
+const HINT={case:"大文字・小文字がちがうところがあります。",punct:"文の最後の「.」や「?」を確認しよう。",both:"大文字・小文字と、文の最後の「.」「?」を確認しよう。",ng:""};
+function buildWriting(d,q,i){
+ const p=document.createElement("div");p.textContent=q.jp;d.appendChild(p);
+ const h=document.createElement("div");h.className="muted";h.textContent="英語で打ちこんで「チェック」を押そう。";d.appendChild(h);
+ const bar=document.createElement("div");bar.className="caseBar";
+ bar.innerHTML='<span class="caseLbl">入力：</span><button type="button" class="caseBtn" data-mode="lower">abc 小文字</button><button type="button" class="caseBtn" data-mode="upper">ABC 大文字</button><button type="button" class="caseBtn" data-mode="one">A 次の1文字だけ大文字</button>';
+ d.appendChild(bar);
+ const inp=document.createElement("input");inp.type="text";inp.id="w"+i;inp.className="wIn";inp.lang="en";
+ ["autocomplete","autocorrect","autocapitalize"].forEach(a=>inp.setAttribute(a,"off"));inp.spellcheck=false;
+ inp.placeholder="ここに英文を打ちこむ";d.appendChild(inp);
+ const row=document.createElement("div");row.className="wRow";
+ const ck=document.createElement("button");ck.type="button";ck.className="checkBtn";ck.textContent="チェック";
+ const gu=document.createElement("button");gu.type="button";gu.className="secondary giveUp";gu.textContent="わからない（答えを見る）";
+ row.appendChild(ck);row.appendChild(gu);d.appendChild(row);
+ const fb=document.createElement("div");fb.className="wfb";fb.id="wf"+i;d.appendChild(fb);
+ const a=document.createElement("div");a.id="a"+i;a.className="answer hidden";
+ const st=document.createElement("strong");st.textContent="答え：";const at=document.createElement("span");at.textContent=q.en;
+ const yo=document.createElement("div");yo.className="yours";
+ a.appendChild(st);a.appendChild(at);a.appendChild(yo);d.appendChild(a);
+ bar.querySelectorAll(".caseBtn").forEach(b=>{
+   b.addEventListener("pointerdown",e=>e.preventDefault());   // 入力欄のカーソルを外さない
+   b.onclick=()=>{const m=b.dataset.mode;if(m==="one")oneShot=!oneShot;else{caseMode=m;oneShot=false}refreshCaseBtns();if(!inp.readOnly)inp.focus()};
+ });
+ const keyState=e=>{if(e.getModifierState)capsKey=e.getModifierState("CapsLock");shiftKey=e.shiftKey};
+ inp.addEventListener("keydown",e=>{keyState(e);if(e.key==="Enter"&&!e.isComposing){e.preventDefault();checkW(i)}});
+ inp.addEventListener("keyup",keyState);
+ inp.addEventListener("input",e=>{if(!e.isComposing)applyCase(inp)});
+ inp.addEventListener("compositionend",()=>applyCase(inp));
+ ["paste","drop"].forEach(ev=>inp.addEventListener(ev,e=>{e.preventDefault();fbSet(i,"ng","はりつけはできません。自分で打ちこもう。")}));
+ ck.onclick=()=>checkW(i);
+ gu.onclick=()=>{if(wst[i]!=="try")return;wst[i]="retype";yo.textContent="";a.classList.remove("hidden");inp.value="";inp.dataset.prev="";
+   fbSet(i,"ng","答えを見て、正しい英文を打ちこんでから「チェック」を押そう。");gu.disabled=true;inp.focus()};
+}
+function fbSet(i,cls,msg){const f=document.getElementById("wf"+i);f.className="wfb "+cls;f.textContent=msg}
+function checkW(i){
+ const q=qs[i],inp=document.getElementById("w"+i),a=document.getElementById("a"+i),val=inp.value;
+ if(wst[i]==="ok"||wst[i]==="fixed")return;
+ if(!val.trim()){fbSet(i,"ng","英文を打ってから「チェック」を押そう。");inp.focus();return}
+ if(/[^\x00-\x7F]/.test(val.replace(/[‘’]/g,""))){fbSet(i,"ng","日本語入力（全角）になっています。半角英数に切りかえて打ち直そう。");inp.focus();return}
+ const r=judge(val,q),box=inp.closest(".q");
+ if(r==="ok"){
+   const first=wst[i]==="try";wst[i]=first?"ok":"fixed";marks[i-2]=first?"same":"fixed";
+   fbSet(i,"ok",first?"○ 正解！":"○ 正しく打ち直せました！");
+   inp.readOnly=true;box.querySelectorAll(".checkBtn,.giveUp").forEach(b=>b.disabled=true);
+   a.querySelector(".yours").textContent="";a.classList.remove("hidden");
+   update();return;
+ }
+ const hint=HINT[r]?" "+HINT[r]:"";
+ if(wst[i]==="try"){
+   wst[i]="retype";a.querySelector(".yours").textContent="あなたの答え："+val;a.classList.remove("hidden");
+   box.querySelector(".giveUp").disabled=true;inp.value="";inp.dataset.prev="";
+   fbSet(i,"ng","× ちがいます。"+hint+" 答えを見て、正しい英文を打ち直してから、もう一度「チェック」を押そう。");
+ }else fbSet(i,"ng","× まだちがいます。"+hint+" 答えと1語ずつ比べて直そう。");
+ inp.focus();
 }
 function gradeChoices(){let s=0;for(let i=0;i<2;i++){const sel=document.querySelector('input[name="q'+i+'"]:checked'),f=document.getElementById("f"+i);if(!sel){f.textContent="未回答";f.className="ng";continue}const ok=sel.value===qs[i].answer;if(ok)s++;f.textContent=ok?"○ 正解":"× 正解："+qs[i].answer;f.className=ok?"ok":"ng"}choiceScore=s;update()}
 function update(){
@@ -545,7 +649,7 @@ function update(){
    return;
  }
  if(marks.some(x=>x===null)){
-   o.innerHTML='<strong>英作文3文を答えと比べてください。</strong><br>同じなら「そのままで正解だった」、違っていたらB5に赤で訂正して「赤で訂正した」を選びます。';
+   o.innerHTML='<strong>英作文3問を英語で打ちこんで「チェック」を押そう。</strong><br>まちがえた問題は、答えを見て正しい英文を打ち直すとクリアできます。';
    return;
  }
  finished=true;
