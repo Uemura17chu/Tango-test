@@ -444,7 +444,7 @@ function makeSentence(l,is3,kind){
  if(manner)jp+=manner.ja+" ";
  jp+=core+"。";
  }
- return {en:toks.map(x=>x.t).join(" ")+end,jp,toks,end,kind,is3,v,wt}
+ return {en:toks.map(x=>x.t).join(" ")+end,jp,toks,end,kind,is3,v,wt,obj:obj2}
 }
 function choiceQ(l,kind){
  kind=kind||"aff";
@@ -575,7 +575,28 @@ function applyCase(inp){
  inp.dataset.prev=inp.value;refreshCaseBtns();
 }
 function perms(a){if(a.length<=1)return [a];const r=[];a.forEach((x,i)=>perms(a.slice(0,i).concat(a.slice(i+1))).forEach(p=>r.push([x].concat(p))));return r}
-function answersOf(q){const head=q.toks.filter(x=>x.r!=="x").map(x=>x.t),xs=q.toks.filter(x=>x.r==="x").map(x=>x.t);return perms(xs).map(p=>head.concat(p).join(" ")+q.end)}
+// 日本語では数が決まらない目的語は、単数・複数どちらでも正解にする（例：本を読みます → books / a book）
+// 「好きです」（like dogs）など、どちらかしか正しくないものは入れない
+const NUM_ALT={
+ "read|books":["a book"],
+ "use|a computer":["computers"],
+ "use|a dictionary":["dictionaries"],
+ "watch|movies":["a movie"],
+ "watch|baseball games":["a baseball game"],
+ "have|a dog":["dogs"],
+ "have|a bike":["bikes"],
+ "write|a letter":["letters"],
+ "carry|a big bag":["big bags"],
+ "carry|the boxes":["the box"],
+ "buy|a new bag":["new bags"],
+ "buy|flowers":["a flower"]
+};
+function answersOf(q){
+ const xs=q.toks.filter(x=>x.r==="x").map(x=>x.t),base=q.toks.filter(x=>x.r!=="x").map(x=>x.t);
+ const heads=[base],alt=q.v&&NUM_ALT[q.v.b+"|"+q.obj];
+ if(alt){const oi=q.toks.filter(x=>x.r!=="x").findIndex(x=>x.r===undefined&&x.t===q.obj);
+   if(oi>=0)alt.forEach(a=>{const h=base.slice();h[oi]=a;heads.push(h)})}
+ const out=[];heads.forEach(h=>perms(xs).forEach(p=>out.push(h.concat(p).join(" ")+q.end)));return out}
 function canon(t){return t.replace(/[‘’`´]/g,"'").replace(/\s+/g," ").replace(/\s+([.,?!])/g,"$1").trim()
  .replace(/\bdoesn't\b/g,"does not").replace(/\bdon't\b/g,"do not").replace(/\bcan't\b/g,"cannot")}
 function judge(val,q){
