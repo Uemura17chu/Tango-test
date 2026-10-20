@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>タイピングクエスト</title>
+<style>
+:root{
+  --bg:#11162e;--panel:#1c2346;--panel2:#2a3462;--text:#f3f5ff;--sub:#a9b2da;
+  --gold:#ffd54a;--ok:#4ade80;--ng:#f87171;--accent:#60a5fa;
+  --fp:#f472b6;--fr:#fb923c;--fm:#facc15;--fi:#4ade80;--ft:#94a3b8;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic UI","Meiryo",sans-serif;min-height:100vh}
+button{font-family:inherit;cursor:pointer}
+.wrap{max-width:980px;margin:0 auto;padding:16px}
+.screen{display:none}.screen.active{display:block}
+h1{margin:0;font-size:28px;letter-spacing:2px}
+.btn{background:var(--accent);color:#06142e;border:0;border-radius:10px;padding:10px 18px;font-size:16px;font-weight:700}
+.btn.sub{background:var(--panel2);color:var(--text)}
+.btn.gold{background:var(--gold)}
+.btn:hover{filter:brightness(1.1)}
+.small{font-size:13px;color:var(--sub)}
+
+/* login */
+#login .card{background:var(--panel);border-radius:18px;padding:28px;max-width:560px;margin:40px auto;text-align:center}
+.logo{font-size:56px}
+.pick{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0 18px}
+.pick button{background:var(--panel2);color:var(--text);border:2px solid transparent;border-radius:10px;min-width:56px;padding:10px;font-size:18px;font-weight:700}
+.pick button.on{border-color:var(--gold);background:#3b4a8a}
+#nos button{min-width:44px;padding:6px;font-size:15px}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;background:var(--panel);border-radius:14px;padding:12px 16px;margin-bottom:14px}
+.top .who{font-weight:700;font-size:18px}
+.top .ttl{background:#3b2f0b;color:var(--gold);border-radius:999px;padding:3px 12px;font-weight:700}
+.top .st{color:var(--gold);font-weight:700}
+.top .sp{flex:1}
+.party{font-size:22px}
+.prologue{background:linear-gradient(90deg,#3b1d5e,#1e3a8a);border-radius:14px;padding:14px 16px;margin-bottom:14px;line-height:1.7}
+
+/* map */
+.world{border-radius:16px;padding:14px 16px;margin-bottom:12px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;box-shadow:0 4px 0 rgba(0,0,0,.25)}
+.world.locked{filter:grayscale(1) brightness(.5)}
+.wh{flex:1;min-width:220px}
+.wh .wn{font-size:12px;letter-spacing:2px;color:#ffffffaa}
+.wh b{display:block;font-size:20px;margin:2px 0}
+.wh small{color:#ffffffcc;font-size:13px;line-height:1.5}
+.stages{display:flex;gap:8px;flex-wrap:wrap}
+.stg{width:64px;height:64px;border-radius:14px;border:0;background:#ffffffe6;color:#1c2346;font-weight:800;font-size:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.stg i{font-style:normal;font-size:12px;color:#d4a000;letter-spacing:-1px}
+.stg.boss{background:#ffe08a;font-size:14px}
+.stg.lk{background:#ffffff40;color:#ffffff90;cursor:default}
+.stg:not(.lk):hover{transform:translateY(-2px)}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+
+/* battle */
+.bhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.stage-name{font-weight:700}
+.field{position:relative;border-radius:18px;padding:18px;min-height:230px;overflow:hidden;display:flex;align-items:center;justify-content:space-between}
+.side{text-align:center;width:42%}
+.party-b{font-size:40px;min-height:50px}
+.hero{font-size:64px}
+.enemy{font-size:96px;display:inline-block;transition:transform .1s}
+.enemy.hit{animation:hit .3s}
+.enemy.dead{animation:dead .6s forwards}
+@keyframes hit{0%,100%{transform:translateX(0)}25%{transform:translateX(12px) rotate(8deg)}75%{transform:translateX(-8px)}}
+@keyframes dead{to{transform:scale(0) rotate(180deg);opacity:0}}
+.ename{font-weight:700;margin-top:4px}
+.bar{height:14px;background:#00000066;border-radius:999px;overflow:hidden;margin-top:6px}
+.bar>div{height:100%;transition:width .2s}
+#hpbar{background:linear-gradient(90deg,#ef4444,#f97316)}
+#tbar{background:linear-gradient(90deg,#22d3ee,#3b82f6)}
+#tbar.warn{background:linear-gradient(90deg,#f87171,#ef4444)}
+.dmg{position:absolute;font-weight:900;font-size:30px;color:var(--gold);text-shadow:0 2px 0 #000;animation:up .8s forwards;pointer-events:none}
+.praise{position:absolute;left:50%;top:30%;transform:translateX(-50%);font-size:44px;font-weight:900;color:#fff;text-shadow:0 0 12px #f0f,0 3px 0 #000;animation:pop 1s forwards;pointer-events:none;white-space:nowrap}
+@keyframes up{to{transform:translateY(-60px);opacity:0}}
+@keyframes pop{0%{transform:translateX(-50%) scale(.3)}20%{transform:translateX(-50%) scale(1.15)}80%{opacity:1}100%{transform:translateX(-50%) scale(1);opacity:0}}
+.intro{position:absolute;inset:0;background:#000000b0;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:900;text-align:center;padding:10px}
+.typebox{background:var(--panel);border-radius:16px;padding:18px;margin-top:12px;text-align:center}
+#target{font-family:Consolas,"Courier New",monospace;font-size:44px;letter-spacing:2px;min-height:60px;word-break:break-word}
+#target span{color:#fff}
+#target span.d{color:#5b6699}
+#target span.c{background:var(--gold);color:#1c2346;border-radius:6px}
+#target span.sp{color:#7c87bd}
+#target span.c.sp{color:#1c2346}
+#target.miss{animation:shake .2s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+#next{color:var(--sub);font-family:Consolas,monospace;margin-top:6px;min-height:20px}
+.stats{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:10px;color:var(--sub)}
+.stats b{color:var(--text);font-size:20px}
+.hint{margin-top:8px;font-weight:700;min-height:22px}
+.warnbox{display:none;background:var(--ng);color:#fff;border-radius:10px;padding:8px;margin-top:10px;font-weight:700}
+
+/* keyboard */
+.kb{margin:12px auto 0;width:max-content;max-width:100%}
+.row{display:flex;gap:5px;margin-bottom:5px}
+.key{width:46px;height:46px;border-radius:8px;background:var(--panel2);display:flex;align-items:center;justify-content:center;font-family:Consolas,monospace;font-size:18px;border-bottom:5px solid var(--ft);position:relative}
+.key.home::after{content:"";position:absolute;bottom:6px;width:12px;height:2px;background:#fff}
+.key.p{border-bottom-color:var(--fp)}.key.r{border-bottom-color:var(--fr)}.key.m{border-bottom-color:var(--fm)}.key.i{border-bottom-color:var(--fi)}
+.key.hl{transform:translateY(-3px);color:#11162e;font-weight:900}
+.key.p.hl{background:var(--fp)}.key.r.hl{background:var(--fr)}.key.m.hl{background:var(--fm)}.key.i.hl{background:var(--fi)}.key.t.hl{background:var(--ft)}
+.key.wide{width:96px;font-size:14px}
+.key.space{width:300px}
+.legend{display:flex;gap:12px;justify-content:center;font-size:13px;color:var(--sub);margin-top:4px;flex-wrap:wrap}
+.legend span::before{content:"■ "}
+
+/* result */
+.result{background:var(--panel);border-radius:18px;padding:26px;text-align:center;max-width:640px;margin:30px auto;position:relative;overflow:hidden}
+.result h2{font-size:38px;margin:0 0 6px}
+.bigstars{font-size:54px;color:var(--gold);letter-spacing:6px}
+.bigstars span{display:inline-block;opacity:0;animation:starIn .4s forwards}
+@keyframes starIn{0%{transform:scale(3);opacity:0}100%{transform:scale(1);opacity:1}}
+.rstats{display:flex;justify-content:center;gap:24px;margin:14px 0;flex-wrap:wrap}
+.rstats div{background:var(--panel2);border-radius:12px;padding:10px 16px}
+.rstats b{display:block;font-size:26px}
+.treasure{font-size:70px;margin:8px 0;display:inline-block}
+.treasure.open{animation:pop2 .6s}
+@keyframes pop2{0%{transform:scale(.2)}60%{transform:scale(1.3)}100%{transform:scale(1)}}
+.gain{font-size:20px;font-weight:700;color:var(--gold);min-height:28px;line-height:1.6}
+.rbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.ending{background:linear-gradient(135deg,#7c3aed,#db2777);border-radius:12px;padding:14px;margin-top:12px;line-height:1.8}
+.conf{position:fixed;top:-40px;font-size:28px;animation:fall linear forwards;pointer-events:none;z-index:9}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+
+/* collection */
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.cell{background:var(--panel2);border-radius:12px;padding:10px 4px;text-align:center;min-height:86px}
+.cell .e{font-size:34px}
+.cell .n{font-size:12px;color:var(--sub);margin-top:4px}
+.cell.no .e{opacity:.3}
+.wlabel{grid-column:1/-1;font-weight:700;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ログイン -->
+<section id="login" class="screen active">
+  <div class="card">
+    <div class="logo">⌨️⚔️</div>
+    <h1>タイピングクエスト</h1>
+    <p class="small">キーボードの力で、うばわれた「ことば」を取り戻せ！</p>
+    <div style="margin-top:18px;font-weight:700">組をえらぶ</div>
+    <div class="pick" id="classes"></div>
+    <div style="font-weight:700">出席番号をえらぶ</div>
+    <div class="pick" id="nos"></div>
+    <button class="btn gold" style="font-size:20px;padding:12px 30px" onclick="login()">冒険をはじめる（Enter）</button>
+    <p class="small" id="loginMsg"></p>
+  </div>
+</section>
+
+<!-- マップ -->
+<section id="map" class="screen">
+  <div class="top">
+    <span class="who" id="who"></span>
+    <span class="ttl" id="ttl"></span>
+    <span class="st" id="stars"></span>
+    <span class="sp"></span>
+    <span class="party" id="party"></span>
+  </div>
+  <div class="prologue" id="prologue"></div>
+  <div class="tools">
+    <button class="btn gold" onclick="continueGame()">▶ つづきから（Enter）</button>
+    <button class="btn sub" onclick="showCollection()">📖 宝物ずかん</button>
+    <button class="btn sub" id="sndBtn" onclick="toggleSound()"></button>
+    <button class="btn sub" id="kbBtn" onclick="toggleKb()"></button>
+    <button class="btn sub" onclick="logout()">👤 生徒を切りかえる</button>
+  </div>
+  <div id="worlds"></div>
+  <div class="tools"><button class="btn sub" style="font-size:13px" onclick="resetData()">この出席番号の記録をリセット</button></div>
+</section>
+
+<!-- バトル -->
+<section id="battle" class="screen">
+  <div class="bhead">
+    <span class="stage-name" id="sname"></span>
+    <button class="btn sub" onclick="quitBattle()">にげる（Esc）</button>
+  </div>
+  <div class="field" id="field">
+    <div class="side">
+      <div class="party-b" id="partyB"></div>
+      <div class="hero">🧑‍🎓</div>
+      <div class="small">のこり時間 <b id="tleft"></b></div>
+      <div class="bar"><div id="tbar" style="width:100%"></div></div>
+    </div>
+    <div class="side">
+      <div class="enemy" id="enemy"></div>
+      <div class="ename" id="ename"></div>
+      <div class="bar"><div id="hpbar" style="width:100%"></div></div>
+    </div>
+    <div class="intro" id="intro"></div>
+  </div>
+  <div class="typebox">
+    <div id="target"></div>
+    <div id="next"></div>
+    <div class="stats">
+      <span>コンボ <b id="combo">0</b></span>
+      <span>正確さ <b id="acc">100</b>%</span>
+      <span>速さ <b id="kpm">0</b>打/分</span>
+      <span>のこり <b id="left"></b>体</span>
+    </div>
+    <div class="warnbox" id="warn"></div>
+    <div id="kbArea">
+      <div class="hint" id="hint"></div>
+      <div class="kb" id="kb"></div>
+      <div class="legend">
+        <span style="color:var(--fp)">小指</span><span style="color:var(--fr)">薬指</span><span style="color:var(--fm)">中指</span><span style="color:var(--fi)">人差し指</span><span style="color:var(--ft)">親指</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- リザルト -->
+<section id="result" class="screen"><div class="result" id="resBox"></div></section>
+
+<!-- ずかん -->
+<section id="collection" class="screen">
+  <div class="bhead"><h1 style="font-size:22px">📖 宝物ずかん <span class="small" id="colCount"></span></h1><button class="btn sub" onclick="goMap()">マップへ</button></div>
+  <div class="grid" id="grid"></div>
+</section>
+
+</div>
+<script>
+/* ===== 設定（必要に応じて書きかえ） ===== */
+const CLASSES = [1, 2, 4, 7];   // 組
+const MAX_NO  = 40;             // 出席番号の最大
+const CLEAR_ACC = 80;           // クリアに必要な正確さ(%)
+const SAVE_PREFIX = 'typingquest_v1_';
+
+/* ===== ワールドデータ ===== */
+/* 単語リストは自由に書きかえ・追加できます */
+const W2_3 = ['am','is','it','he','we','go','no','up','in','on','at','to','do','me','my','us','an','yes','you','she','his','her','cat','dog','pen','bag','cap','egg','map','cup','red','sun','bus','car','run','sit','eat','see','big','new','old','hot','box','hat','key','one','two','six','ten'];
+const W4 = ['book','desk','blue','pink','milk','fish','rice','cake','ball','game','song','star','moon','tree','bird','park','like','play','have','come','make','read','sing','swim','walk','cook','help','open','kind','cool','nice','good','cold','four','five','nine','name','home','room','door','hand','face','head','word','time','year'];
+const W5 = ['apple','water','happy','sport','music','piano','table','chair','green','white','black','brown','seven','three','eight','study','clean','watch','drink','sleep','write','speak','dance','class','lunch','night','north','south','house','mouth'];
+const W67 = ['school','friend','family','summer','winter','spring','autumn','guitar','tennis','doctor','artist','dancer','garden','window','kitchen','morning','evening','picture','country','station','science','history','weekend','teacher','student','English','library'];
+const LONG = ['breakfast','hospital','computer','birthday','festival','favorite','question','basketball','volleyball','baseball','classroom','homework','teacher','student','morning','picture','country','station','science','history','weekend','library','kitchen','evening'];
+const CAPS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday','January','April','July','October','December','Japan','Osaka','Tokyo','Kyoto','China','Canada','Australia','English','Japanese','Hello','Good morning','Thank you','See you','I am','I like','Nice to meet you.','Excuse me.','Happy birthday'];
+const SENT1 = ['I like music.','I am a student.','This is my bag.','I play tennis.','I have a dog.','You are kind.','I can swim.','I can cook.','It is sunny today.','That is a library.','I am from Osaka.','I like summer.','We are friends.','He is my brother.','She is a doctor.','I eat rice every day.','This is Ken.','I walk to school.'];
+const SENT2 = ['Do you like sports?','Yes, I do.','No, I do not.','What do you have in your bag?','Where is my pen?','I can play the piano.','What time is it now?','My sister plays tennis every day.','He does not like cats.','Can you play the guitar?','When is your birthday?','Who is that boy?','I usually get up at six.','How many books do you have?','My favorite food is curry.','What sport do you like?','She lives in Osaka.'];
+const FINAL = SENT2.concat(['We study English at school.','I can type very fast.','Typing is fun and easy.','My brother walks to the station.','We play soccer after school.']);
+
+const W = [
+ {name:'はじまりの草原',sub:'2〜3文字の英単語（am, is, cat …）　F と J に人差し指を置いてスタート',bg:'linear-gradient(135deg,#166534,#15803d)',
+  type:'words',list:W2_3,spc:1.7,
+  en:['🐛','🐌','🐸','🐀','🐗'],enN:['イモムシ','カタツムリ','カエル','ネズミ','草原の主 イノシシ'],
+  items:['🌱 若葉の種','🍀 四つ葉','🌼 ひなぎく','🐞 てんとう虫','🗡️ はじまりの剣'],ally:'🐣',allyN:'ひよこ'},
+ {name:'風の谷',sub:'4文字の英単語（book, play …）',bg:'linear-gradient(135deg,#0e7490,#0891b2)',
+  type:'words',list:W4,spc:1.45,
+  en:['🐝','🦗','🦋','🐦','🦅'],enN:['ハチ','バッタ','チョウ','小鳥','風の王 イーグル'],
+  items:['🪶 風の羽','🎐 風鈴','🪁 たこ','🌪️ つむじ風の玉','🏹 疾風の弓'],ally:'🦊',allyN:'キツネ'},
+ {name:'地底洞窟',sub:'5文字の英単語（apple, music …）',bg:'linear-gradient(135deg,#44403c,#57534e)',
+  type:'words',list:W5,spc:1.3,
+  en:['🦇','🕷️','🦂','🐍','🗿'],enN:['コウモリ','クモ','サソリ','ヘビ','洞窟の番人 ゴーレム'],
+  items:['💎 原石','🔦 光る石','🍄 光キノコ','🔔 こうもりの鈴','⛏️ 伝説のつるはし'],ally:'🐺',allyN:'オオカミ'},
+ {name:'ことばの森',sub:'6〜7文字の英単語（school, friend …）',bg:'linear-gradient(135deg,#365314,#4d7c0f)',
+  type:'words',list:W67,spc:1.1,
+  en:['🦝','🐻','🐗','🦡','👺'],enN:['アライグマ','クマ','あばれイノシシ','アナグマ','森の天狗'],
+  items:['🌰 どんぐり','🍎 森のりんご','🦉 ふくろうの羽','📜 古い地図','🛡️ 森の盾'],ally:'🦉',allyN:'フクロウ'},
+ {name:'炎の火山',sub:'長い英単語（breakfast, computer …）',bg:'linear-gradient(135deg,#9a3412,#c2410c)',
+  type:'words',list:LONG,spc:0.95,
+  en:['🦎','🦂','🐊','🦏','🐉'],enN:['火トカゲ','炎サソリ','ワニ','サイ','火山の竜 ドラゴン'],
+  items:['🔥 炎のかけら','🪨 溶岩石','🧨 花火玉','🐲 竜のうろこ','🪓 炎の斧'],ally:'🐲',allyN:'子ドラゴン'},
+ {name:'氷の城',sub:'大文字（Shift）とフレーズ',bg:'linear-gradient(135deg,#1e40af,#3b82f6)',
+  type:'words',list:CAPS,spc:0.9,
+  en:['🐧','🦭','⛄','🦌','🐻‍❄️'],enN:['ペンギン','アザラシ','雪だるま','トナカイ','氷の王 シロクマ'],
+  items:['❄️ 雪の結晶','🧊 永久氷','⛸️ 銀のスケート','💠 氷の宝石','🔱 氷の槍'],ally:'🐧',allyN:'ペンギン'},
+ {name:'海の神殿',sub:'短い英文（I like music.）',bg:'linear-gradient(135deg,#0f766e,#0d9488)',
+  type:'sent',list:SENT1,spc:0.8,
+  en:['🦀','🦑','🐙','🦈','🐋'],enN:['カニ','イカ','タコ','サメ','海の主 クジラ'],
+  items:['🐚 貝がら','🫧 泡の宝珠','🐬 イルカの笛','🪸 サンゴの杖','🌊 海神のしずく'],ally:'🐬',allyN:'イルカ'},
+ {name:'天空の塔',sub:'疑問文・長い英文（Do you …?）',bg:'linear-gradient(135deg,#6d28d9,#8b5cf6)',
+  type:'sent',list:SENT2,spc:0.72,
+  en:['👾','🛸','☄️','🌩️','🦄'],enN:['エイリアン','UFO','いん石','かみなり雲','天空の守護者 ユニコーン'],
+  items:['☁️ 雲のかけら','🌈 虹の石','🕊️ 白い羽','⭐ 流れ星','🌟 天空の星冠'],ally:'🦄',allyN:'ユニコーン'},
+ {name:'闇の迷宮',sub:'スピード勝負！長い単語を速く',bg:'linear-gradient(135deg,#1f2937,#4c1d95)',
+  type:'words',list:LONG,spc:0.6,
+  en:['👻','💀','🧟','🦹','🧛'],enN:['ゴースト','ガイコツ','ゾンビ','かげ忍者','闇の伯爵 ヴァンパイア'],
+  items:['🕯️ 闇のろうそく','🗝️ 迷宮のカギ','🔮 水晶玉','🌙 月のしずく','💜 闇払いの心'],ally:'🦇',allyN:'コウモリ'},
+ {name:'魔王城',sub:'最終決戦！英文を正確に・速く',bg:'linear-gradient(135deg,#7f1d1d,#1f2937)',
+  type:'sent',list:FINAL,spc:0.6,
+  en:['👹','👺','🤖','🐉','😈'],enN:['鬼','大天狗','魔導ロボ','闇ドラゴン','ことば魔王'],
+  items:['⚔️ 双剣','🏆 勇者の杯','📖 伝説の書','💫 光の翼','👑 タイピング王の冠'],ally:'👑',allyN:'光の王'}
+];
+const CNT = {letters:[12,14,16,18,22],words:[8,10,12,14,18],sent:[4,5,6,7,9]};
+const KPM_GOAL = [30,40,50,60,70,80,90,100,120,140];
+const TITLES = ['旅立ちの見習い','草原の勇者','風の剣士','洞窟探検家','森の守り人','炎の戦士','氷の騎士','海の英雄','天空の覇者','闇を払う者','伝説のタイピスト'];
+
+/* ===== 保存 ===== */
+const mem = {};
+const store = {
+  get(k){try{return localStorage.getItem(k)}catch(e){return k in mem?mem[k]:null}},
+  set(k,v){try{localStorage.setItem(k,v)}catch(e){mem[k]=v}}
+};
+let user=null, data=null, cur='login';
+let sound = store.get(SAVE_PREFIX+'sound')!=='off';
+let kbOn = store.get(SAVE_PREFIX+'kb')!=='off';
+function load(){try{data=JSON.parse(store.get(SAVE_PREFIX+user))}catch(e){data=null}if(!data)data={stars:{},best:{}}}
+function save(){store.set(SAVE_PREFIX+user,JSON.stringify(data))}
+
+const $=s=>document.querySelector(s);
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('#'+id).classList.add('active');cur=id;window.scrollTo(0,0)}
+function unlocked(wi,si){if(wi===0&&si===0)return true;const p=si>0?wi+'-'+(si-1):(wi-1)+'-4';return (data.stars[p]||0)>0}
+function worldsCleared(){let n=0;for(let i=0;i<W.length;i++)if((data.stars[i+'-4']||0)>0)n++;return n}
+function totalStars(){return Object.values(data.stars).reduce((a,b)=>a+b,0)}
+
+/* ===== 効果音 ===== */
+let AC=null;
+function beep(f,d,type,v){if(!sound)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime;o.type=type||'square';o.frequency.value=f;g.gain.setValueAtTime(v||0.03,t);g.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d)}catch(e){}}
+function fanfare(){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>beep(f,0.25,'triangle',0.06),i*130))}
+
+/* ===== ログイン ===== */
+let selC=null, selN=null;
+function initLogin(){
+  const last=(store.get(SAVE_PREFIX+'last')||'').split('-');
+  if(last.length===2){selC=+last[0];selN=+last[1]}
+  $('#classes').innerHTML=CLASSES.map(c=>`<button data-c="${c}">${c}組</button>`).join('');
+  let h='';for(let n=1;n<=MAX_NO;n++)h+=`<button data-n="${n}">${n}</button>`;$('#nos').innerHTML=h;
+  document.querySelectorAll('#classes button').forEach(b=>b.onclick=()=>{selC=+b.dataset.c;markLogin()});
+  document.querySelectorAll('#nos button').forEach(b=>b.onclick=()=>{selN=+b.dataset.n;markLogin()});
+  markLogin();
+}
+function markLogin(){
+  document.querySelectorAll('#classes button').forEach(b=>b.classList.toggle('on',+b.dataset.c===selC));
+  document.querySelectorAll('#nos button').forEach(b=>b.classList.toggle('on',+b.dataset.n===selN));
+  $('#loginMsg').textContent=selC&&selN?`${selC}組 ${selN}番 で冒険します`:'組と番号をえらんでね';
+}
+function login(){if(!selC||!selN){$('#loginMsg').textContent='組と番号をえらんでね';return}
+  user=selC+'-'+selN;store.set(SAVE_PREFIX+'last',user);load();goMap()}
+function logout(){show('login');markLogin()}
+
+/* ===== マップ ===== */
+function goMap(){
+  const wc=worldsCleared();
+  $('#who').textContent=user.replace('-','組 ')+'番';
+  $('#ttl').textContent='称号：'+TITLES[wc];
+  $('#stars').textContent='★ '+totalStars()+' / 150';
+  $('#party').textContent=W.slice(0,wc).map(w=>w.ally).join('');
+  $('#prologue').innerHTML=wc===0&&!data.stars['0-0']
+    ? '📜 <b>ことばの国</b>は、<b>ことば魔王</b>に文字をうばわれてしまった…。<br>キーボードの力でモンスターをたおし、10のワールドをこえて魔王城をめざせ！<br><span class="small">ステージをクリアすると、次のステージがひらく。宝物と仲間も手に入るぞ。</span>'
+    : wc>=10 ? '👑 魔王をたおした伝説のタイピスト！ ★3を全部そろえて、ずかんを完成させよう。'
+    : `🗺️ 次の目的地：<b>WORLD ${wc+1}「${W[wc].name}」</b>　${W[wc].sub}`;
+  let h='';
+  W.forEach((w,wi)=>{const open=unlocked(wi,0);
+    h+=`<div class="world ${open?'':'locked'}" style="background:${w.bg}"><div class="wh"><span class="wn">WORLD ${wi+1}</span><b>${open?w.name:'？？？'}</b><small>${open?w.sub:'前のワールドのボスをたおすとひらく'}</small></div><div class="stages">`;
+    for(let si=0;si<5;si++){const st=data.stars[wi+'-'+si]||0,ok=unlocked(wi,si);
+      h+=`<button class="stg ${ok?'':'lk'} ${si===4?'boss':''}" ${ok?`onclick="startStage(${wi},${si})"`:'disabled'}><span>${ok?(si===4?'BOSS':si+1):'🔒'}</span><i>${ok?'★'.repeat(st)+'☆'.repeat(3-st):''}</i></button>`}
+    h+='</div></div>'});
+  $('#worlds').innerHTML=h;
+  $('#sndBtn').textContent=sound?'🔊 音 ON':'🔇 音 OFF';
+  $('#kbBtn').textContent=kbOn?'⌨️ キーボード表示 ON':'⌨️ キーボード表示 OFF';
+  show('map');
+}
+function continueGame(){for(let wi=0;wi<W.length;wi++)for(let si=0;si<5;si++)if(unlocked(wi,si)&&!data.stars[wi+'-'+si]){startStage(wi,si);return}
+  startStage(W.length-1,4)}
+function toggleSound(){sound=!sound;store.set(SAVE_PREFIX+'sound',sound?'on':'off');goMap()}
+function toggleKb(){kbOn=!kbOn;store.set(SAVE_PREFIX+'kb',kbOn?'on':'off');goMap()}
+function resetData(){if(confirm(user.replace('-','組 ')+'番 の記録をすべて消します。よろしいですか？')){data={stars:{},best:{}};save();goMap()}}
+
+/* ===== キーボード ===== */
+const FING={q:'p',a:'p',z:'p',p:'p',';':'p','/':'p',w:'r',s:'r',x:'r',o:'r',l:'r','.':'r',e:'m',d:'m',c:'m',i:'m',k:'m',',':'m',r:'i',f:'i',v:'i',t:'i',g:'i',b:'i',y:'i',h:'i',n:'i',u:'i',j:'i',m:'i',' ':'t'};
+const FNAME={p:'小指',r:'薬指',m:'中指',i:'人差し指',t:'親指'};
+const LEFT=new Set('qwertasdfgzxcvb'.split(''));
+function buildKb(){
+  const rows=[['q','w','e','r','t','y','u','i','o','p'],['a','s','d','f','g','h','j','k','l',';'],['SL','z','x','c','v','b','n','m',',','.','/','SR'],[' ']];
+  const pad=[30,44,0,170];
+  $('#kb').innerHTML=rows.map((r,ri)=>`<div class="row" style="padding-left:${pad[ri]}px">`+r.map(k=>{
+    if(k==='SL'||k==='SR')return `<div class="key wide p" data-k="${k}">Shift</div>`;
+    if(k===' ')return `<div class="key space t" data-k=" ">space</div>`;
+    return `<div class="key ${FING[k]} ${k==='f'||k==='j'?'home':''}" data-k="${k}">${k.toUpperCase()}</div>`}).join('')+'</div>').join('');
+}
+function keyOf(c){if(c==='?')return{k:'/',sh:true};const l=c.toLowerCase();return{k:l,sh:c!==l}}
+function highlight(c){
+  document.querySelectorAll('.key.hl').forEach(k=>k.classList.remove('hl'));
+  if(c===undefined){$('#hint').textContent='';return}
+  const {k,sh}=keyOf(c);
+  const el=document.querySelector(`.key[data-k="${CSS.escape(k)}"]`);if(el)el.classList.add('hl');
+  let txt=k===' '?'親指でスペース':(LEFT.has(k)?'左手':'右手')+'の'+FNAME[FING[k]];
+  if(sh){const left=LEFT.has(k);document.querySelector(`.key[data-k="${left?'SR':'SL'}"]`).classList.add('hl');txt+=' ＋ '+(left?'右手':'左手')+'の小指でShift'}
+  $('#hint').textContent='👉 '+txt;
+}
+
+/* ===== バトル ===== */
+let B=null, timerId=null;
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function makeTargets(wi,si){const w=W[wi];
+  if(w.type==='letters'){const pool=w.base+w.sets[si].repeat(w.base?3:1),[a,b]=w.lens[si],out=[];
+    for(let i=0;i<CNT.letters[si];i++){const L=a+Math.floor(Math.random()*(b-a+1));let t='';for(let j=0;j<L;j++)t+=rnd(pool);out.push(t)}return out}
+  const n=CNT[w.type][si];let out=[];while(out.length<n)out=out.concat(shuffle(w.list));return out.slice(0,n)}
+function startStage(wi,si){
+  clearInterval(timerId);
+  const w=W[wi],targets=makeTargets(wi,si),chars=targets.join('').length;
+  B={wi,si,targets,ti:0,ci:0,correct:0,miss:0,combo:0,maxCombo:0,started:false,ready:false,over:false,
+     limit:Math.round(5+chars*(w.spc-si*0.04)),t0:0,left:0};
+  B.left=B.limit;
+  $('#field').style.background=w.bg;
+  $('#sname').textContent=`WORLD ${wi+1}-${si===4?'BOSS':si+1}　${w.name}`;
+  $('#enemy').textContent=w.en[si];$('#enemy').className='enemy';
+  $('#ename').textContent=w.enN[si];
+  $('#partyB').textContent=W.slice(0,worldsCleared()).map(x=>x.ally).join('');
+  $('#hpbar').style.width='100%';$('#tbar').style.width='100%';$('#tbar').classList.remove('warn');
+  $('#tleft').textContent=B.limit+'秒';$('#warn').style.display='none';
+  $('#kbArea').style.display=kbOn?'block':'none';
+  updateStats();renderTarget();
+  const intro=$('#intro');intro.style.display='flex';
+  intro.innerHTML=`<div>${w.en[si]} ${w.enN[si]} があらわれた！${si===4?'<br><span style="color:var(--gold)">⚠ BOSS BATTLE ⚠</span>':''}<div class="small" style="font-size:16px;margin-top:10px">キーを打つとスタート！</div></div>`;
+  show('battle');
+  beep(si===4?220:330,0.3,'sawtooth',0.03);
+  setTimeout(()=>{if(B&&!B.over){B.ready=true}},500);
+}
+function renderTarget(){
+  const t=B.targets[B.ti]||'';let h='';
+  for(let i=0;i<t.length;i++){const sp=t[i]===' ';h+=`<span class="${i<B.ci?'d':i===B.ci?'c':''}${sp?' sp':''}">${sp?'␣':t[i]}</span>`}
+  $('#target').innerHTML=h;
+  $('#next').textContent=B.ti+1<B.targets.length?'NEXT ▶ '+B.targets[B.ti+1]:'';
+  highlight(t[B.ci]);
+}
+function updateStats(){
+  const tot=B.correct+B.miss,acc=tot?Math.floor(B.correct/tot*100):100;
+  const min=B.started?(performance.now()-B.t0)/60000:0;
+  $('#combo').textContent=B.combo;$('#acc').textContent=acc;
+  $('#kpm').textContent=min>0.02?Math.round(B.correct/min):0;
+  $('#left').textContent=B.targets.length-B.ti;
+}
+function tick(){
+  B.left=B.limit-(performance.now()-B.t0)/1000;
+  if(B.left<=0){B.left=0;finish('time')}
+  $('#tleft').textContent=B.left.toFixed(1)+'秒';
+  $('#tbar').style.width=(B.left/B.limit*100)+'%';
+  $('#tbar').classList.toggle('warn',B.left<B.limit*0.25);
+  updateStats();
+}
+function floatText(cls,txt,x,y){const d=document.createElement('div');d.className=cls;d.textContent=txt;if(x!==undefined){d.style.left=x+'px';d.style.top=y+'px'}$('#field').appendChild(d);setTimeout(()=>d.remove(),1000)}
+function hitEnemy(word){
+  const e=$('#enemy');e.classList.remove('hit');void e.offsetWidth;e.classList.add('hit');
+  const f=$('#field').getBoundingClientRect(),r=e.getBoundingClientRect();
+  floatText('dmg',word.length*10+(B.combo>=10?' CRITICAL!':''),r.left-f.left+r.width/2-20,r.top-f.top);
+  $('#hpbar').style.width=((B.targets.length-B.ti)/B.targets.length*100)+'%';
+  beep(B.combo>=10?1046:660,0.1,'triangle',0.05);
+}
+const PRAISE={10:'Nice!',20:'Great!',30:'Excellent!',50:'Amazing!!',80:'Perfect!!!',120:'LEGEND!!!'};
+function onKey(e){
+  if(!B.ready||B.over)return;
+  if(e.isComposing||e.key==='Process'||e.keyCode===229){e.preventDefault();warn('日本語入力がONになっています。「半角/全角」キーで英数入力に切りかえてね');return}
+  if(e.ctrlKey||e.metaKey||e.altKey||e.key.length!==1)return;
+  e.preventDefault();
+  if(e.repeat)return;
+  if(e.getModifierState&&e.getModifierState('CapsLock'))warn('CapsLock がONです。「Shift＋CapsLock」で解除してね');
+  else $('#warn').style.display='none';
+  if(!B.started){B.started=true;B.t0=performance.now();$('#intro').style.display='none';timerId=setInterval(tick,100)}
+  const t=B.targets[B.ti];
+  if(e.key===t[B.ci]){
+    B.correct++;B.combo++;B.maxCombo=Math.max(B.maxCombo,B.combo);B.ci++;beep(900,0.03,'square',0.02);
+    if(PRAISE[B.combo]){floatText('praise',PRAISE[B.combo]);beep(1318,0.15,'triangle',0.05)}
+    if(B.ci>=t.length){B.ti++;B.ci=0;hitEnemy(t);if(B.ti>=B.targets.length){updateStats();finish('win');return}}
+    renderTarget();updateStats();
+  }else{
+    B.miss++;B.combo=0;beep(150,0.12,'sawtooth',0.04);
+    const tg=$('#target');tg.classList.remove('miss');void tg.offsetWidth;tg.classList.add('miss');
+    updateStats();
+  }
+}
+function warn(m){const w=$('#warn');w.textContent='⚠ '+m;w.style.display='block'}
+function quitBattle(){clearInterval(timerId);if(B)B.over=true;goMap()}
+
+/* ===== 結果 ===== */
+function finish(kind){
+  if(B.over)return;B.over=true;clearInterval(timerId);
+  const tot=B.correct+B.miss,acc=tot?Math.floor(B.correct/tot*100):0;
+  const min=Math.max((performance.now()-B.t0)/60000,0.001),kpm=Math.round(B.correct/min);
+  const {wi,si}=B,w=W[wi],id=wi+'-'+si;
+  if(kind==='win'){$('#enemy').classList.add('dead');}
+  const win=kind==='win'&&acc>=CLEAR_ACC;
+  B.win=win;
+  setTimeout(()=>showResult(win,kind,acc,kpm,wi,si,id,w),kind==='win'?700:300);
+}
+function showResult(win,kind,acc,kpm,wi,si,id,w){
+  let h='';
+  const stats=`<div class="rstats"><div>正確さ<b>${acc}%</b></div><div>速さ<b>${kpm}</b>打/分</div><div>最大コンボ<b>${B.maxCombo}</b></div></div>`;
+  if(win){
+    let stars=1;if(acc>=95)stars=2;if(acc>=95&&kpm>=KPM_GOAL[wi])stars=3;
+    const prev=data.stars[id]||0,first=!prev,prevBest=data.best[id]||0;
+    data.stars[id]=Math.max(prev,stars);data.best[id]=Math.max(prevBest,kpm);save();
+    h+=`<h2>${si===4?'BOSS DEFEATED!':'STAGE CLEAR!'}</h2><div class="bigstars">`;
+    for(let i=0;i<3;i++)h+=`<span style="animation-delay:${0.2+i*0.25}s">${i<stars?'★':'☆'}</span>`;
+    h+=`</div>${stats}`;
+    h+=`<div class="small">★2：正確さ95%以上　★3：さらに速さ${KPM_GOAL[wi]}打/分以上</div>`;
+    if(!first&&kpm>prevBest)h+=`<div class="gain">🔥 自己ベスト更新！（前回 ${prevBest}打/分）</div>`;
+    if(first){
+      const [ie,...rest]=w.items[si].split(' ');
+      h+=`<div class="treasure" id="chest">🎁</div><div class="gain" id="gainTxt"></div>`;
+      setTimeout(()=>{const c=$('#chest');if(!c)return;c.textContent=ie;c.classList.add('open');beep(1568,0.3,'triangle',0.05);
+        let g=`宝物「${rest.join(' ')}」を手に入れた！`;
+        if(si===4){g+=`<br>${w.ally} 仲間「${w.allyN}」が加わった！<br>称号「${TITLES[worldsCleared()]}」を手に入れた！`;
+          if(wi<W.length-1)g+=`<br>🗺️ WORLD ${wi+2}「${W[wi+1].name}」がひらいた！`}
+        $('#gainTxt').innerHTML=g},1100);
+      if(si===4&&wi===W.length-1)h+=`<div class="ending">🎉 ことば魔王をたおした！<br>うばわれた文字は、すべてことばの国にもどった。<br>きみは<b>伝説のタイピスト</b>だ！<br><span class="small" style="color:#fff">全ステージ★3をめざして、もう一度挑戦しよう。</span></div>`;
+    }
+    const hasNext=!(wi===W.length-1&&si===4);
+    h+=`<div class="rbtns">${hasNext?'<button class="btn gold" onclick="goNext()">次のステージへ（Enter）</button><button class="btn sub" onclick="retry()">もう一度</button>':'<button class="btn gold" onclick="retry()">もう一度（Enter）</button>'}<button class="btn sub" onclick="goMap()">マップへ</button></div>`;
+    fanfare();confetti(si===4?60:30);
+  }else{
+    h+=`<h2>${kind==='time'?'⏰ タイムアップ…':'😵 おしい！'}</h2>${stats}`;
+    h+=`<p>${kind==='time'?'あと少し！ 先にゆっくり正確に打つほうが、結局速くなるよ。':`モンスターはたおしたけど、正確さが${CLEAR_ACC}%未満。ミスを減らせばクリアだ！`}</p>`;
+    h+=`<div class="rbtns"><button class="btn gold" onclick="retry()">もう一度（Enter）</button><button class="btn sub" onclick="goMap()">マップへ</button></div>`;
+    beep(196,0.5,'triangle',0.05);
+  }
+  $('#resBox').innerHTML=h;show('result');
+}
+function goNext(){const {wi,si}=B;if(si<4)startStage(wi,si+1);else if(wi<W.length-1)startStage(wi+1,0);else goMap()}
+function retry(){startStage(B.wi,B.si)}
+function confetti(n){const em=['✨','🎉','⭐','🎊','💎'];for(let i=0;i<n;i++){const s=document.createElement('div');s.className='conf';s.textContent=rnd(em);s.style.left=Math.random()*100+'vw';s.style.animationDuration=(1.5+Math.random()*2)+'s';s.style.animationDelay=Math.random()*0.6+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),4500)}}
+
+/* ===== ずかん ===== */
+function showCollection(){
+  let h='',got=0;
+  W.forEach((w,wi)=>{h+=`<div class="wlabel">WORLD ${wi+1} ${unlocked(wi,0)?w.name:'？？？'}　${(data.stars[wi+'-4']||0)>0?w.ally+' '+w.allyN:''}</div>`;
+    w.items.forEach((it,si)=>{const ok=(data.stars[wi+'-'+si]||0)>0;if(ok)got++;const [e,...n]=it.split(' ');const st=data.stars[wi+'-'+si]||0;
+      h+=`<div class="cell ${ok?'':'no'}"><div class="e">${ok?e:'❔'}</div><div class="n">${ok?n.join(' '):'？？？'}</div><div style="color:var(--gold);font-size:12px">${ok?'★'.repeat(st)+'☆'.repeat(3-st):''}</div></div>`})});
+  $('#grid').innerHTML=h;$('#colCount').textContent=`${got} / 50`;show('collection');
+}
+
+/* ===== キー入力 ===== */
+document.addEventListener('keydown',e=>{
+  if(cur==='battle'){if(e.key==='Escape'){quitBattle();return}onKey(e);return}
+  if(e.key!=='Enter')return;
+  if(cur==='login')login();
+  else if(cur==='map')continueGame();
+  else if(cur==='result'){B.win&&!(B.wi===W.length-1&&B.si===4)?goNext():retry()}
+  else if(cur==='collection')goMap();
+});
+buildKb();initLogin();
+</script>
+</body>
+</html>
