@@ -136,23 +136,7 @@ h1{margin:0;font-size:28px;letter-spacing:2px}
 <div class="wrap">
 
 <!-- ログイン -->
-<section id="login" class="screen active">
-  <a href="typing_index.html" style="display:inline-block;color:var(--sub);text-decoration:none;font-size:14px;padding:6px 12px;border-radius:10px;background:#ffffff14">◀ トップへ</a>
-  <div class="card">
-    <div class="logo">⌨️⚔️</div>
-    <h1>タイピングクエスト</h1>
-    <p class="small">キーボードの力で、うばわれた「ことば」を取り戻せ！</p>
-    <div style="margin-top:18px;font-weight:700">組をえらぶ</div>
-    <div class="pick" id="classes"></div>
-    <div style="font-weight:700">出席番号をえらぶ</div>
-    <div class="pick" id="nos"></div>
-    <button class="btn gold" style="font-size:20px;padding:12px 30px" onclick="login()">冒険をはじめる（Enter）</button>
-    <p class="small" id="loginMsg"></p>
-  </div>
-</section>
-
-<!-- マップ -->
-<section id="map" class="screen">
+<section id="map" class="screen active">
   <div class="top">
     <span class="who" id="who"></span>
     <span class="ttl" id="ttl"></span>
@@ -166,10 +150,9 @@ h1{margin:0;font-size:28px;letter-spacing:2px}
     <button class="btn sub" onclick="showCollection()">📖 宝物ずかん</button>
     <button class="btn sub" id="sndBtn" onclick="toggleSound()"></button>
     <button class="btn sub" id="kbBtn" onclick="toggleKb()"></button>
-    <button class="btn sub" onclick="logout()">👤 生徒を切りかえる</button>
   </div>
   <div id="worlds"></div>
-  <div class="tools"><button class="btn sub" style="font-size:13px" onclick="resetData()">この出席番号の記録をリセット</button></div>
+  <div class="tools"><button class="btn sub" style="font-size:13px" onclick="resetData()">記録をリセット</button></div>
 </section>
 
 <!-- バトル -->
@@ -293,7 +276,7 @@ const store = {
   get(k){try{return localStorage.getItem(k)}catch(e){return k in mem?mem[k]:null}},
   set(k,v){try{localStorage.setItem(k,v)}catch(e){mem[k]=v}}
 };
-let user=null, data=null, cur='login';
+let user='player', data=null, cur='map';
 let sound = store.get(SAVE_PREFIX+'sound')!=='off';
 let kbOn = store.get(SAVE_PREFIX+'kb')!=='off';
 function load(){try{data=JSON.parse(store.get(SAVE_PREFIX+user))}catch(e){data=null}if(!data)data={stars:{},best:{}}}
@@ -334,7 +317,7 @@ function logout(){show('login');markLogin()}
 /* ===== マップ ===== */
 function goMap(){
   const wc=worldsCleared();
-  $('#who').textContent=user.replace('-','組 ')+'番';
+  $('#who').textContent='🧑‍🎓 勇者';
   $('#ttl').textContent='称号：'+TITLES[wc];
   $('#stars').textContent='★ '+totalStars()+' / 150';
   $('#party').textContent=W.slice(0,wc).map(w=>w.ally).join('');
@@ -357,7 +340,7 @@ function continueGame(){for(let wi=0;wi<W.length;wi++)for(let si=0;si<5;si++)if(
   startStage(W.length-1,4)}
 function toggleSound(){sound=!sound;store.set(SAVE_PREFIX+'sound',sound?'on':'off');goMap()}
 function toggleKb(){kbOn=!kbOn;store.set(SAVE_PREFIX+'kb',kbOn?'on':'off');goMap()}
-function resetData(){if(confirm(user.replace('-','組 ')+'番 の記録をすべて消します。よろしいですか？')){data={stars:{},best:{}};save();goMap()}}
+function resetData(){if(confirm('記録をすべて消します。よろしいですか？')){data={stars:{},best:{}};save();goMap()}}
 
 /* ===== キーボード ===== */
 const FING={q:'p',a:'p',z:'p',p:'p',';':'p','/':'p',w:'r',s:'r',x:'r',o:'r',l:'r','.':'r',e:'m',d:'m',c:'m',i:'m',k:'m',',':'m',r:'i',f:'i',v:'i',t:'i',g:'i',b:'i',y:'i',h:'i',n:'i',u:'i',j:'i',m:'i',' ':'t'};
@@ -526,12 +509,15 @@ function showCollection(){
 document.addEventListener('keydown',e=>{
   if(cur==='battle'){if(e.key==='Escape'){quitBattle();return}onKey(e);return}
   if(e.key!=='Enter')return;
-  if(cur==='login')login();
   else if(cur==='map')continueGame();
   else if(cur==='result'){B.win&&!(B.wi===W.length-1&&B.si===4)?goNext():retry()}
   else if(cur==='collection')goMap();
 });
-buildKb();initLogin();
+buildKb();
+(function boot(){
+  if(!store.get(SAVE_PREFIX+user)){const last=store.get(SAVE_PREFIX+'last');const old=last&&store.get(SAVE_PREFIX+last);if(old)store.set(SAVE_PREFIX+user,old)}
+  load();goMap();
+})();
 </script>
 <a href="typing_index.html" style="position:fixed;left:12px;bottom:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;background:rgba(20,14,50,.85);color:#fff;text-decoration:none;font:800 15px/1 'M PLUS Rounded 1c','Hiragino Kaku Gothic ProN','Meiryo',sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.4);border:2px solid rgba(255,255,255,.35)">◀ トップへ</a>
 </body>
