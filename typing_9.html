@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>タイピング花火大会</title>
+<style>
+:root{--bg:#120c2c;--panel:#221a4d;--panel2:#30276f;--text:#fff;--sub:#c3bcef;--gold:#ffd84a;--pink:#ff5fb7;--ok:#4ade80;--ng:#ff6b6b}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;min-height:100vh;color:var(--text);font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Yu Gothic UI","Meiryo",sans-serif;background:var(--bg)}
+button{font-family:inherit;cursor:pointer}
+.wrap{max-width:1040px;margin:0 auto;padding:16px 16px 40px}
+.screen{display:none}.screen.active{display:block}
+.btn{border:0;border-radius:14px;padding:12px 22px;font-size:17px;font-weight:800;color:#2a1050;background:var(--gold);box-shadow:0 5px 0 #b8901a;transition:transform .1s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #b8901a}
+.btn.sub{background:#ffffff1f;color:#fff;box-shadow:0 5px 0 #00000055}
+.small{font-size:13px;color:var(--sub)}
+.toplink{display:inline-block;color:var(--sub);text-decoration:none;font-size:14px;padding:6px 12px;border-radius:10px;background:#ffffff14}
+.toplink:hover{background:#ffffff26}
+.gtitle{text-align:center;margin:10px 0 6px;font-size:clamp(30px,6.4vw,58px);font-weight:900;line-height:1.2;
+  background:linear-gradient(90deg,#ffd84a,#ff8a5b,#ff5fb7,#9f7bff,#ffd84a);background-size:300%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gflow 7s linear infinite}
+@keyframes gflow{to{background-position:300%}}
+.ticon{text-align:center;font-size:clamp(44px,8vw,64px);margin-top:4px;line-height:1;animation:tbob 3s ease-in-out infinite}
+@keyframes tbob{50%{transform:translateY(-6px)}}
+.lead{text-align:center;color:var(--sub);line-height:1.8;margin:6px auto 18px;max-width:640px}
+.panel{background:var(--panel);border-radius:20px;padding:18px}
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.lvbtn{border:0;border-radius:18px;padding:16px 12px;color:#fff;text-align:center;box-shadow:0 6px 0 #00000055;transition:transform .15s;position:relative}
+.lvbtn:hover{transform:translateY(-4px)}
+.lvbtn:active{transform:translateY(3px);box-shadow:0 2px 0 #00000055}
+.lvbtn .k{font-size:12px;opacity:.85}
+.lvbtn .n{font-size:22px;font-weight:900;margin:4px 0}
+.lvbtn .d{font-size:12px;opacity:.92;line-height:1.5}
+.lvbtn .best{margin-top:8px;font-size:12px;background:#00000033;border-radius:999px;padding:2px 10px;display:inline-block}
+.lvbtn[disabled]{filter:grayscale(1) brightness(.55);cursor:not-allowed;transform:none}
+.g1{background:linear-gradient(150deg,#22c55e,#0ea5a4)}.g2{background:linear-gradient(150deg,#3b82f6,#8b5cf6)}.g3{background:linear-gradient(150deg,#f97316,#e11d48)}.g4{background:linear-gradient(150deg,#a855f7,#ec4899)}.g5{background:linear-gradient(150deg,#eab308,#dc2626)}
+.howto{margin-top:14px;font-size:13px;color:var(--sub);line-height:1.9}
+.hud{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.hud>div{flex:1;min-width:84px;background:var(--panel);border-radius:14px;padding:6px 10px;text-align:center}
+.hud small{display:block;color:var(--sub);font-size:12px}
+.hud b{font-size:24px}
+.low{color:var(--ng)!important}
+.tbox{background:#fff;color:#1d1440;border-radius:20px;padding:16px;text-align:center;box-shadow:0 8px 0 #00000040;position:relative}
+.t-main{font-size:clamp(24px,4.2vw,38px);font-weight:900;line-height:1.3}
+.t-kana{font-size:clamp(15px,2.2vw,20px);margin-top:6px;letter-spacing:.05em}
+.t-roma{font-family:Consolas,"Courier New",monospace;font-size:clamp(19px,3vw,28px);margin-top:8px;letter-spacing:.05em;word-break:break-all}
+.t-sub{font-size:14px;color:#6b6290;margin-top:6px}
+.d{color:#c9c2e6}
+.c{background:var(--gold);border-radius:4px;color:#1d1440}
+.shake{animation:shk .18s}
+@keyframes shk{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.warn{display:none;margin-top:10px;background:var(--ng);border-radius:12px;padding:8px;font-weight:800;text-align:center}
+.count{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:#000000a0;z-index:50;font-size:140px;font-weight:900;color:var(--gold)}
+.count span{animation:cpop .9s}
+@keyframes cpop{0%{transform:scale(2.4);opacity:0}30%{transform:scale(1);opacity:1}}
+.conf{position:fixed;top:-40px;font-size:26px;pointer-events:none;z-index:60;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(600deg)}}
+.rcard{background:var(--panel);border-radius:22px;padding:22px;max-width:640px;margin:20px auto;text-align:center}
+.rcard h2{font-size:clamp(28px,5vw,42px);margin:4px 0 8px}
+.rgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}
+.rgrid div{background:var(--panel2);border-radius:14px;padding:10px 12px}
+.rgrid small{color:var(--sub);font-size:12px;display:block}
+.rgrid b{font-size:26px}
+.hl{background:linear-gradient(90deg,#ff5fb7,#ffb84a);color:#2a1050;border-radius:14px;padding:10px 14px;font-weight:900;margin:10px 0;animation:getin .5s}
+.hl.g{background:linear-gradient(90deg,#4ade80,#22d3ee)}
+@keyframes getin{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.05)}100%{transform:none;opacity:1}}
+.rbtns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.esc{text-align:center;margin-top:10px}
+
+body{background:#070615}
+.sky{position:relative;height:clamp(320px,56vh,500px);border-radius:20px;overflow:hidden;box-shadow:0 10px 0 #00000055;background:linear-gradient(180deg,#05041a 0%,#14103e 60%,#2a1d5c 100%)}
+.sky canvas{position:absolute;inset:0;width:100%;height:100%}
+.town{position:absolute;left:0;right:0;bottom:0;height:70px;pointer-events:none}
+.count2{position:absolute;left:12px;top:12px;background:#000000a8;border-radius:14px;padding:6px 14px;z-index:3}
+.count2 small{display:block;font-size:11px;color:var(--sub)}
+.count2 b{font-size:26px;color:var(--gold)}
+.msg{position:absolute;left:50%;top:22%;transform:translateX(-50%);font-size:clamp(30px,6vw,56px);font-weight:900;color:#fff;text-shadow:0 0 18px #ff5fb7,0 4px 0 #000;opacity:0;pointer-events:none;white-space:nowrap;z-index:3}
+.msg.on{animation:mg 1.6s}
+@keyframes mg{0%{opacity:0;transform:translateX(-50%) scale(.4)}20%{opacity:1;transform:translateX(-50%) scale(1.1)}80%{opacity:1}100%{opacity:0}}
+.tbox{margin-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section id="title" class="screen active">
+  <a class="toplink" href="typing_index.html">◀ トップへ</a>
+  <div class="ticon">🎆</div><div class="gtitle">タイピング花火大会</div>
+  <p class="lead">ことばを1つ打つたびに、夜空に花火が打ち上がる！<br>長いことばほど大きな花火。コンボで連発！ 最後はみんなの花火でフィナーレだ！</p>
+  <div class="levels"><button class="lvbtn g4" onclick="start()"><div class="k">Enter</div><div class="n">打ち上げ開始！</div><div class="d">夏祭り・花火のことばを日本語で<br>制限時間 60秒</div><div class="best" id="best"></div></button></div>
+  <div class="howto">🔤 入力は「半角英数」のローマ字で。<br>🎇 ミスなしで打ち続けると、コンボ25で2連発、コンボ60で3連発！</div>
+</section>
+
+<section id="play" class="screen">
+  <div class="hud">
+    <div><small>のこり時間</small><b id="time">60</b></div>
+    <div><small>打った数</small><b id="keys">0</b></div>
+    <div><small>コンボ</small><b id="combo">0</b></div>
+    <div><small>ミス</small><b id="miss">0</b></div>
+  </div>
+  <div class="sky" id="sky">
+    <canvas id="cv"></canvas>
+    <svg class="town" viewBox="0 0 1000 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 70 L0 40 L40 40 L40 22 L80 22 L80 44 L120 44 L120 30 L150 30 L150 14 L175 14 L175 36 L220 36 L220 46 L260 46 L260 26 L300 26 L300 42 L360 42 L360 34 L380 18 L400 34 L400 46 L460 46 L460 30 L500 30 L500 10 L520 10 L520 40 L570 40 L570 24 L620 24 L620 44 L680 44 L680 32 L720 32 L720 20 L750 20 L750 42 L800 42 L800 28 L850 28 L850 46 L900 46 L900 34 L940 34 L940 24 L1000 24 L1000 70 Z" fill="#0a0820"/>
+      <g fill="#ffd36b" opacity=".8"><rect x="50" y="46" width="5" height="5"/><rect x="90" y="50" width="5" height="5"/><rect x="160" y="24" width="5" height="5"/><rect x="270" y="34" width="5" height="5"/><rect x="505" y="20" width="5" height="5"/><rect x="580" y="32" width="5" height="5"/><rect x="730" y="28" width="5" height="5"/><rect x="860" y="52" width="5" height="5"/><rect x="950" y="34" width="5" height="5"/></g></svg>
+    <div class="count2"><small>打ち上げた花火</small><b id="fw">0</b> 発</div>
+    <div class="msg" id="msg"></div>
+  </div>
+  <div class="tbox" id="tb">
+    <div class="t-main" id="qText"></div>
+    <div class="t-kana" id="qKana"></div>
+    <div class="t-roma" id="qRoma"></div>
+  </div>
+  <div class="warn" id="warn"></div>
+  <div class="small esc">Esc でやめる</div>
+</section>
+
+<section id="result" class="screen"><div class="rcard" id="res"></div></section>
+</div>
+<div class="count" id="count"></div>
+
+<script>
+/* ===== 共通部品 ===== */
+const $=s=>document.querySelector(s);
+let CUR='title';
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('#'+id).classList.add('active');CUR=id;scrollTo(0,0)}
+function sget(k,d){try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}}
+function sset(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+let AC=null;
+function beep(f,d,type,v,slide){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime;o.type=type||'square';o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t+d);g.gain.setValueAtTime(v||.03,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d)}catch(e){}}
+function okSound(){beep(1000,.025,'square',.018)}
+function ngSound(){beep(140,.12,'sawtooth',.04)}
+function jingle(){[523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>beep(f,.22,'triangle',.06),i*90))}
+function sadSound(){[392,330,262].forEach((f,i)=>setTimeout(()=>beep(f,.3,'triangle',.05),i*180))}
+function countdown(cb){const cd=$('#count');cd.style.display='flex';let n=3;
+  const step=()=>{if(n>0){cd.innerHTML=`<span>${n}</span>`;beep(440,.15,'triangle',.05);n--;setTimeout(step,750)}
+    else{cd.innerHTML='<span>GO!</span>';beep(880,.3,'triangle',.06);setTimeout(()=>{cd.style.display='none';cb()},450)}};step()}
+function confetti(n){const em=['🎉','✨','⭐','🎊','💖'];for(let i=0;i<(n||40);i++){const s=document.createElement('div');s.className='conf';s.textContent=em[i%5];
+  s.style.left=Math.random()*100+'vw';s.style.animationDuration=(1.6+Math.random()*2)+'s';s.style.animationDelay=Math.random()*.6+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),4500)}}
+function shake(el){el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake')}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function warn(m){const w=$('#warn');if(!w)return;if(m){w.textContent='⚠ '+m;w.style.display='block'}else w.style.display='none'}
+/* キー入力を1文字に。日本語入力ON・CapsLockは警告 */
+function readKey(e){
+  if(e.isComposing||e.key==='Process'||e.keyCode===229){e.preventDefault();warn('日本語入力がONです。「半角/全角」キーで英数入力にしてね');return null}
+  if(e.ctrlKey||e.metaKey||e.altKey||e.key.length!==1)return null;
+  e.preventDefault();
+  if(e.repeat)return null;
+  if(e.getModifierState&&e.getModifierState('CapsLock'))warn('CapsLock がONです。Shift＋CapsLock で解除してね');else warn('');
+  return e.key;
+}
+/* ===== ローマ字判定（いろいろな打ち方に対応） ===== */
+const RT={
+ 'あ':['a'],'い':['i','yi'],'う':['u','wu','whu'],'え':['e'],'お':['o'],
+ 'か':['ka','ca'],'き':['ki'],'く':['ku','cu','qu'],'け':['ke'],'こ':['ko','co'],
+ 'さ':['sa'],'し':['si','shi','ci'],'す':['su'],'せ':['se','ce'],'そ':['so'],
+ 'た':['ta'],'ち':['ti','chi'],'つ':['tu','tsu'],'て':['te'],'と':['to'],
+ 'な':['na'],'に':['ni'],'ぬ':['nu'],'ね':['ne'],'の':['no'],
+ 'は':['ha'],'ひ':['hi'],'ふ':['hu','fu'],'へ':['he'],'ほ':['ho'],
+ 'ま':['ma'],'み':['mi'],'む':['mu'],'め':['me'],'も':['mo'],
+ 'や':['ya'],'ゆ':['yu'],'よ':['yo'],
+ 'ら':['ra'],'り':['ri'],'る':['ru'],'れ':['re'],'ろ':['ro'],
+ 'わ':['wa'],'を':['wo'],
+ 'が':['ga'],'ぎ':['gi'],'ぐ':['gu'],'げ':['ge'],'ご':['go'],
+ 'ざ':['za'],'じ':['zi','ji'],'ず':['zu'],'ぜ':['ze'],'ぞ':['zo'],
+ 'だ':['da'],'ぢ':['di'],'づ':['du'],'で':['de'],'ど':['do'],
+ 'ば':['ba'],'び':['bi'],'ぶ':['bu'],'べ':['be'],'ぼ':['bo'],
+ 'ぱ':['pa'],'ぴ':['pi'],'ぷ':['pu'],'ぺ':['pe'],'ぽ':['po'],'ゔ':['vu'],
+ 'ぁ':['xa','la'],'ぃ':['xi','li'],'ぅ':['xu','lu'],'ぇ':['xe','le'],'ぉ':['xo','lo'],
+ 'ゃ':['xya','lya'],'ゅ':['xyu','lyu'],'ょ':['xyo','lyo'],'ゎ':['xwa','lwa'],
+ 'っ':['xtu','ltu','xtsu','ltsu'],
+ 'ー':['-'],'、':[','],'。':['.'],'！':['!'],'？':['?'],'　':[' '],' ':[' ']
+};
+const RY={};
+[['き','ky'],['に','ny'],['ひ','hy'],['み','my'],['り','ry'],['ぎ','gy'],['び','by'],['ぴ','py']].forEach(([k,r])=>{RY[k+'ゃ']=[r+'a'];RY[k+'ゅ']=[r+'u'];RY[k+'ょ']=[r+'o'];RY[k+'ぇ']=[r+'e']});
+Object.assign(RY,{
+ 'しゃ':['sya','sha'],'しゅ':['syu','shu'],'しょ':['syo','sho'],'しぇ':['sye','she'],
+ 'ちゃ':['tya','cha','cya'],'ちゅ':['tyu','chu','cyu'],'ちょ':['tyo','cho','cyo'],'ちぇ':['tye','che','cye'],
+ 'じゃ':['zya','ja','jya'],'じゅ':['zyu','ju','jyu'],'じょ':['zyo','jo','jyo'],'じぇ':['zye','je','jye'],
+ 'ぢゃ':['dya'],'ぢゅ':['dyu'],'ぢょ':['dyo'],
+ 'ふぁ':['fa'],'ふぃ':['fi'],'ふぇ':['fe'],'ふぉ':['fo'],
+ 'てぃ':['thi'],'でぃ':['dhi'],'うぃ':['wi'],'うぇ':['we'],'ゔぁ':['va'],'ゔぃ':['vi'],'ゔぇ':['ve'],'ゔぉ':['vo']
+});
+function toHira(s){return s.replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60))}
+function rcands(K,p){
+  if(p>=K.length)return [];
+  const out=[],c=K[p];
+  if(c==='ん'){
+    const nx=K[p+1];
+    if(nx!==undefined&&!'あいうえおなにぬねのやゆよんゃゅょ'.includes(nx))out.push({r:'n',len:1});
+    out.push({r:'nn',len:1},{r:"n'",len:1},{r:'xn',len:1});return out;
+  }
+  if(c==='っ'){
+    const seen=new Set();
+    rcands(K,p+1).forEach(n=>{const f=n.r[0];
+      if(f&&/[bcdfghjklmpqrstvwxyz]/.test(f)){const r=f+n.r;if(!seen.has(r)){seen.add(r);out.push({r,len:1+n.len})}}
+      if(n.r.startsWith('ch')&&!seen.has('t'+n.r)){seen.add('t'+n.r);out.push({r:'t'+n.r,len:1+n.len})}});
+    RT['っ'].forEach(r=>out.push({r,len:1}));return out;
+  }
+  const two=K.substr(p,2);
+  if(RY[two])RY[two].forEach(r=>out.push({r,len:2}));
+  (RT[c]||[c]).forEach(r=>out.push({r,len:1}));
+  return out;
+}
+function rguide(K,p){let s='';while(p<K.length){const c=rcands(K,p)[0];s+=c.r;p+=c.len}return s}
+/* 日本語1問 */
+class JT{
+  constructor(text,reading){this.text=text;this.K=toHira(reading);this.p=0;this.b='';this.typed=''}
+  press(ch){ch=ch.toLowerCase();
+    const cs=rcands(this.K,this.p),b2=this.b+ch,m=cs.filter(c=>c.r.startsWith(b2));
+    if(!m.length){const ex=this.b&&cs.find(c=>c.r===this.b);
+      if(ex){this.p+=ex.len;this.b='';if(this.p>=this.K.length)return false;return this.press(ch)}return false}
+    this.b=b2;this.typed+=ch;
+    const exact=m.find(c=>c.r===b2);
+    if(exact&&!m.some(c=>c.r.length>b2.length)){this.p+=exact.len;this.b=''}
+    return true}
+  get done(){return this.p>=this.K.length}
+  rest(){if(this.b){const c=rcands(this.K,this.p).find(c=>c.r.startsWith(this.b));return c.r.slice(this.b.length)+rguide(this.K,this.p+c.len)}return rguide(this.K,this.p)}
+  next(){return this.rest()[0]}
+  get keysLeft(){return this.rest().length}
+  kanaHTML(){return `<span class="d">${esc(this.K.slice(0,this.p))}</span>${esc(this.K.slice(this.p))}`}
+  romaHTML(){const r=this.rest();return `<span class="d">${esc(this.typed)}</span>${r?`<span class="c">${esc(r[0])}</span>${esc(r.slice(1))}`:''}`}
+}
+/* 英語1問（大文字・小文字も区別） */
+class ET{
+  constructor(s,sub){this.text=s;this.sub=sub||'';this.i=0}
+  press(ch){if(ch===this.text[this.i]){this.i++;return true}return false}
+  get done(){return this.i>=this.text.length}
+  next(){return this.text[this.i]}
+  get keysLeft(){return this.text.length-this.i}
+  html(){const t=this.text,i=this.i;const cur=t[i]===' '?'␣':esc(t[i]||'');
+    return `<span class="d">${esc(t.slice(0,i))}</span>${i<t.length?`<span class="c">${cur}</span>${esc(t.slice(i+1))}`:''}`}
+}
+window.__next=()=>window.CURT&&!window.CURT.done?window.CURT.next():null;
+
+const TIME=60,KEY='hanabi_v1';
+const WORDS=[
+ ['花火','はなび'],['夏祭り','なつまつり'],['浴衣','ゆかた'],['りんご飴','りんごあめ'],['金魚すくい','きんぎょすくい'],['わたあめ','わたあめ'],
+ ['たこ焼き','たこやき'],['盆おどり','ぼんおどり'],['うちわ','うちわ'],['夜空','よぞら'],['打ち上げ','うちあげ'],['屋台','やたい'],
+ ['ちょうちん','ちょうちん'],['かき氷','かきごおり'],['線香花火','せんこうはなび'],['流れ星','ながれぼし'],['天の川','あまのがわ'],
+ ['夏休み','なつやすみ'],['思い出','おもいで'],['友だち','ともだち'],['大きな花火','おおきなはなび'],['太鼓','たいこ'],
+ ['スターマイン','すたーまいん'],['ヨーヨーつり','よーよーつり'],['焼きそば','やきそば'],['花火大会','はなびたいかい'],['夏の夜','なつのよる'],
+ ['ドーンと一発','どーんといっぱつ'],['きれいだね','きれいだね'],['たまやー','たまやー']
+];
+const COLORS=['#ff5fb7','#ffd84a','#4ade80','#60a5fa','#f97316','#c084fc','#f43f5e','#22d3ee','#ffffff'];
+let best=sget(KEY,0);
+function title(){$('#best').textContent=best?`ベスト ${best}発`:'まだ記録なし';show('title')}
+/* ===== 花火エンジン ===== */
+const cv=$('#cv'),cx=cv.getContext('2d');let parts=[],shells=[],anim=0,W=0,H=0;
+function resize(){const r=cv.getBoundingClientRect();W=r.width;H=r.height;cv.width=W*devicePixelRatio;cv.height=H*devicePixelRatio;cx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)}
+addEventListener('resize',()=>{if(CUR==='play')resize()});
+function launch(size,delay){
+  setTimeout(()=>{if(!W)return;
+    const x=W*(.15+Math.random()*.7),ty=H*(.15+Math.random()*.35);
+    shells.push({x,y:H-60,vy:-(Math.sqrt(2*420*(H-60-ty))),ty,size,color:COLORS[Math.floor(Math.random()*COLORS.length)],t:0});
+    beep(300,.5,'sine',.02,900);
+  },delay||0);
+}
+function burst(s){
+  const n=Math.floor(40+s.size*14),sp=70+s.size*22,c2=Math.random()<.4?COLORS[Math.floor(Math.random()*COLORS.length)]:s.color;
+  for(let i=0;i<n;i++){const a=Math.PI*2*i/n,v=sp*(.7+Math.random()*.4);
+    parts.push({x:s.x,y:s.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:1.4+Math.random()*.6,age:0,color:i%2?s.color:c2,r:1.6+s.size*.12})}
+  beep(90+Math.random()*40,.5,'sawtooth',.05,40);
+}
+function frame(now){
+  const dt=Math.min(.05,(now-(frame.last||now))/1000);frame.last=now;
+  cx.globalCompositeOperation='source-over';cx.fillStyle='rgba(5,4,26,0.22)';cx.fillRect(0,0,W,H);
+  cx.globalCompositeOperation='lighter';
+  for(const s of shells){s.vy+=420*dt;s.y+=s.vy*dt;s.t+=dt;
+    cx.fillStyle='#ffe9b0';cx.beginPath();cx.arc(s.x+Math.sin(s.t*30),s.y,2.2,0,7);cx.fill();
+    if(s.vy>=-30){s.dead=1;burst(s)}}
+  shells=shells.filter(s=>!s.dead);
+  for(const p of parts){p.age+=dt;p.vx*=.985;p.vy=p.vy*.985+60*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;
+    const a=Math.max(0,1-p.age/p.life);cx.globalAlpha=a;cx.fillStyle=p.color;cx.beginPath();cx.arc(p.x,p.y,p.r,0,7);cx.fill()}
+  cx.globalAlpha=1;parts=parts.filter(p=>p.age<p.life);
+  anim=requestAnimationFrame(frame);
+}
+/* ===== ゲーム ===== */
+let G=null,timer=null;
+function start(){
+  G={keys:0,miss:0,combo:0,maxCombo:0,fw:0,words:0,running:false,last:-1};
+  show('play');resize();cx.clearRect(0,0,W,H);parts=[];shells=[];cancelAnimationFrame(anim);frame.last=0;anim=requestAnimationFrame(frame);
+  nextQ();hud();warn('');$('#time').textContent=TIME;$('#time').classList.remove('low');
+  countdown(()=>{G.running=true;G.t0=performance.now();timer=setInterval(tick,100)});
+}
+function nextQ(){let i;do{i=Math.floor(Math.random()*WORDS.length)}while(i===G.last);G.last=i;G.t=new JT(...WORDS[i]);window.CURT=G.t;render()}
+function render(){$('#qText').textContent=G.t.text;$('#qKana').innerHTML=G.t.kanaHTML();$('#qRoma').innerHTML=G.t.romaHTML()}
+function hud(){$('#keys').textContent=G.keys;$('#combo').textContent=G.combo;$('#miss').textContent=G.miss;$('#fw').textContent=G.fw}
+function say(s){const m=$('#msg');m.textContent=s;m.classList.remove('on');void m.offsetWidth;m.classList.add('on')}
+function onKey(e){
+  if(e.key==='Escape'){quit();return}
+  if(!G||!G.running)return;
+  const ch=readKey(e);if(ch==null)return;
+  if(G.t.press(ch)){
+    G.keys++;G.combo++;G.maxCombo=Math.max(G.maxCombo,G.combo);okSound();
+    if(G.t.done){
+      const size=Math.min(12,G.t.K.length),n=G.combo>=60?3:G.combo>=25?2:1;
+      for(let i=0;i<n;i++)launch(size,i*220);G.fw+=n;G.words++;
+      if(n===2&&!G.s2){G.s2=1;say('2連発！')}if(n===3&&!G.s3){G.s3=1;say('3連発！！')}
+      nextQ();
+    }else render();
+  }else{G.miss++;G.combo=0;G.s2=G.s3=0;ngSound();shake($('#tb'))}
+  hud();
+}
+function tick(){const left=TIME-(performance.now()-G.t0)/1000;$('#time').textContent=Math.max(0,Math.ceil(left));$('#time').classList.toggle('low',left<=10);if(left<=0)finale()}
+function quit(){clearInterval(timer);if(G)G.running=false;window.CURT=null;$('#count').style.display='none';cancelAnimationFrame(anim);title()}
+function finale(){
+  clearInterval(timer);G.running=false;window.CURT=null;
+  $('#qText').textContent='🎆 フィナーレ！';$('#qKana').textContent='';$('#qRoma').textContent='';
+  say('フィナーレ！スターマイン！');
+  const n=Math.min(40,Math.max(8,G.fw));
+  for(let i=0;i<n;i++)launch(6+Math.random()*6,400+i*(3200/n));
+  setTimeout(()=>{if(CUR==='play')end()},5200);
+}
+function end(){
+  cancelAnimationFrame(anim);
+  const tot=G.keys+G.miss,acc=tot?Math.floor(G.keys/tot*100):0;
+  const nb=G.fw>best;if(nb){best=G.fw;sset(KEY,best)}
+  let h=`<div style="font-size:64px">🎆</div><h2>${G.fw}発 打ち上げた！</h2><p>夜空が花火でいっぱいになったね！</p>`;
+  if(nb)h+=`<div class="hl g">🔥 自己ベスト更新！</div>`;
+  h+=`<div class="rgrid"><div><small>打ったことば</small><b>${G.words}</b></div><div><small>打った数</small><b>${G.keys}</b></div><div><small>正確さ</small><b>${acc}%</b></div><div><small>最大コンボ</small><b>${G.maxCombo}</b></div></div>`;
+  h+=`<div class="rbtns"><button class="btn" onclick="start()">もう一度（Enter）</button><button class="btn sub" onclick="title()">もどる（Esc）</button></div>`;
+  $('#res').innerHTML=h;show('result');if(nb)confetti();else jingle();
+}
+document.addEventListener('keydown',e=>{
+  if(CUR==='play'){onKey(e);return}
+  if(CUR==='title'&&e.key==='Enter')start();
+  if(CUR==='result'){if(e.key==='Enter')start();if(e.key==='Escape')title()}
+});
+title();
+</script>
+<a href="typing_index.html" style="position:fixed;left:12px;bottom:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;background:rgba(20,14,50,.85);color:#fff;text-decoration:none;font:800 15px/1 'M PLUS Rounded 1c','Hiragino Kaku Gothic ProN','Meiryo',sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.4);border:2px solid rgba(255,255,255,.35)">◀ トップへ</a>
+</body>
+</html>
