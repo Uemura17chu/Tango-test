@@ -143,7 +143,7 @@ function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').repl
 function warn(m){const w=$('#warn');if(!w)return;if(m){w.textContent='⚠ '+m;w.style.display='block'}else w.style.display='none'}
 /* キー入力を1文字に。日本語入力ON・CapsLockは警告 */
 function readKey(e){
-  if(e.isComposing||e.key==='Process'||e.keyCode===229){e.preventDefault();warn('日本語入力がONです。「半角/全角」キーで英数入力にしてね');return null}
+  if(e.isComposing||e.key==='Process'||e.keyCode===229){return null}
   if(e.ctrlKey||e.metaKey||e.altKey||e.key.length!==1)return null;
   e.preventDefault();
   if(e.repeat)return null;
@@ -249,7 +249,7 @@ const LV=[
  {name:'レベル3',g:'g3',min:7,max:20,d:'7文字以上<br>teacher, birthday …'}
 ];
 let best=sget(KEY,[0,0,0]);
-function title(){
+function goTitle(){
   $('#levels').innerHTML=LV.map((l,i)=>{const n=LIST.filter(w=>w[0].length>=l.min&&w[0].length<=l.max).length;
     return `<button class="lvbtn ${l.g}" onclick="start(${i})"><div class="k">キー ${i+1}</div><div class="n">${l.name}</div><div class="d">${l.d}<br>（${n}語）</div><div class="best">${best[i]?'ベスト '+best[i]+'点':'まだ記録なし'}</div></button>`}).join('');
   show('title');
@@ -310,7 +310,7 @@ function pass(){
 }
 function hud(){$('#score').textContent=G.score;$('#ok').textContent=G.ok;$('#miss').textContent=G.miss}
 function tick(){G.left=TIME-(performance.now()-G.t0)/1000;$('#time').textContent=Math.max(0,Math.ceil(G.left));$('#time').classList.toggle('low',G.left<=10);if(G.left<=0)end()}
-function quit(){clearInterval(timer);if(G)G.running=false;window.CURT=null;$('#count').style.display='none';title()}
+function quit(){clearInterval(timer);if(G)G.running=false;window.CURT=null;$('#count').style.display='none';goTitle()}
 function end(){
   clearInterval(timer);G.running=false;G.left=0;window.CURT=null;
   const tot=G.keys+G.miss,acc=tot?Math.floor(G.keys/tot*100):0;
@@ -321,16 +321,52 @@ function end(){
   const seen=new Set(),rv=G.missed.filter(w=>!seen.has(w.en)&&seen.add(w.en));
   if(rv.length)h+=`<div class="review">📝 <b style="font-family:inherit;font-size:15px;color:#fff">ふくしゅうしよう</b><br>${rv.map(w=>`${w.pic} ${esc(w.ja)} … <b>${esc(w.en)}</b>`).join('<br>')}</div>`;
   else if(G.ok)h+=`<div class="hl">🌟 ミスなし！ パーフェクト！</div>`;
-  h+=`<div class="rbtns"><button class="btn" onclick="start(${G.li})">もう一度（Enter）</button><button class="btn sub" onclick="title()">もどる（Esc）</button></div>`;
+  h+=`<div class="rbtns"><button class="btn" onclick="start(${G.li})">もう一度（Enter）</button><button class="btn sub" onclick="goTitle()">もどる（Esc）</button></div>`;
   $('#res').innerHTML=h;show('result');if(nb)confetti();else beep(523,.3,'triangle',.05);
 }
 document.addEventListener('keydown',e=>{
   if(CUR==='play'){onKey(e);return}
   if(CUR==='title'&&['1','2','3'].includes(e.key))start(+e.key-1);
-  if(CUR==='result'){if(e.key==='Enter')start(G.li);if(e.key==='Escape')title()}
+  if(CUR==='result'){if(e.key==='Enter')start(G.li);if(e.key==='Escape')goTitle()}
 });
-title();
+goTitle();
 </script>
-<a href="typing_index.html" onclick="try{if(document.referrer&&/typing_index\.html|\/$/.test(document.referrer)){history.back();return false}}catch(e){}" style="position:fixed;left:12px;bottom:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;background:rgba(20,14,50,.85);color:#fff;text-decoration:none;font:800 15px/1 'M PLUS Rounded 1c','Hiragino Kaku Gothic ProN','Meiryo',sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.4);border:2px solid rgba(255,255,255,.35)">◀ トップへ</a>
+<a href="typing_index.html" style="position:fixed;left:12px;bottom:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;background:rgba(20,14,50,.85);color:#fff;text-decoration:none;font:800 15px/1 'M PLUS Rounded 1c','Hiragino Kaku Gothic ProN','Meiryo',sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.4);border:2px solid rgba(255,255,255,.35)">◀ トップへ</a>
+<script>
+/* ===== iPad・タッチ対応（全ゲーム共通） ===== */
+(function(){
+  /* 1) 見えない入力欄：iPadでスペースなどのキーを確実に受け取るため */
+  const t=document.createElement('input');
+  t.type='text';t.id='kbtrap';t.setAttribute('autocomplete','off');t.setAttribute('autocorrect','off');t.setAttribute('autocapitalize','off');t.setAttribute('spellcheck','false');t.setAttribute('aria-hidden','true');t.tabIndex=-1;
+  t.style.cssText='position:fixed;left:0;bottom:0;width:2px;height:2px;opacity:0;border:0;padding:0;margin:0;font-size:16px;color:transparent;background:transparent;caret-color:transparent;z-index:-1';
+  document.body.appendChild(t);
+  const fx=()=>{if(document.activeElement!==t){try{t.focus({preventScroll:true})}catch(e){try{t.focus()}catch(_){}}}};
+  document.addEventListener('click',e=>{if(e.target.closest('a,select,textarea,input:not(#kbtrap)'))return;fx()},true);
+  window.addEventListener('load',fx);
+  let lastKey=0;
+  document.addEventListener('keydown',e=>{if(e.isTrusted&&e.key&&e.key.length===1)lastKey=performance.now()},true);
+  /* ソフトキーボード等で文字が入力欄に入った場合は、1文字ずつゲームへ送る */
+  t.addEventListener('input',()=>{
+    const v=t.value;t.value='';if(!v)return;
+    if(/[^\x20-\x7e]/.test(v)){toast('日本語入力がONです。英数入力にしてね（iPad：地球儀キー／Windows：半角/全角キー）');return}
+    if(performance.now()-lastKey<80)return;
+    for(const ch of v)document.dispatchEvent(new KeyboardEvent('keydown',{key:ch,bubbles:true,cancelable:true}));
+  });
+  t.addEventListener('compositionend',()=>{t.value='';toast('日本語入力がONです。英数入力にしてね（iPad：地球儀キー／Windows：半角/全角キー）')});
+  function toast(m){let d=document.getElementById('tapToast');if(!d){d=document.createElement('div');d.id='tapToast';d.style.cssText='position:fixed;left:50%;top:14px;transform:translateX(-50%);z-index:10001;background:#ff6b6b;color:#fff;font:800 15px/1.4 sans-serif;padding:10px 16px;border-radius:12px;box-shadow:0 6px 18px #0006;max-width:92vw;text-align:center';document.body.appendChild(d)}
+    d.textContent='⚠ '+m;d.style.display='block';clearTimeout(d._t);d._t=setTimeout(()=>d.style.display='none',3500)}
+  /* 2) Esc・Enter のかわりになるタップボタン（プレイ中に右上へ表示） */
+  const bar=document.createElement('div');
+  bar.style.cssText='position:fixed;right:12px;bottom:12px;z-index:10000;display:none;gap:8px';
+  const mk=(label,key,bg)=>{const b=document.createElement('button');b.type='button';b.textContent=label;
+    b.style.cssText=`border:2px solid #ffffff66;border-radius:999px;padding:12px 18px;font:900 16px/1 'M PLUS Rounded 1c','Hiragino Kaku Gothic ProN','Meiryo',sans-serif;color:#fff;background:${bg};box-shadow:0 4px 14px #0006;cursor:pointer;touch-action:manipulation`;
+    b.addEventListener('click',ev=>{ev.preventDefault();document.dispatchEvent(new KeyboardEvent('keydown',{key,bubbles:true,cancelable:true}));fx()});bar.appendChild(b);return b};
+  const hb=mk('💡 ヒント','Enter','#2563eb');
+  mk('✕ やめる','Escape','#dc2626');
+  document.body.appendChild(bar);
+  function hintLabel(){if(typeof window.pass==='function')return '⏭ パス';try{if(typeof MODE!=='undefined'&&MODE==='ja')return '💡 ヒント'}catch(e){}return ''}
+  setInterval(()=>{const p=document.querySelector('#play.active,#battle.active');bar.style.display=p?'flex':'none';const l=hintLabel();hb.style.display=l?'':'none';if(l)hb.textContent=l},250);
+})();
+</script>
 </body>
 </html>
