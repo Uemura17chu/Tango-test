@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>There is always a way.</title>
+<style>
+:root{--bg:#120c2c;--panel:#221a4d;--panel2:#30276f;--text:#fff;--sub:#c3bcef;--gold:#ffd84a;--pink:#ff5fb7;--ok:#4ade80;--ng:#ff6b6b}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;min-height:100vh;color:var(--text);font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Yu Gothic UI","Meiryo",sans-serif;background:var(--bg)}
+button{font-family:inherit;cursor:pointer}
+.wrap{max-width:1040px;margin:0 auto;padding:16px 16px 40px}
+.screen{display:none}.screen.active{display:block}
+.btn{border:0;border-radius:14px;padding:12px 22px;font-size:17px;font-weight:800;color:#2a1050;background:var(--gold);box-shadow:0 5px 0 #b8901a;transition:transform .1s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #b8901a}
+.btn.sub{background:#ffffff1f;color:#fff;box-shadow:0 5px 0 #00000055}
+.small{font-size:13px;color:var(--sub)}
+.toplink{display:inline-block;color:var(--sub);text-decoration:none;font-size:14px;padding:6px 12px;border-radius:10px;background:#ffffff14}
+.toplink:hover{background:#ffffff26}
+.gtitle{text-align:center;margin:10px 0 6px;font-size:clamp(30px,6.4vw,58px);font-weight:900;line-height:1.2;
+  background:linear-gradient(90deg,#ffd84a,#ff8a5b,#ff5fb7,#9f7bff,#ffd84a);background-size:300%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gflow 7s linear infinite}
+@keyframes gflow{to{background-position:300%}}
+.ticon{text-align:center;font-size:clamp(44px,8vw,64px);margin-top:4px;line-height:1;animation:tbob 3s ease-in-out infinite}
+@keyframes tbob{50%{transform:translateY(-6px)}}
+.lead{text-align:center;color:var(--sub);line-height:1.8;margin:6px auto 18px;max-width:640px}
+.panel{background:var(--panel);border-radius:20px;padding:18px}
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.lvbtn{border:0;border-radius:18px;padding:16px 12px;color:#fff;text-align:center;box-shadow:0 6px 0 #00000055;transition:transform .15s;position:relative}
+.lvbtn:hover{transform:translateY(-4px)}
+.lvbtn:active{transform:translateY(3px);box-shadow:0 2px 0 #00000055}
+.lvbtn .k{font-size:12px;opacity:.85}
+.lvbtn .n{font-size:22px;font-weight:900;margin:4px 0}
+.lvbtn .d{font-size:12px;opacity:.92;line-height:1.5}
+.lvbtn .best{margin-top:8px;font-size:12px;background:#00000033;border-radius:999px;padding:2px 10px;display:inline-block}
+.lvbtn[disabled]{filter:grayscale(1) brightness(.55);cursor:not-allowed;transform:none}
+.g1{background:linear-gradient(150deg,#22c55e,#0ea5a4)}.g2{background:linear-gradient(150deg,#3b82f6,#8b5cf6)}.g3{background:linear-gradient(150deg,#f97316,#e11d48)}.g4{background:linear-gradient(150deg,#a855f7,#ec4899)}.g5{background:linear-gradient(150deg,#eab308,#dc2626)}
+.howto{margin-top:14px;font-size:13px;color:var(--sub);line-height:1.9}
+.hud{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.hud>div{flex:1;min-width:84px;background:var(--panel);border-radius:14px;padding:6px 10px;text-align:center}
+.hud small{display:block;color:var(--sub);font-size:12px}
+.hud b{font-size:24px}
+.low{color:var(--ng)!important}
+.tbox{background:#fff;color:#1d1440;border-radius:20px;padding:16px;text-align:center;box-shadow:0 8px 0 #00000040;position:relative}
+.t-main{font-size:clamp(24px,4.2vw,38px);font-weight:900;line-height:1.3}
+.t-kana{font-size:clamp(15px,2.2vw,20px);margin-top:6px;letter-spacing:.05em}
+.t-roma{font-family:Consolas,"Courier New",monospace;font-size:clamp(19px,3vw,28px);margin-top:8px;letter-spacing:.05em;word-break:break-all}
+.t-sub{font-size:14px;color:#6b6290;margin-top:6px}
+.d{color:#c9c2e6}
+.c{background:var(--gold);border-radius:4px;color:#1d1440}
+.shake{animation:shk .18s}
+@keyframes shk{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.warn{display:none;margin-top:10px;background:var(--ng);border-radius:12px;padding:8px;font-weight:800;text-align:center}
+.count{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:#000000a0;z-index:50;font-size:140px;font-weight:900;color:var(--gold)}
+.count span{animation:cpop .9s}
+@keyframes cpop{0%{transform:scale(2.4);opacity:0}30%{transform:scale(1);opacity:1}}
+.conf{position:fixed;top:-40px;font-size:26px;pointer-events:none;z-index:60;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(600deg)}}
+.rcard{background:var(--panel);border-radius:22px;padding:22px;max-width:640px;margin:20px auto;text-align:center}
+.rcard h2{font-size:clamp(28px,5vw,42px);margin:4px 0 8px}
+.rgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}
+.rgrid div{background:var(--panel2);border-radius:14px;padding:10px 12px}
+.rgrid small{color:var(--sub);font-size:12px;display:block}
+.rgrid b{font-size:26px}
+.hl{background:linear-gradient(90deg,#ff5fb7,#ffb84a);color:#2a1050;border-radius:14px;padding:10px 14px;font-weight:900;margin:10px 0;animation:getin .5s}
+.hl.g{background:linear-gradient(90deg,#4ade80,#22d3ee)}
+@keyframes getin{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.05)}100%{transform:none;opacity:1}}
+.rbtns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.esc{text-align:center;margin-top:10px}
+
+.slots{display:inline-flex;gap:5px;flex-wrap:wrap;justify-content:center;vertical-align:middle}
+.sl{min-width:.95em;height:1.35em;border-bottom:3px solid #b9b2da;font-family:Consolas,"Courier New",monospace;font-weight:700;display:inline-flex;align-items:center;justify-content:center;color:#1d1440;line-height:1}
+.sl.cur{border-color:var(--gold);background:#fff4c2;border-radius:5px 5px 0 0}
+.sl.hint{color:#c2bbe0}
+.sl.ok{border-color:#22c55e}
+.sl.sp{border-bottom:0;min-width:.7em}
+.sl.sym{border-bottom-color:transparent}
+.ptag{display:inline-block;margin:0 auto 6px;padding:4px 14px;border-radius:999px;background:#ffffff1f;font-weight:800;font-size:14px}
+.ptag b{color:var(--gold)}
+.hintkey{font-size:12px;color:#7a7299;margin-top:6px}
+
+body{background:#0d0b1f}
+.wrap{padding-bottom:96px}
+/* タイトル */
+.st-hero{text-align:center;padding:30px 10px 10px}
+.st-hero .en{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:clamp(30px,6vw,56px);color:#fff;text-shadow:0 0 30px #ffb4d9aa}
+.st-hero .ja{font-size:clamp(16px,2.6vw,22px);color:#ffd6ea;margin-top:6px;letter-spacing:.1em}
+.st-hero .bf{font-size:54px;animation:flut 3s ease-in-out infinite;display:inline-block}
+@keyframes flut{25%{transform:translate(8px,-10px) rotate(8deg)}50%{transform:translate(0,-16px)}75%{transform:translate(-8px,-8px) rotate(-8deg)}}
+.st-lead{max-width:640px;margin:14px auto;color:var(--sub);line-height:1.9;text-align:center}
+.chs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+@media(max-width:760px){.chs{grid-template-columns:1fr}}
+.ch{border:0;border-radius:22px;padding:18px 14px;color:#fff;text-align:left;cursor:pointer;font-family:inherit;box-shadow:0 7px 0 #00000055;transition:transform .15s;min-height:170px;display:flex;flex-direction:column;justify-content:space-between}
+.ch:hover{transform:translateY(-4px)}
+.ch[disabled]{filter:grayscale(1) brightness(.5);cursor:not-allowed;transform:none}
+.ch .no{font-size:12px;letter-spacing:.2em;opacity:.85}
+.ch .tt{font-size:22px;font-weight:900;margin:4px 0}
+.ch .ds{font-size:13px;opacity:.92;line-height:1.6}
+.ch .stars{margin-top:8px;font-size:14px;background:#00000033;border-radius:999px;padding:3px 10px;align-self:flex-start}
+.c1{background:linear-gradient(150deg,#16a34a,#0e7490)}.c2{background:linear-gradient(150deg,#db2777,#7c3aed)}.c3{background:linear-gradient(150deg,#ea580c,#7c2d12)}
+/* 物語画面 */
+.sbar{display:flex;align-items:center;gap:10px;margin-bottom:10px;color:var(--sub);font-size:13px}
+.sbar .chn{font-weight:900;color:#fff;font-size:15px}
+.sbar .pg{flex:1;height:8px;background:#ffffff1a;border-radius:999px;overflow:hidden}
+.sbar .pg>div{height:100%;background:linear-gradient(90deg,#ffb4d9,#ffd84a);width:0;transition:width .4s}
+.scene{position:relative;height:clamp(330px,58vh,520px);border-radius:22px;overflow:hidden;box-shadow:0 10px 0 #00000055;transition:background 1s;cursor:pointer;user-select:none;-webkit-user-select:none}
+.deco{position:absolute;inset:0;pointer-events:none}
+.deco span{position:absolute;opacity:.5;filter:blur(.2px)}
+.actor{position:absolute;bottom:150px;font-size:clamp(70px,13vw,120px);line-height:1;transition:left .5s,opacity .4s,transform .4s;filter:drop-shadow(0 8px 10px #0005)}
+.actor.talk{animation:talk .5s ease-in-out}
+@keyframes talk{40%{transform:translateY(-10px)}}
+.box{position:absolute;left:12px;right:12px;bottom:12px;min-height:128px;background:#ffffffee;color:#1d1440;border-radius:18px;padding:14px 18px 12px;box-shadow:0 6px 20px #0004}
+.box .who{position:absolute;top:-16px;left:18px;background:#1d1440;color:#fff;border-radius:999px;padding:4px 14px;font-weight:900;font-size:14px}
+.box .enl{font-family:Georgia,"Times New Roman",serif;font-size:clamp(20px,3.2vw,28px);line-height:1.5}
+.box .enl .slots{vertical-align:baseline}
+.box .enl .sl{font-family:Consolas,"Courier New",monospace;font-size:.95em}
+.box .enl .filled{color:#16a34a;font-weight:700;border-bottom:3px solid #16a34a;padding:0 2px}
+.box .jal{font-size:clamp(14px,2vw,16px);color:#6b6290;margin-top:6px}
+.box .nar{font-size:clamp(16px,2.4vw,20px);line-height:1.8;color:#2d2552}
+.box .nxt{position:absolute;right:16px;bottom:8px;font-size:13px;color:#a39cc8;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.box .ask{font-size:13px;color:#b45309;font-weight:800;margin-bottom:4px}
+.box .rate{position:absolute;right:16px;top:10px;font-size:20px;color:#f59e0b;animation:getin .4s}
+.box.wrong{animation:shk .18s}
+.final{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;color:#fff;
+  background:radial-gradient(circle at 50% 40%,#ffe6f2 0%,#ffb4d9 30%,#7c3aed 75%,#1e1b4b 100%);opacity:0;pointer-events:none;transition:opacity 2s}
+.final.on{opacity:1;pointer-events:auto}
+.final .big{font-family:Georgia,serif;font-style:italic;font-size:clamp(34px,7vw,64px);text-shadow:0 0 30px #fff}
+.final .sub{margin-top:10px;font-size:clamp(16px,2.6vw,22px)}
+.bfly{position:absolute;font-size:34px;pointer-events:none;animation:fly 6s linear forwards}
+@keyframes fly{0%{transform:translate(0,0) rotate(0)}25%{transform:translate(40px,-120px) rotate(15deg)}50%{transform:translate(-30px,-240px) rotate(-10deg)}75%{transform:translate(50px,-360px) rotate(12deg)}100%{transform:translate(0,-520px);opacity:0}}
+.credits{max-width:640px;margin:0 auto;text-align:center;line-height:2}
+.credits .w{display:inline-block;margin:3px;padding:3px 10px;border-radius:999px;background:#ffffff14;font-family:Consolas,monospace}
+.credits .w.p{background:#16a34a55}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section id="title" class="screen active">
+  <a class="toplink" href="tango_index.html">◀ 単語タイピングへ</a>
+  <div class="st-hero">
+    <div class="bf">🦋</div>
+    <div class="en">There is always a way.</div>
+    <div class="ja">〜 ハナのためのパジャマデー 〜</div>
+  </div>
+  <p class="st-lead">中学1年のメイと、陸上部のソウタ。そして、病院でパジャマのまま毎日を過ごす、ソウタの妹ハナ。<br>
+  物語の中の<b>空らん</b>に、その場面で「使わないわけにはいかない英単語」を打って、物語を前に進めよう。<br>
+  <span class="small">日本語→英語・上級編｜Program 4〜6 の新出単語</span></p>
+  <div class="chs" id="chs"></div>
+  <div class="howto">⌨️ 空らんの単語を打つと、物語が進むよ。最初はヒントなし。同じところで2回まちがえると1文字見える。こまったら「💡ヒント」。<br>
+  👆 ふつうのセリフは、画面をタップ（または Enter）で次へ。　⭐ ノーミス・ノーヒントで ★★★</div>
+</section>
+
+<section id="play" class="screen">
+  <div class="sbar"><span class="chn" id="chn"></span><span class="pg"><div id="pg"></div></span><span id="pgt"></span></div>
+  <div class="scene" id="scene" onclick="tapScene()">
+    <div class="deco" id="deco"></div>
+    <div id="actors"></div>
+    <div class="box" id="box"></div>
+    <div class="final" id="final"></div>
+  </div>
+  <div class="warn" id="warn"></div>
+</section>
+
+<section id="result" class="screen"><div class="rcard" id="res"></div></section>
+</div>
+<div class="count" id="count"></div>
+
+<script>
+/* ===== 共通部品 ===== */
+const $=s=>document.querySelector(s);
+let CUR='title';
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('#'+id).classList.add('active');CUR=id;scrollTo(0,0)}
+function sget(k,d){try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}}
+function sset(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+let AC=null;
+function beep(f,d,type,v,slide){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime;o.type=type||'square';o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t+d);g.gain.setValueAtTime(v||.03,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d)}catch(e){}}
+function okSound(){beep(1000,.025,'square',.018)}
+function ngSound(){beep(140,.12,'sawtooth',.04)}
+function jingle(){[523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>beep(f,.22,'triangle',.06),i*90))}
+function sadSound(){[392,330,262].forEach((f,i)=>setTimeout(()=>beep(f,.3,'triangle',.05),i*180))}
+function countdown(cb){const cd=$('#count');cd.style.display='flex';let n=3;
+  const step=()=>{if(n>0){cd.innerHTML=`<span>${n}</span>`;beep(440,.15,'triangle',.05);n--;setTimeout(step,750)}
+    else{cd.innerHTML='<span>GO!</span>';beep(880,.3,'triangle',.06);setTimeout(()=>{cd.style.display='none';cb()},450)}};step()}
+function confetti(n){const em=['🎉','✨','⭐','🎊','💖'];for(let i=0;i<(n||40);i++){const s=document.createElement('div');s.className='conf';s.textContent=em[i%5];
+  s.style.left=Math.random()*100+'vw';s.style.animationDuration=(1.6+Math.random()*2)+'s';s.style.animationDelay=Math.random()*.6+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),4500)}}
+function shake(el){el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake')}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function warn(m){const w=$('#warn');if(!w)return;if(m){w.textContent='⚠ '+m;w.style.display='block'}else w.style.display='none'}
+/* キー入力を1文字に。日本語入力ON・CapsLockは警告 */
+function readKey(e){
+  if(e.isComposing||e.key==='Process'||e.keyCode===229){return null}
+  if(e.ctrlKey||e.metaKey||e.altKey||e.key.length!==1)return null;
+  e.preventDefault();
+  if(e.repeat)return null;
+  if(e.getModifierState&&e.getModifierState('CapsLock'))warn('CapsLock がONです。Shift＋CapsLock で解除してね');else warn('');
+  return e.key;
+}
+/* ===== ローマ字判定（いろいろな打ち方に対応） ===== */
+const RT={
+ 'あ':['a'],'い':['i','yi'],'う':['u','wu','whu'],'え':['e'],'お':['o'],
+ 'か':['ka','ca'],'き':['ki'],'く':['ku','cu','qu'],'け':['ke'],'こ':['ko','co'],
+ 'さ':['sa'],'し':['si','shi','ci'],'す':['su'],'せ':['se','ce'],'そ':['so'],
+ 'た':['ta'],'ち':['ti','chi'],'つ':['tu','tsu'],'て':['te'],'と':['to'],
+ 'な':['na'],'に':['ni'],'ぬ':['nu'],'ね':['ne'],'の':['no'],
+ 'は':['ha'],'ひ':['hi'],'ふ':['hu','fu'],'へ':['he'],'ほ':['ho'],
+ 'ま':['ma'],'み':['mi'],'む':['mu'],'め':['me'],'も':['mo'],
+ 'や':['ya'],'ゆ':['yu'],'よ':['yo'],
+ 'ら':['ra'],'り':['ri'],'る':['ru'],'れ':['re'],'ろ':['ro'],
+ 'わ':['wa'],'を':['wo'],
+ 'が':['ga'],'ぎ':['gi'],'ぐ':['gu'],'げ':['ge'],'ご':['go'],
+ 'ざ':['za'],'じ':['zi','ji'],'ず':['zu'],'ぜ':['ze'],'ぞ':['zo'],
+ 'だ':['da'],'ぢ':['di'],'づ':['du'],'で':['de'],'ど':['do'],
+ 'ば':['ba'],'び':['bi'],'ぶ':['bu'],'べ':['be'],'ぼ':['bo'],
+ 'ぱ':['pa'],'ぴ':['pi'],'ぷ':['pu'],'ぺ':['pe'],'ぽ':['po'],'ゔ':['vu'],
+ 'ぁ':['xa','la'],'ぃ':['xi','li'],'ぅ':['xu','lu'],'ぇ':['xe','le'],'ぉ':['xo','lo'],
+ 'ゃ':['xya','lya'],'ゅ':['xyu','lyu'],'ょ':['xyo','lyo'],'ゎ':['xwa','lwa'],
+ 'っ':['xtu','ltu','xtsu','ltsu'],
+ 'ー':['-'],'、':[','],'。':['.'],'！':['!'],'？':['?'],'　':[' '],' ':[' ']
+};
+const RY={};
+[['き','ky'],['に','ny'],['ひ','hy'],['み','my'],['り','ry'],['ぎ','gy'],['び','by'],['ぴ','py']].forEach(([k,r])=>{RY[k+'ゃ']=[r+'a'];RY[k+'ゅ']=[r+'u'];RY[k+'ょ']=[r+'o'];RY[k+'ぇ']=[r+'e']});
+Object.assign(RY,{
+ 'しゃ':['sya','sha'],'しゅ':['syu','shu'],'しょ':['syo','sho'],'しぇ':['sye','she'],
+ 'ちゃ':['tya','cha','cya'],'ちゅ':['tyu','chu','cyu'],'ちょ':['tyo','cho','cyo'],'ちぇ':['tye','che','cye'],
+ 'じゃ':['zya','ja','jya'],'じゅ':['zyu','ju','jyu'],'じょ':['zyo','jo','jyo'],'じぇ':['zye','je','jye'],
+ 'ぢゃ':['dya'],'ぢゅ':['dyu'],'ぢょ':['dyo'],
+ 'ふぁ':['fa'],'ふぃ':['fi'],'ふぇ':['fe'],'ふぉ':['fo'],
+ 'てぃ':['thi'],'でぃ':['dhi'],'うぃ':['wi'],'うぇ':['we'],'ゔぁ':['va'],'ゔぃ':['vi'],'ゔぇ':['ve'],'ゔぉ':['vo']
+});
+function toHira(s){return s.replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60))}
+function rcands(K,p){
+  if(p>=K.length)return [];
+  const out=[],c=K[p];
+  if(c==='ん'){
+    const nx=K[p+1];
+    if(nx!==undefined&&!'あいうえおなにぬねのやゆよんゃゅょ'.includes(nx))out.push({r:'n',len:1});
+    out.push({r:'nn',len:1},{r:"n'",len:1},{r:'xn',len:1});return out;
+  }
+  if(c==='っ'){
+    const seen=new Set();
+    rcands(K,p+1).forEach(n=>{const f=n.r[0];
+      if(f&&/[bcdfghjklmpqrstvwxyz]/.test(f)){const r=f+n.r;if(!seen.has(r)){seen.add(r);out.push({r,len:1+n.len})}}
+      if(n.r.startsWith('ch')&&!seen.has('t'+n.r)){seen.add('t'+n.r);out.push({r:'t'+n.r,len:1+n.len})}});
+    RT['っ'].forEach(r=>out.push({r,len:1}));return out;
+  }
+  const two=K.substr(p,2);
+  if(RY[two])RY[two].forEach(r=>out.push({r,len:2}));
+  (RT[c]||[c]).forEach(r=>out.push({r,len:1}));
+  return out;
+}
+function rguide(K,p){let s='';while(p<K.length){const c=rcands(K,p)[0];s+=c.r;p+=c.len}return s}
+/* 日本語1問 */
+class JT{
+  constructor(text,reading){this.text=text;this.K=toHira(reading);this.p=0;this.b='';this.typed=''}
+  press(ch){ch=ch.toLowerCase();
+    const cs=rcands(this.K,this.p),b2=this.b+ch,m=cs.filter(c=>c.r.startsWith(b2));
+    if(!m.length){const ex=this.b&&cs.find(c=>c.r===this.b);
+      if(ex){this.p+=ex.len;this.b='';if(this.p>=this.K.length)return false;return this.press(ch)}return false}
+    this.b=b2;this.typed+=ch;
+    const exact=m.find(c=>c.r===b2);
+    if(exact&&!m.some(c=>c.r.length>b2.length)){this.p+=exact.len;this.b=''}
+    return true}
+  get done(){return this.p>=this.K.length}
+  rest(){if(this.b){const c=rcands(this.K,this.p).find(c=>c.r.startsWith(this.b));return c.r.slice(this.b.length)+rguide(this.K,this.p+c.len)}return rguide(this.K,this.p)}
+  next(){return this.rest()[0]}
+  get keysLeft(){return this.rest().length}
+  kanaHTML(){return `<span class="d">${esc(this.K.slice(0,this.p))}</span>${esc(this.K.slice(this.p))}`}
+  romaHTML(){const r=this.rest();return `<span class="d">${esc(this.typed)}</span>${r?`<span class="c">${esc(r[0])}</span>${esc(r.slice(1))}`:''}`}
+}
+/* 英語1問（大文字・小文字も区別） */
+class ET{
+  constructor(s,sub){this.text=s;this.sub=sub||'';this.i=0}
+  press(ch){if(ch===this.text[this.i]){this.i++;return true}return false}
+  get done(){return this.i>=this.text.length}
+  next(){return this.text[this.i]}
+  get keysLeft(){return this.text.length-this.i}
+  html(){const t=this.text,i=this.i;const cur=t[i]===' '?'␣':esc(t[i]||'');
+    return `<span class="d">${esc(t.slice(0,i))}</span>${i<t.length?`<span class="c">${cur}</span>${esc(t.slice(i+1))}`:''}`}
+}
+window.__next=()=>window.CURT&&!window.CURT.done?window.CURT.next():null;
+
+/* ===== 単語ターゲット（英語そのまま版 / 日本語→英語版） ===== */
+class WT{
+  constructor(en,ja){this.text=en;this.ja=ja;this.i=0;this.err=0;this.reveal=new Set([0]);this.hinted=false}
+  press(ch){if(ch===this.text[this.i]){this.i++;this.err=0;return true}
+    this.err++;if(MODE==='ja'&&this.err>=2)this.reveal.add(this.i);return false}
+  hint(){this.reveal.add(this.i);this.hinted=true}
+  get done(){return this.i>=this.text.length}
+  next(){return this.text[this.i]}
+  get keysLeft(){return this.text.length-this.i}
+  /* 英語の表示（英語版：全部見える／日本語版：打った所＋ヒントだけ） */
+  enHTML(){
+    const t=this.text,i=this.i;
+    if(MODE==='en'){const cur=t[i]===' '?'␣':esc(t[i]||'');
+      return `<span class="d">${esc(t.slice(0,i))}</span>${i<t.length?`<span class="c">${cur}</span>${esc(t.slice(i+1))}`:''}`}
+    let h='';
+    for(let k=0;k<t.length;k++){const c=t[k];
+      if(c===' '){h+=`<span class="sl sp${k===i?' cur':''}">${k===i?'␣':''}</span>`;continue}
+      const isAl=/[A-Za-z]/.test(c);
+      if(k<i)h+=`<span class="sl ok">${esc(c)}</span>`;
+      else if(!isAl)h+=`<span class="sl sym${k===i?' cur':''}">${esc(c)}</span>`;
+      else h+=`<span class="sl${k===i?' cur':''}${this.reveal.has(k)?' hint':''}">${this.reveal.has(k)?esc(c):''}</span>`}
+    return `<span class="slots">${h}</span>`;
+  }
+  /* 上に大きく出す文字 */
+  mainText(){return MODE==='en'?this.text:this.ja}
+  subText(){return MODE==='en'?this.ja:''}
+}
+function wordPool(){return WL.map(([en,ja])=>({en,ja}))}
+function modeLabel(){return MODE==='en'?'英語を見て打つ':'日本語を見て英語で打つ'}
+const SLOTCSS=1;
+
+const MODE='ja';
+const KEY='story_pajama_v1';
+/* ===== 登場人物 ===== */
+const CAST={
+  mei:{n:'メイ',e:'👧'},sota:{n:'ソウタ',e:'👦'},hana:{n:'ハナ',e:'🧒'},aoi:{n:'アオイ',e:'👩'},
+  riku:{n:'リク',e:'🧑'},ach:{n:'アチエン先生（ALT）',e:'👩🏾‍🏫'}
+};
+/* ===== 背景 ===== */
+const BG={
+  track:{bg:'linear-gradient(180deg,#8fd3ff 0%,#c9ecff 45%,#9bd17a 46%,#c0703a 70%,#a85d2e 100%)',d:['🌸','☁️','🏃','🌳']},
+  bench:{bg:'linear-gradient(180deg,#ffb37a 0%,#ffd7a8 50%,#9bd17a 51%,#7ab35c 100%)',d:['🌇','☁️','🎒']},
+  shop:{bg:'linear-gradient(180deg,#fff1d6 0%,#ffe0b0 60%,#c98d5a 61%,#a26b3f 100%)',d:['🍡','🏮','🍵','🍮']},
+  hospital:{bg:'linear-gradient(180deg,#d7f0ff 0%,#eef9ff 60%,#cfe3f0 61%,#b6cddd 100%)',d:['🏥','🪟','🌷','🦋']},
+  classroom:{bg:'linear-gradient(180deg,#fff7e0 0%,#fff0c4 55%,#c79a63 56%,#a97c4a 100%)',d:['📚','🖍️','🗺️','✏️']},
+  sewing:{bg:'linear-gradient(180deg,#ffe4f1 0%,#ffd1e6 60%,#e8a3c4 61%,#d58ab0 100%)',d:['🧵','🪡','✂️','🦋']},
+  pajama:{bg:'linear-gradient(180deg,#a5d8ff 0%,#d0ebff 50%,#9bd17a 51%,#7ab35c 100%)',d:['🚁','🦋','🦋','🎈','🦋']},
+  night:{bg:'linear-gradient(180deg,#0b1230 0%,#1e2a5a 60%,#2b3970 100%)',d:['🌙','⭐','✨','⭐']},
+  kenya:{bg:'linear-gradient(180deg,#ff9d4d 0%,#ffcf7a 45%,#d9a441 46%,#b0802c 100%)',d:['🌅','🦒','🐘','🌳']},
+  wait:{bg:'linear-gradient(180deg,#cfd8e6 0%,#e4e9f2 60%,#b9c4d6 61%,#a3b0c4 100%)',d:['🕰️','🙏']},
+  spring:{bg:'linear-gradient(180deg,#ffd6ea 0%,#fff0f7 45%,#9bd17a 46%,#c0703a 70%,#a85d2e 100%)',d:['🌸','🌸','🏁','🌸','🦋']}
+};
+/* ===== 物語 ===================================================
+   n:ナレーション（日本語）／ w:話す人, en:英語（___ が空らん）, ja:日本語, a:答え
+   ============================================================== */
+const STORY=[
+{t:'第1章　新しいクラスメート',p:'Program 4',c:'c1',d:'4月の放課後。グラウンドを走る男の子と、病院にいるその妹。',L:[
+ {bg:'track',n:'4月。中学校に入学して1週間。放課後のグラウンドで、わたし（メイ）は一人の男の子に目をうばわれた。',on:['mei','aoi']},
+ {w:'mei',en:'Who is that boy?',ja:'あの男の子はだれ？'},
+ {w:'aoi',en:"He's Sota. He is a fast ___.",ja:'ソウタくんだよ。足の速いランナーなの。',a:'runner'},
+ {w:'aoi',en:'He is in the ___ club.',ja:'陸上部に入ってるんだよ。',a:'track and field'},
+ {w:'mei',en:'Oh, he is my ___!',ja:'あ、わたしのクラスメートだ！',a:'classmate'},
+ {bg:'bench',n:'練習が終わったあと、ベンチに青いタオルが置き忘れられていた。',on:['mei','sota']},
+ {w:'mei',en:'Sota, is this your ___?',ja:'ソウタくん、これ、あなたのタオル？',a:'towel'},
+ {w:'sota',en:'Yes. Thank you, Mei.',ja:'うん。ありがとう、メイ。'},
+ {n:'ソウタくんは、スマホの写真をじっと見ていた。パジャマ姿の小さな女の子が、笑っている。'},
+ {w:'mei',en:'___ this girl?',ja:'この女の子はだれ？',a:"Who's"},
+ {w:'sota',en:'___ my sister, Hana. She is seven.',ja:'妹のハナ。7歳なんだ。',a:"She's"},
+ {w:'sota',en:'She is in the hospital now.',ja:'今、入院しているんだ。'},
+ {n:'写真の中のハナちゃんは、チョウの絵を大事そうに持っていた。'},
+ {w:'sota',en:'This is a ___. Hana draws it every day.',ja:'これはチョウ。ハナは毎日これを描いてるんだ。',a:'butterfly'},
+ {w:'sota',en:"She can't go outside.",ja:'外に出られないから。'},
+ {w:'mei',en:"Don't ___. Hana is strong.",ja:'心配しないで。ハナちゃんは強いよ。',a:'worry'},
+ {bg:'shop',n:'次の日。わたしは、おばあちゃんの和菓子屋さんのおやつを持ってきた。',on:['mei','sota']},
+ {w:'mei',en:'My grandma makes ___ Japanese sweets.',ja:'おばあちゃんは、伝統的な和菓子を作ってるの。',a:'traditional'},
+ {w:'mei',en:'___ some?',ja:'おひとつ、いかが？',a:'Would you like'},
+ {w:'sota',en:'Thanks! Hana likes ___ very much.',ja:'ありがとう！ ハナはカスタードプリンが大好きなんだ。',a:'custard pudding'},
+ {w:'mei',en:"My grandma makes custard pudding too! Let's take some to Hana.",ja:'おばあちゃん、プリンも作ってるよ！ ハナちゃんに持っていこう。'},
+ {bg:'hospital',n:'病室のベッドの上で、ハナちゃんが手をふった。そして、わたしにクイズを出してくれた。',on:['mei','hana','sota']},
+ {w:'hana',en:"Three-hint quiz! It's an animal. It's black and white. It lives in Africa. What is it?",ja:'スリーヒント・クイズ！ 動物です。白と黒です。アフリカにすんでいます。なーんだ？'},
+ {w:'mei',en:'Hmm... ___',ja:'うーん……わかった！',a:'I got it!'},
+ {w:'mei',en:"It's a ___!",ja:'シマウマだ！',a:'zebra'},
+ {w:'hana',en:"___ You're amazing, Mei!",ja:'そのとおり！ メイちゃん、すごい！',a:"That's right."},
+ {n:'その日から、わたしとハナちゃんは友だちになった。\nでも、ハナちゃんは今日も病院の中。パジャマのまま、1日を過ごしている……。',end:1}
+]},
+{t:'第2章　パジャマデー',p:'Program 5',c:'c2',d:'アメリカの「パジャマデー」。クラスみんなで、ハナのためにできること。',L:[
+ {bg:'classroom',n:'英語の授業。ALTのアチエン先生が、アメリカの学校の写真を見せてくれた。みんなパジャマ姿で授業を受けている！',on:['ach','riku','mei']},
+ {w:'ach',en:'In some schools in the U.S., students and teachers ___ the day in pajamas.',ja:'アメリカのいくつかの学校では、生徒と先生がパジャマで1日を過ごすの。',a:'spend'},
+ {w:'riku',en:'Is Pajama Day ___ in Japan?',ja:'パジャマデーって、日本でもふつうなの？',a:'common'},
+ {w:'ach',en:'No, it isn\'t. Some people join Pajama Day for ___.',ja:'いいえ。チャリティーのためにパジャマデーに参加する人もいるのよ。',a:'charity'},
+ {w:'ach',en:'They ___ sick children in hospitals.',ja:'病院にいる、病気の子どもたちを支援するの。',a:'support'},
+ {n:'わたしは、ハナちゃんの笑顔を思い出した。——これだ！'},
+ {w:'mei',en:"Let's have Pajama Day for Hana!",ja:'ハナちゃんのために、パジャマデーをしよう！'},
+ {bg:'sewing',n:'クラスのみんなが賛成してくれた。わたしは、家庭科の時間にパジャマを作ることにした。',on:['mei','riku']},
+ {w:'mei',en:'I like ___.',ja:'わたし、家庭科が好きなんだ。',a:'home economics'},
+ {w:'mei',en:'I can ___ pajamas.',ja:'パジャマなら縫えるよ。',a:'sew'},
+ {w:'mei',en:'This is my ___. It has butterflies on it.',ja:'これがわたしのデザイン。チョウがついてるの。',a:'design'},
+ {w:'riku',en:"I don't have pajamas. I sleep in my ___ uniform!",ja:'ぼく、パジャマ持ってないんだ。アイスホッケーのユニフォームで寝てる！',a:'ice hockey'},
+ {w:'riku',en:'___',ja:'冗談だよ。',a:'Just kidding.'},
+ {bg:'classroom',n:'みんなが笑った。そのとき、ソウタくんが手をあげた。',on:['sota','mei']},
+ {w:'sota',en:'My father ___ for a game company.',ja:'うちの父さん、ゲーム会社で働いてるんだ。',a:'works'},
+ {w:'sota',en:'He is a ___.',ja:'プログラマーなんだ。',a:'programmer'},
+ {w:'sota',en:'He has a ___. Hana can watch Pajama Day on the screen!',ja:'ドローンを持ってる。ハナが画面でパジャマデーを見られるよ！',a:'drone'},
+ {bg:'pajama',n:'そして、パジャマデー当日。校庭の上を、ドローンが飛んでいく。その映像が、病院のハナちゃんのタブレットに届く。',on:['sota','mei']},
+ {w:'sota',en:'Look, Hana! ___ the students wear pajamas for you.',ja:'見て、ハナ！ 生徒全員が、ハナのためにパジャマを着てるよ。',a:'All'},
+ {bg:'hospital',n:'画面の向こうで、ハナちゃんは泣いていた。チョウのもようのパジャマを着た中学生たちが、空に向かって手をふっていたから。',on:['hana']},
+ {w:'hana',en:"Thank you, everyone. I'm so ___ of my brother.",ja:'みんな、ありがとう。お兄ちゃんのこと、すごく誇りに思う。',a:'proud'},
+ {w:'mei',en:'___ like to visit you again, Hana.',ja:'ハナちゃん、また会いに行きたいな。',a:"I'd"},
+ {bg:'night',n:'その夜、ソウタくんからメッセージが届いた。\n「ハナ、来週、大きな手術を受けるんだ」',on:[],end:1}
+]},
+{t:'第3章　サバンナを越えて',p:'Program 6',c:'c3',d:'ケニアの子どもたちの通学路。そして、春。',L:[
+ {bg:'kenya',n:'手術の前の日。うつむいているソウタくんに、アチエン先生が自分のふるさとの話をしてくれた。',on:['ach','sota']},
+ {w:'ach',en:'I am from ___.',ja:'わたしはケニア出身よ。',a:'Kenya'},
+ {w:'ach',en:'In my village, children get up ___ in the morning.',ja:'わたしの村では、子どもたちは朝早く起きるの。',a:'early'},
+ {w:'ach',en:'They walk ___ the savanna to school.',ja:'サバンナを横切って、学校まで歩くのよ。',a:'across'},
+ {w:'ach',en:'It takes three ___.',ja:'3時間かかるの。',a:'hours'},
+ {w:'sota',en:"Three hours? That's ___.",ja:'3時間？ それは大変だ。',a:'tough'},
+ {w:'ach',en:'The ___ is beautiful, but elephants sometimes attack people.',ja:'サバンナは美しいけれど、ときどきゾウが人を襲うの。',a:'savanna'},
+ {w:'ach',en:"It's a ___ place, you know.",ja:'危険な場所なのよ。',a:'dangerous'},
+ {w:'sota',en:'Why do they go to school?',ja:'どうして、学校に行くんですか。'},
+ {w:'ach',en:'___ they have dreams.',ja:'夢があるからよ。',a:'Because'},
+ {w:'ach',en:'Their ___ pray for their safety every day.',ja:'親たちは毎日、子どもたちの無事を祈っているの。',a:'parents'},
+ {w:'ach',en:'I ___ them very much.',ja:'わたしは、彼らをとても尊敬しているわ。',a:'respect'},
+ {w:'ach',en:'Sota, Hana has a dream too. Be strong for her.',ja:'ソウタ、ハナにも夢がある。ハナのために、強くいてね。'},
+ {w:'sota',en:'I ___ for Hana every night.',ja:'毎晩、ハナのために祈っています。',a:'pray'},
+ {bg:'wait',n:'手術の日。わたしたちは、授業中も時計ばかり見ていた。\n放課後、ソウタくんが走ってきた。',on:['sota','mei']},
+ {w:'sota',en:'Mei! Hana is ___ now!',ja:'メイ！ ハナ、もう無事だって！',a:'safe'},
+ {w:'mei',en:"That's ___!",ja:'すごい……！ よかった！',a:'amazing'},
+ {bg:'spring',n:'——そして、春。陸上大会の日。\nスタンドに、パジャマではなく、制服を着たハナちゃんがいた。',on:['hana','mei']},
+ {n:'ソウタくんは、最後のカーブで一人、また一人とぬいていく。そして——1位でゴールテープを切った。'},
+ {w:'hana',en:'Sota, you are a ___!',ja:'お兄ちゃん、伝説だよ！',a:'legend'},
+ {w:'hana',en:'Thank you, Mei. You and your classmates always support ___.',ja:'ありがとう、メイちゃん。メイちゃんとクラスのみんなは、いつもわたしたちを支えてくれる。',a:'us'},
+ {w:'mei',en:'___ a Pajama Day every year?',ja:'毎年、パジャマデーをするのはどう？',a:'How about'},
+ {w:'hana',en:'___! I can wear my butterfly pajamas!',ja:'うん！ チョウのパジャマ、また着られるね！',a:'Yeah'},
+ {n:'ハナちゃんが笑った。あの日、写真の中で描いていたチョウみたいに。'},
+ {n:'一人ではむずかしいことも、だれかといっしょなら——'},
+ {w:'mei',en:'There is always a ___.',ja:'道は、いつだってある。',a:'way',fin:1}
+]}
+];
+/* ===== 保存 ===== */
+let SV=sget(KEY,{done:[false,false,false],stars:[0,0,0],best:[[],[],[]]});
+function save(){sset(KEY,SV)}
+const blanksIn=ci=>STORY[ci].L.filter(l=>l.a).length;
+function goTitle2(){
+  $('#chs').innerHTML=STORY.map((c,i)=>{const ok=i===0||SV.done[i-1],n=blanksIn(i);
+    return `<button class="ch ${c.c}" ${ok?`onclick="startCh(${i})"`:'disabled'}><div><div class="no">CHAPTER ${i+1}｜${c.p}</div><div class="tt">${ok?c.t.replace(/^第.章　/,''):'🔒 ？？？'}</div><div class="ds">${ok?c.d:'前の章を読み終えるとひらく'}</div></div>
+      <div class="stars">${SV.done[i]?`⭐ ${SV.stars[i]} / ${n*3}`:ok?`空らん ${n}こ`:'—'}</div></button>`}).join('');
+  show('title');
+}
+/* ===== 再生 ===== */
+let P=null;
+function startCh(ci){
+  P={ci,li:-1,stars:0,on:[],busy:false,t:null,res:[]};
+  $('#final').className='final';$('#final').innerHTML='';
+  $('#chn').textContent=STORY[ci].t;
+  show('play');warn('');softChord([0,4,7]);
+  next();
+}
+function setBg(k){const b=BG[k];$('#scene').style.background=b.bg;
+  $('#deco').innerHTML=b.d.map((e,i)=>`<span style="left:${8+i*(84/b.d.length)}%;top:${8+(i%2)*14}%;font-size:${34+(i%3)*10}px">${e}</span>`).join('')}
+function setActors(list){
+  P.on=list;const n=list.length;
+  $('#actors').innerHTML=list.map((k,i)=>`<div class="actor" id="ac_${k}" style="left:calc(${(i+1)*100/(n+1)}% - 50px)">${CAST[k].e}</div>`).join('');
+}
+function progress(){const L=STORY[P.ci].L,done=L.slice(0,P.li+1).filter(l=>l.a).length,tot=blanksIn(P.ci);
+  $('#pg').style.width=(Math.max(0,P.li)/(L.length-1)*100)+'%';$('#pgt').textContent=`空らん ${done} / ${tot}`}
+function next(){
+  const L=STORY[P.ci].L;P.li++;
+  if(P.li>=L.length){chapterEnd();return}
+  const l=L[P.li];
+  if(l.bg)setBg(l.bg);if(l.on)setActors(l.on);
+  progress();
+  if(l.w){const a=$('#ac_'+l.w);if(a){a.classList.remove('talk');void a.offsetWidth;a.classList.add('talk')}}
+  if(l.a){P.t=new WT(l.a,l.ja);P.t.reveal=new Set();P.t.miss=0;window.CURT=P.t;P.typing=true;renderLine(l);beep(660,.12,'sine',.04)}
+  else{P.typing=false;window.CURT=null;renderLine(l);beep(520,.06,'sine',.025)}
+}
+function renderLine(l,done){
+  const box=$('#box');
+  if(l.n){box.innerHTML=`<div class="nar">${esc(l.n).replace(/\n/g,'<br>')}</div><div class="nxt">▼ タップで次へ</div>`;return}
+  const who=CAST[l.w].n;
+  let en=esc(l.en);
+  if(l.a){const slot=done?`<span class="filled">${esc(l.a)}</span>`:P.t.enHTML();en=en.replace('___',slot)}
+  box.innerHTML=`<div class="who">${who}</div>${l.a&&!done?'<div class="ask">✍ この場面で使う英語は？</div>':''}<div class="enl">${en}</div><div class="jal">${esc(l.ja)}</div>`+
+    (done?`<div class="rate">${'★'.repeat(done)}${'☆'.repeat(3-done)}</div>`:'')+(!l.a||done?'<div class="nxt">▼ タップで次へ</div>':'');
+}
+function tapScene(){if(!P||P.busy)return;if(P.typing)return;if($('#final').classList.contains('on'))return;next()}
+function hint(){if(P&&P.typing){P.t.hint();P.t.miss+=2;renderLine(STORY[P.ci].L[P.li])}}
+function onKey(e){
+  if(e.key==='Escape'){goTitle2();return}
+  if(!P)return;
+  if(e.key==='Enter'){e.preventDefault();if(P.typing)hint();else tapScene();return}
+  if(!P.typing)return;
+  const ch=readKey(e);if(ch==null)return;
+  const l=STORY[P.ci].L[P.li];
+  if(P.t.press(ch)){okSound();
+    if(P.t.done){
+      P.typing=false;window.CURT=null;
+      const r=P.t.hinted||P.t.miss>=4?1:P.t.miss>0?2:3;P.stars+=r;P.res.push([l.a,r]);
+      renderLine(l,r);[784,988,1175].forEach((f,i)=>setTimeout(()=>beep(f,.25,'sine',.05),i*90));
+      if(l.fin){P.busy=true;setTimeout(finale,1200)}
+    }else renderLine(l);
+  }else{P.t.miss++;ngSound();const b=$('#box');b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong');renderLine(l)}
+}
+window.__next=()=>P&&P.typing?P.t.next():null;
+/* ===== 音 ===== */
+function softChord(iv,base){base=base||392;iv.forEach((s,i)=>setTimeout(()=>beep(base*Math.pow(2,s/12),1.6,'sine',.035),i*120))}
+function melody(){const n=[[0,0],[4,350],[7,700],[12,1050],[11,1500],[7,1850],[9,2200],[7,2700],[4,3100],[5,3500],[4,3900],[2,4300],[0,4800]];
+  n.forEach(([s,t])=>setTimeout(()=>beep(392*Math.pow(2,s/12),1.4,'sine',.045),t))}
+/* ===== 章の終わり・フィナーレ ===== */
+function chapterEnd(){
+  const ci=P.ci,n=blanksIn(ci),first=!SV.done[ci];
+  SV.done[ci]=true;SV.stars[ci]=Math.max(SV.stars[ci],P.stars);SV.best[ci]=P.res;save();
+  const perfect=P.res.filter(r=>r[1]===3).length;
+  let h=`<div style="font-size:54px">${ci===2?'🦋':'📖'}</div><h2>${STORY[ci].t}　おわり</h2>`;
+  h+=`<div class="rgrid"><div><small>スター</small><b>⭐ ${P.stars}</b><small> / ${n*3}</small></div><div><small>ノーミスで書けた単語</small><b>${perfect}</b><small> / ${n}</small></div></div>`;
+  const weak=P.res.filter(r=>r[1]<3).map(r=>r[0]);
+  if(weak.length)h+=`<div class="credits small" style="margin:6px 0">📝 もう一度おさえたい単語：${weak.map(w=>`<span class="w">${esc(w)}</span>`).join('')}</div>`;
+  if(ci<2)h+=first?`<div class="hl">🔓 ${STORY[ci+1].t} がひらいた！</div>`:'';
+  else{const all=[].concat(...SV.best);h+=`<div class="credits"><p>あなたが打った<b>${all.length}</b>の英単語が、この物語をつくりました。</p>${all.map(r=>`<span class="w ${r[1]===3?'p':''}">${esc(r[0])}</span>`).join('')}<p class="small">緑の単語は、ノーミス・ノーヒントで書けた単語。</p></div>`}
+  h+=`<div class="rbtns">${ci<2?`<button class="btn" onclick="startCh(${ci+1})">次の章へ</button>`:''}<button class="btn ${ci<2?'sub':''}" onclick="startCh(${ci})">もう一度読む</button><button class="btn sub" onclick="goTitle2()">章をえらぶ</button></div>`;
+  $('#res').innerHTML=h;show('result');if(ci===2)confetti(50);
+}
+function finale(){
+  P.busy=true;const f=$('#final');
+  f.innerHTML=`<div class="big">There is always a way.</div><div class="sub">道は、いつだってある。</div><div class="small" style="color:#fff;margin-top:24px">— THE END —</div>
+    <button class="btn" style="margin-top:22px" onclick="event.stopPropagation();P.busy=false;chapterEnd()">ふりかえりへ</button>`;
+  f.classList.add('on');melody();
+  for(let i=0;i<14;i++)setTimeout(()=>{const b=document.createElement('div');b.className='bfly';b.textContent='🦋';b.style.left=(5+Math.random()*90)+'%';b.style.top='95%';f.appendChild(b);setTimeout(()=>b.remove(),6000)},i*350);
+}
+document.addEventListener('keydown',e=>{
+  if(CUR==='play'){onKey(e);return}
+  if(CUR==='result'&&e.key==='Escape')goTitle2();
+});
+goTitle2();
+</script>
+<a href="tango_index.html" style="position:fixed;left:12px;bottom:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;background:rgba(20,14,50,.85);color:#fff;text-decoration:none;font:800 15px/1 'M PLUS Rounded 1c','Hiragino Kaku Gothic ProN','Meiryo',sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.4);border:2px solid rgba(255,255,255,.35)">◀ もどる</a>
+<script>
+/* ===== iPad・タッチ対応（全ゲーム共通） ===== */
+(function(){
+  /* 1) 見えない入力欄：iPadでスペースなどのキーを確実に受け取るため */
+  const t=document.createElement('input');
+  t.type='text';t.id='kbtrap';t.setAttribute('autocomplete','off');t.setAttribute('autocorrect','off');t.setAttribute('autocapitalize','off');t.setAttribute('spellcheck','false');t.setAttribute('aria-hidden','true');t.tabIndex=-1;
+  t.style.cssText='position:fixed;left:0;bottom:0;width:2px;height:2px;opacity:0;border:0;padding:0;margin:0;font-size:16px;color:transparent;background:transparent;caret-color:transparent;z-index:-1';
+  document.body.appendChild(t);
+  const fx=()=>{if(document.activeElement!==t){try{t.focus({preventScroll:true})}catch(e){try{t.focus()}catch(_){}}}};
+  document.addEventListener('click',e=>{if(e.target.closest('a,select,textarea,input:not(#kbtrap)'))return;fx()},true);
+  window.addEventListener('load',fx);
+  let lastKey=0;
+  document.addEventListener('keydown',e=>{if(e.isTrusted&&e.key&&e.key.length===1)lastKey=performance.now()},true);
+  /* ソフトキーボード等で文字が入力欄に入った場合は、1文字ずつゲームへ送る */
+  t.addEventListener('input',()=>{
+    const v=t.value;t.value='';if(!v)return;
+    if(/[^\x20-\x7e]/.test(v)){toast('日本語入力がONです。英数入力にしてね（iPad：地球儀キー／Windows：半角/全角キー）');return}
+    if(performance.now()-lastKey<80)return;
+    for(const ch of v)document.dispatchEvent(new KeyboardEvent('keydown',{key:ch,bubbles:true,cancelable:true}));
+  });
+  t.addEventListener('compositionend',()=>{t.value='';toast('日本語入力がONです。英数入力にしてね（iPad：地球儀キー／Windows：半角/全角キー）')});
+  function toast(m){let d=document.getElementById('tapToast');if(!d){d=document.createElement('div');d.id='tapToast';d.style.cssText='position:fixed;left:50%;top:14px;transform:translateX(-50%);z-index:10001;background:#ff6b6b;color:#fff;font:800 15px/1.4 sans-serif;padding:10px 16px;border-radius:12px;box-shadow:0 6px 18px #0006;max-width:92vw;text-align:center';document.body.appendChild(d)}
+    d.textContent='⚠ '+m;d.style.display='block';clearTimeout(d._t);d._t=setTimeout(()=>d.style.display='none',3500)}
+  /* 2) Esc・Enter のかわりになるタップボタン（プレイ中に右上へ表示） */
+  const bar=document.createElement('div');
+  bar.style.cssText='position:fixed;right:12px;bottom:12px;z-index:10000;display:none;gap:8px';
+  const mk=(label,key,bg)=>{const b=document.createElement('button');b.type='button';b.textContent=label;
+    b.style.cssText=`border:2px solid #ffffff66;border-radius:999px;padding:12px 18px;font:900 16px/1 'M PLUS Rounded 1c','Hiragino Kaku Gothic ProN','Meiryo',sans-serif;color:#fff;background:${bg};box-shadow:0 4px 14px #0006;cursor:pointer;touch-action:manipulation`;
+    b.addEventListener('click',ev=>{ev.preventDefault();document.dispatchEvent(new KeyboardEvent('keydown',{key,bubbles:true,cancelable:true}));fx()});bar.appendChild(b);return b};
+  const hb=mk('💡 ヒント','Enter','#2563eb');
+  mk('✕ やめる','Escape','#dc2626');
+  document.body.appendChild(bar);
+  function hintLabel(){if(typeof window.pass==='function')return '⏭ パス';try{if(typeof MODE!=='undefined'&&MODE==='ja')return '💡 ヒント'}catch(e){}return ''}
+  setInterval(()=>{const p=document.querySelector('#play.active,#battle.active');bar.style.display=p?'flex':'none';const l=hintLabel();hb.style.display=l?'':'none';if(l)hb.textContent=l},250);
+})();
+</script>
+</body>
+</html>

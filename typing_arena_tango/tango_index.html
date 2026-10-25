@@ -97,6 +97,14 @@ h1{font-family:var(--title);font-weight:400;margin:16px 0 6px;line-height:1.05;
 footer{text-align:center;margin-top:34px;color:var(--sub);font-size:13px;line-height:1.8}
 @media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}.card{opacity:1;transform:none}}
 
+.mbanner{display:flex;align-items:center;gap:14px;text-decoration:none;color:#fff;margin:22px auto 0;max-width:900px;padding:16px 20px;border-radius:22px;
+  background:linear-gradient(120deg,#7c3aed,#db2777,#f59e0b);background-size:200% 200%;animation:mbf 4s ease-in-out infinite;box-shadow:0 10px 30px -8px #db2777,inset 0 1px 0 #ffffff66;transition:transform .2s}
+@keyframes mbf{50%{background-position:100% 0}}
+.mbanner:hover{transform:translateY(-4px) scale(1.01)}
+.mbanner .mb-i{font-size:46px;animation:bob 2.4s ease-in-out infinite}
+.mbanner .mb-t{flex:1;display:flex;flex-direction:column}
+.mbanner b{font-size:clamp(18px,2.8vw,26px);font-weight:900}
+.mbanner small{font-size:13px;opacity:.92}
 .sel{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:6px 0 12px}
 .sel button{border:2px solid #ffffff33;background:#ffffff12;color:#fff;border-radius:16px;padding:12px 18px;font-family:var(--body);font-weight:800;font-size:16px;cursor:pointer;min-width:220px;transition:transform .15s}
 .sel button small{display:block;font-size:12px;color:var(--sub);font-weight:500;margin-top:3px}
@@ -133,6 +141,7 @@ footer{text-align:center;margin-top:34px;color:var(--sub);font-size:13px;line-he
   </div>
   <div class="step">③ ゲームをえらぶ</div>
   <main class="grid five" id="grid" style="margin-top:12px"></main>
+  <a href="tango_story.html" class="mbanner"><span class="mb-i">🦋</span><span class="mb-t"><b>上級編　There is always a way.</b><small>物語を読み進めながら、場面に合う英単語を打つ（日本語→英語）｜Program 4〜6・全3章</small></span><span class="go">▶</span></a>
   <details class="wordlist"><summary>📖 このProgramの単語一覧を見る</summary><div class="wl" id="wl"></div></details>
   <footer>F と J の「ポッチ」に人差し指をのせてから始めよう ⌨️</footer>
 </div>
