@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>隕石ディフェンス</title>
+<style>
+:root{--bg:#120c2c;--panel:#221a4d;--panel2:#30276f;--text:#fff;--sub:#c3bcef;--gold:#ffd84a;--pink:#ff5fb7;--ok:#4ade80;--ng:#ff6b6b}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;min-height:100vh;color:var(--text);font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Yu Gothic UI","Meiryo",sans-serif;background:var(--bg)}
+button{font-family:inherit;cursor:pointer}
+.wrap{max-width:1040px;margin:0 auto;padding:16px 16px 40px}
+.screen{display:none}.screen.active{display:block}
+.btn{border:0;border-radius:14px;padding:12px 22px;font-size:17px;font-weight:800;color:#2a1050;background:var(--gold);box-shadow:0 5px 0 #b8901a;transition:transform .1s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #b8901a}
+.btn.sub{background:#ffffff1f;color:#fff;box-shadow:0 5px 0 #00000055}
+.small{font-size:13px;color:var(--sub)}
+.toplink{display:inline-block;color:var(--sub);text-decoration:none;font-size:14px;padding:6px 12px;border-radius:10px;background:#ffffff14}
+.toplink:hover{background:#ffffff26}
+.gtitle{text-align:center;margin:10px 0 6px;font-size:clamp(30px,6.4vw,58px);font-weight:900;line-height:1.2;
+  background:linear-gradient(90deg,#ffd84a,#ff8a5b,#ff5fb7,#9f7bff,#ffd84a);background-size:300%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gflow 7s linear infinite}
+@keyframes gflow{to{background-position:300%}}
+.ticon{text-align:center;font-size:clamp(44px,8vw,64px);margin-top:4px;line-height:1;animation:tbob 3s ease-in-out infinite}
+@keyframes tbob{50%{transform:translateY(-6px)}}
+.lead{text-align:center;color:var(--sub);line-height:1.8;margin:6px auto 18px;max-width:640px}
+.panel{background:var(--panel);border-radius:20px;padding:18px}
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.lvbtn{border:0;border-radius:18px;padding:16px 12px;color:#fff;text-align:center;box-shadow:0 6px 0 #00000055;transition:transform .15s;position:relative}
+.lvbtn:hover{transform:translateY(-4px)}
+.lvbtn:active{transform:translateY(3px);box-shadow:0 2px 0 #00000055}
+.lvbtn .k{font-size:12px;opacity:.85}
+.lvbtn .n{font-size:22px;font-weight:900;margin:4px 0}
+.lvbtn .d{font-size:12px;opacity:.92;line-height:1.5}
+.lvbtn .best{margin-top:8px;font-size:12px;background:#00000033;border-radius:999px;padding:2px 10px;display:inline-block}
+.lvbtn[disabled]{filter:grayscale(1) brightness(.55);cursor:not-allowed;transform:none}
+.g1{background:linear-gradient(150deg,#22c55e,#0ea5a4)}.g2{background:linear-gradient(150deg,#3b82f6,#8b5cf6)}.g3{background:linear-gradient(150deg,#f97316,#e11d48)}.g4{background:linear-gradient(150deg,#a855f7,#ec4899)}.g5{background:linear-gradient(150deg,#eab308,#dc2626)}
+.howto{margin-top:14px;font-size:13px;color:var(--sub);line-height:1.9}
+.hud{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.hud>div{flex:1;min-width:84px;background:var(--panel);border-radius:14px;padding:6px 10px;text-align:center}
+.hud small{display:block;color:var(--sub);font-size:12px}
+.hud b{font-size:24px}
+.low{color:var(--ng)!important}
+.tbox{background:#fff;color:#1d1440;border-radius:20px;padding:16px;text-align:center;box-shadow:0 8px 0 #00000040;position:relative}
+.t-main{font-size:clamp(24px,4.2vw,38px);font-weight:900;line-height:1.3}
+.t-kana{font-size:clamp(15px,2.2vw,20px);margin-top:6px;letter-spacing:.05em}
+.t-roma{font-family:Consolas,"Courier New",monospace;font-size:clamp(19px,3vw,28px);margin-top:8px;letter-spacing:.05em;word-break:break-all}
+.t-sub{font-size:14px;color:#6b6290;margin-top:6px}
+.d{color:#c9c2e6}
+.c{background:var(--gold);border-radius:4px;color:#1d1440}
+.shake{animation:shk .18s}
+@keyframes shk{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.warn{display:none;margin-top:10px;background:var(--ng);border-radius:12px;padding:8px;font-weight:800;text-align:center}
+.count{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:#000000a0;z-index:50;font-size:140px;font-weight:900;color:var(--gold)}
+.count span{animation:cpop .9s}
+@keyframes cpop{0%{transform:scale(2.4);opacity:0}30%{transform:scale(1);opacity:1}}
+.conf{position:fixed;top:-40px;font-size:26px;pointer-events:none;z-index:60;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(600deg)}}
+.rcard{background:var(--panel);border-radius:22px;padding:22px;max-width:640px;margin:20px auto;text-align:center}
+.rcard h2{font-size:clamp(28px,5vw,42px);margin:4px 0 8px}
+.rgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}
+.rgrid div{background:var(--panel2);border-radius:14px;padding:10px 12px}
+.rgrid small{color:var(--sub);font-size:12px;display:block}
+.rgrid b{font-size:26px}
+.hl{background:linear-gradient(90deg,#ff5fb7,#ffb84a);color:#2a1050;border-radius:14px;padding:10px 14px;font-weight:900;margin:10px 0;animation:getin .5s}
+.hl.g{background:linear-gradient(90deg,#4ade80,#22d3ee)}
+@keyframes getin{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.05)}100%{transform:none;opacity:1}}
+.rbtns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.esc{text-align:center;margin-top:10px}
+
+body{background:radial-gradient(ellipse at 50% 0%,#3a1d6e 0%,transparent 60%),#07051a;background-attachment:fixed}
+.field{position:relative;height:clamp(360px,62vh,560px);border-radius:20px;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 120%,#3b2b8c 0%,#0b0828 60%),#0b0828;box-shadow:0 10px 0 #00000055}
+.field::before{content:"";position:absolute;inset:0;background-image:radial-gradient(1.5px 1.5px at 10% 20%,#fff,transparent),radial-gradient(1px 1px at 30% 60%,#fff,transparent),radial-gradient(1.5px 1.5px at 50% 10%,#fff,transparent),radial-gradient(1px 1px at 70% 40%,#fff,transparent),radial-gradient(1.5px 1.5px at 90% 25%,#fff,transparent),radial-gradient(1px 1px at 20% 80%,#fff,transparent),radial-gradient(1px 1px at 80% 75%,#fff,transparent),radial-gradient(1px 1px at 60% 85%,#fff,transparent);opacity:.7}
+.city{position:absolute;left:0;right:0;bottom:0;height:64px;display:flex;justify-content:space-around;align-items:flex-end;padding:0 4%}
+.bld{width:14%;background:linear-gradient(180deg,#5b6bd6,#2b3480);border-radius:6px 6px 0 0;position:relative;transition:height .4s,filter .4s}
+.bld::after{content:"";position:absolute;inset:8px 8px 0;background-image:radial-gradient(#ffe68a 35%,transparent 40%);background-size:12px 12px;opacity:.85}
+.bld.dead{height:10px!important;filter:grayscale(1) brightness(.5)}
+.cannon{position:absolute;left:50%;bottom:58px;transform:translateX(-50%);width:44px;height:44px;border-radius:50% 50% 8px 8px;background:linear-gradient(180deg,#c3f0ff,#4aa8d8);box-shadow:0 0 18px #6fd3ff}
+.met{position:absolute;left:0;top:0;transform-origin:center;will-change:transform}
+.rock{width:40px;height:40px;margin:0 auto;border-radius:50%;background:radial-gradient(circle at 35% 35%,#c58a5a,#6b3b1f 70%);box-shadow:0 -14px 18px -4px #ff8a3c,0 -26px 24px -10px #ffcf5a}
+.word{margin-top:4px;background:#000000c0;border:2px solid #ffffff44;border-radius:10px;padding:2px 10px;font-family:Consolas,"Courier New",monospace;font-size:20px;font-weight:700;white-space:nowrap;color:#fff}
+.word .d{color:#ffd84a}
+.met.tg .word{border-color:var(--gold);box-shadow:0 0 12px #ffd84a}
+.boom{position:absolute;font-size:46px;pointer-events:none;animation:boom .5s forwards;transform:translate(-50%,-50%)}
+@keyframes boom{0%{transform:translate(-50%,-50%) scale(.3)}60%{transform:translate(-50%,-50%) scale(1.4)}100%{transform:translate(-50%,-50%) scale(1.6);opacity:0}}
+.pts{position:absolute;font-weight:900;color:var(--gold);font-size:20px;pointer-events:none;animation:up .8s forwards;text-shadow:0 2px 0 #000}
+@keyframes up{to{transform:translateY(-50px);opacity:0}}
+svg.beam{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hitflash{animation:hf .4s}
+@keyframes hf{0%,100%{box-shadow:0 10px 0 #00000055}30%{box-shadow:0 0 0 6px #ff6b6b,0 10px 0 #00000055}}
+.wave{position:absolute;left:50%;top:40%;transform:translateX(-50%);font-size:clamp(30px,6vw,54px);font-weight:900;color:#fff;text-shadow:0 0 16px #ff5fb7;opacity:0;pointer-events:none;white-space:nowrap}
+.wave.on{animation:bigw 1.6s}
+@keyframes bigw{0%{opacity:0;transform:translateX(-50%) scale(.4)}20%{opacity:1;transform:translateX(-50%) scale(1.1)}80%{opacity:1}100%{opacity:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section id="title" class="screen active">
+  <a class="toplink" href="typing_index.html">◀ トップへ</a>
+  <div class="ticon">☄️</div><div class="gtitle">隕石ディフェンス</div>
+  <p class="lead">英単語をまとった隕石が、町にせまってくる！<br>単語を打ってレーザーで撃ち落とし、90秒間 町を守りぬけ！</p>
+  <div class="levels" id="levels"></div>
+  <div class="howto">🎯 打ち始めた文字で、ねらう隕石が決まるよ（いちばん下の隕石が優先）。<br>🏙️ 隕石が町に落ちると、ビルが1つこわれる。5つ全部こわれたらゲームオーバー。</div>
+</section>
+
+<section id="play" class="screen">
+  <div class="hud">
+    <div><small>のこり時間</small><b id="time">90</b></div>
+    <div><small>スコア</small><b id="score">0</b></div>
+    <div><small>コンボ</small><b id="combo">0</b></div>
+    <div><small>町</small><b id="life">🏙️×5</b></div>
+  </div>
+  <div class="field" id="field">
+    <div id="mets"></div>
+    <svg class="beam" id="beam"></svg>
+    <div class="city" id="city"></div>
+    <div class="cannon"></div>
+    <div class="wave" id="wave"></div>
+  </div>
+  <div class="warn" id="warn"></div>
+  <div class="small esc">Esc でやめる</div>
+</section>
+
+<section id="result" class="screen"><div class="rcard" id="res"></div></section>
+</div>
+<div class="count" id="count"></div>
+
+<script>
+/* ===== 共通部品 ===== */
+const $=s=>document.querySelector(s);
+let CUR='title';
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('#'+id).classList.add('active');CUR=id;scrollTo(0,0)}
+function sget(k,d){try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}}
+function sset(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+let AC=null;
+function beep(f,d,type,v,slide){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime;o.type=type||'square';o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t+d);g.gain.setValueAtTime(v||.03,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d)}catch(e){}}
+function okSound(){beep(1000,.025,'square',.018)}
+function ngSound(){beep(140,.12,'sawtooth',.04)}
+function jingle(){[523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>beep(f,.22,'triangle',.06),i*90))}
+function sadSound(){[392,330,262].forEach((f,i)=>setTimeout(()=>beep(f,.3,'triangle',.05),i*180))}
+function countdown(cb){const cd=$('#count');cd.style.display='flex';let n=3;
+  const step=()=>{if(n>0){cd.innerHTML=`<span>${n}</span>`;beep(440,.15,'triangle',.05);n--;setTimeout(step,750)}
+    else{cd.innerHTML='<span>GO!</span>';beep(880,.3,'triangle',.06);setTimeout(()=>{cd.style.display='none';cb()},450)}};step()}
+function confetti(n){const em=['🎉','✨','⭐','🎊','💖'];for(let i=0;i<(n||40);i++){const s=document.createElement('div');s.className='conf';s.textContent=em[i%5];
+  s.style.left=Math.random()*100+'vw';s.style.animationDuration=(1.6+Math.random()*2)+'s';s.style.animationDelay=Math.random()*.6+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),4500)}}
+function shake(el){el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake')}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function warn(m){const w=$('#warn');if(!w)return;if(m){w.textContent='⚠ '+m;w.style.display='block'}else w.style.display='none'}
+/* キー入力を1文字に。日本語入力ON・CapsLockは警告 */
+function readKey(e){
+  if(e.isComposing||e.key==='Process'||e.keyCode===229){e.preventDefault();warn('日本語入力がONです。「半角/全角」キーで英数入力にしてね');return null}
+  if(e.ctrlKey||e.metaKey||e.altKey||e.key.length!==1)return null;
+  e.preventDefault();
+  if(e.repeat)return null;
+  if(e.getModifierState&&e.getModifierState('CapsLock'))warn('CapsLock がONです。Shift＋CapsLock で解除してね');else warn('');
+  return e.key;
+}
+/* ===== ローマ字判定（いろいろな打ち方に対応） ===== */
+const RT={
+ 'あ':['a'],'い':['i','yi'],'う':['u','wu','whu'],'え':['e'],'お':['o'],
+ 'か':['ka','ca'],'き':['ki'],'く':['ku','cu','qu'],'け':['ke'],'こ':['ko','co'],
+ 'さ':['sa'],'し':['si','shi','ci'],'す':['su'],'せ':['se','ce'],'そ':['so'],
+ 'た':['ta'],'ち':['ti','chi'],'つ':['tu','tsu'],'て':['te'],'と':['to'],
+ 'な':['na'],'に':['ni'],'ぬ':['nu'],'ね':['ne'],'の':['no'],
+ 'は':['ha'],'ひ':['hi'],'ふ':['hu','fu'],'へ':['he'],'ほ':['ho'],
+ 'ま':['ma'],'み':['mi'],'む':['mu'],'め':['me'],'も':['mo'],
+ 'や':['ya'],'ゆ':['yu'],'よ':['yo'],
+ 'ら':['ra'],'り':['ri'],'る':['ru'],'れ':['re'],'ろ':['ro'],
+ 'わ':['wa'],'を':['wo'],
+ 'が':['ga'],'ぎ':['gi'],'ぐ':['gu'],'げ':['ge'],'ご':['go'],
+ 'ざ':['za'],'じ':['zi','ji'],'ず':['zu'],'ぜ':['ze'],'ぞ':['zo'],
+ 'だ':['da'],'ぢ':['di'],'づ':['du'],'で':['de'],'ど':['do'],
+ 'ば':['ba'],'び':['bi'],'ぶ':['bu'],'べ':['be'],'ぼ':['bo'],
+ 'ぱ':['pa'],'ぴ':['pi'],'ぷ':['pu'],'ぺ':['pe'],'ぽ':['po'],'ゔ':['vu'],
+ 'ぁ':['xa','la'],'ぃ':['xi','li'],'ぅ':['xu','lu'],'ぇ':['xe','le'],'ぉ':['xo','lo'],
+ 'ゃ':['xya','lya'],'ゅ':['xyu','lyu'],'ょ':['xyo','lyo'],'ゎ':['xwa','lwa'],
+ 'っ':['xtu','ltu','xtsu','ltsu'],
+ 'ー':['-'],'、':[','],'。':['.'],'！':['!'],'？':['?'],'　':[' '],' ':[' ']
+};
+const RY={};
+[['き','ky'],['に','ny'],['ひ','hy'],['み','my'],['り','ry'],['ぎ','gy'],['び','by'],['ぴ','py']].forEach(([k,r])=>{RY[k+'ゃ']=[r+'a'];RY[k+'ゅ']=[r+'u'];RY[k+'ょ']=[r+'o'];RY[k+'ぇ']=[r+'e']});
+Object.assign(RY,{
+ 'しゃ':['sya','sha'],'しゅ':['syu','shu'],'しょ':['syo','sho'],'しぇ':['sye','she'],
+ 'ちゃ':['tya','cha','cya'],'ちゅ':['tyu','chu','cyu'],'ちょ':['tyo','cho','cyo'],'ちぇ':['tye','che','cye'],
+ 'じゃ':['zya','ja','jya'],'じゅ':['zyu','ju','jyu'],'じょ':['zyo','jo','jyo'],'じぇ':['zye','je','jye'],
+ 'ぢゃ':['dya'],'ぢゅ':['dyu'],'ぢょ':['dyo'],
+ 'ふぁ':['fa'],'ふぃ':['fi'],'ふぇ':['fe'],'ふぉ':['fo'],
+ 'てぃ':['thi'],'でぃ':['dhi'],'うぃ':['wi'],'うぇ':['we'],'ゔぁ':['va'],'ゔぃ':['vi'],'ゔぇ':['ve'],'ゔぉ':['vo']
+});
+function toHira(s){return s.replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60))}
+function rcands(K,p){
+  if(p>=K.length)return [];
+  const out=[],c=K[p];
+  if(c==='ん'){
+    const nx=K[p+1];
+    if(nx!==undefined&&!'あいうえおなにぬねのやゆよんゃゅょ'.includes(nx))out.push({r:'n',len:1});
+    out.push({r:'nn',len:1},{r:"n'",len:1},{r:'xn',len:1});return out;
+  }
+  if(c==='っ'){
+    const seen=new Set();
+    rcands(K,p+1).forEach(n=>{const f=n.r[0];
+      if(f&&/[bcdfghjklmpqrstvwxyz]/.test(f)){const r=f+n.r;if(!seen.has(r)){seen.add(r);out.push({r,len:1+n.len})}}
+      if(n.r.startsWith('ch')&&!seen.has('t'+n.r)){seen.add('t'+n.r);out.push({r:'t'+n.r,len:1+n.len})}});
+    RT['っ'].forEach(r=>out.push({r,len:1}));return out;
+  }
+  const two=K.substr(p,2);
+  if(RY[two])RY[two].forEach(r=>out.push({r,len:2}));
+  (RT[c]||[c]).forEach(r=>out.push({r,len:1}));
+  return out;
+}
+function rguide(K,p){let s='';while(p<K.length){const c=rcands(K,p)[0];s+=c.r;p+=c.len}return s}
+/* 日本語1問 */
+class JT{
+  constructor(text,reading){this.text=text;this.K=toHira(reading);this.p=0;this.b='';this.typed=''}
+  press(ch){ch=ch.toLowerCase();
+    const cs=rcands(this.K,this.p),b2=this.b+ch,m=cs.filter(c=>c.r.startsWith(b2));
+    if(!m.length){const ex=this.b&&cs.find(c=>c.r===this.b);
+      if(ex){this.p+=ex.len;this.b='';if(this.p>=this.K.length)return false;return this.press(ch)}return false}
+    this.b=b2;this.typed+=ch;
+    const exact=m.find(c=>c.r===b2);
+    if(exact&&!m.some(c=>c.r.length>b2.length)){this.p+=exact.len;this.b=''}
+    return true}
+  get done(){return this.p>=this.K.length}
+  rest(){if(this.b){const c=rcands(this.K,this.p).find(c=>c.r.startsWith(this.b));return c.r.slice(this.b.length)+rguide(this.K,this.p+c.len)}return rguide(this.K,this.p)}
+  next(){return this.rest()[0]}
+  get keysLeft(){return this.rest().length}
+  kanaHTML(){return `<span class="d">${esc(this.K.slice(0,this.p))}</span>${esc(this.K.slice(this.p))}`}
+  romaHTML(){const r=this.rest();return `<span class="d">${esc(this.typed)}</span>${r?`<span class="c">${esc(r[0])}</span>${esc(r.slice(1))}`:''}`}
+}
+/* 英語1問（大文字・小文字も区別） */
+class ET{
+  constructor(s,sub){this.text=s;this.sub=sub||'';this.i=0}
+  press(ch){if(ch===this.text[this.i]){this.i++;return true}return false}
+  get done(){return this.i>=this.text.length}
+  next(){return this.text[this.i]}
+  get keysLeft(){return this.text.length-this.i}
+  html(){const t=this.text,i=this.i;const cur=t[i]===' '?'␣':esc(t[i]||'');
+    return `<span class="d">${esc(t.slice(0,i))}</span>${i<t.length?`<span class="c">${cur}</span>${esc(t.slice(i+1))}`:''}`}
+}
+window.__next=()=>window.CURT&&!window.CURT.done?window.CURT.next():null;
+
+const TIME=90,LIVES=5,KEY='meteor_v1';
+const WORDS={
+ easy:['cat','dog','pen','bag','cap','egg','map','cup','red','sun','bus','car','run','sit','eat','see','big','new','old','hot','box','hat','key','yes','one','two','ten','book','desk','blue','milk','fish','rice','cake','ball','game','song','star','moon','tree','bird','park','like','play','have','swim','walk','cook','help','kind','good','cold','home','room','door','hand'],
+ mid:['apple','water','happy','sport','music','piano','table','chair','green','white','black','seven','three','eight','study','clean','watch','drink','sleep','write','speak','dance','class','lunch','night','house','school','friend','family','summer','winter','spring','guitar','tennis','doctor','garden','window','kitchen','morning','evening','picture','country','station','science','history','weekend','teacher','student','English','library'],
+ hard:['breakfast','hospital','computer','birthday','festival','favorite','question','basketball','volleyball','baseball','classroom','homework','beautiful','different','important','delicious','interesting','vegetable','yesterday','tomorrow','dangerous','telephone','umbrella','mountain','calendar','dictionary','everyone','something','sometimes','together']
+};
+const LV=[
+ {name:'かんたん',g:'g1',lists:['easy'],speed:[28,48],gap:[2.3,1.4],d:'3〜4文字の単語<br>ゆっくり落ちてくる'},
+ {name:'ふつう',g:'g2',lists:['easy','mid'],speed:[34,60],gap:[2.1,1.2],d:'3〜7文字の単語<br>ちょっと速い'},
+ {name:'むずかしい',g:'g3',lists:['mid','hard'],speed:[40,72],gap:[2.0,1.1],d:'長い単語も登場<br>腕に自信がある人へ'}
+];
+let best=sget(KEY,[0,0,0]);
+function title(){
+  $('#levels').innerHTML=LV.map((l,i)=>`<button class="lvbtn ${l.g}" onclick="start(${i})"><div class="k">キー ${i+1}</div><div class="n">${l.name}</div><div class="d">${l.d}</div><div class="best">${best[i]?'ベスト '+best[i]:'まだ記録なし'}</div></button>`).join('');
+  show('title');
+}
+let G=null,raf=0;
+function start(li){
+  const L=LV[li];
+  G={li,L,pool:L.lists.flatMap(k=>WORDS[k]),mets:[],target:null,score:0,keys:0,miss:0,combo:0,maxCombo:0,kills:0,lives:LIVES,running:false,spawnT:0,wave:1};
+  $('#mets').innerHTML='';$('#beam').innerHTML='';
+  $('#city').innerHTML=[...Array(LIVES)].map((_,i)=>`<div class="bld" style="height:${36+((i*17)%28)}px"></div>`).join('');
+  hud();warn('');$('#time').textContent=TIME;$('#time').classList.remove('low');
+  show('play');
+  countdown(()=>{G.running=true;G.t0=performance.now();G.last=G.t0;raf=requestAnimationFrame(loop)});
+}
+function field(){const f=$('#field');return{w:f.clientWidth,h:f.clientHeight}}
+function spawn(){
+  const {w}=field();const used=new Set(G.mets.map(m=>m.word[0]));
+  let word,tries=0;do{word=G.pool[Math.floor(Math.random()*G.pool.length)];tries++}while((used.has(word[0])||G.mets.some(m=>m.word===word))&&tries<40);
+  const prog=Math.min(1,(performance.now()-G.t0)/1000/TIME);
+  const sp=G.L.speed[0]+(G.L.speed[1]-G.L.speed[0])*prog;
+  const el=document.createElement('div');el.className='met';
+  el.innerHTML=`<div class="rock"></div><div class="word"></div>`;$('#mets').appendChild(el);
+  const m={word,i:0,x:40+Math.random()*(w-80),y:-70,v:sp*(0.85+Math.random()*.3),el};
+  G.mets.push(m);drawWord(m);
+}
+function drawWord(m){m.el.querySelector('.word').innerHTML=`<span class="d">${esc(m.word.slice(0,m.i))}</span>${esc(m.word.slice(m.i))}`}
+function loop(now){
+  if(!G.running)return;
+  const dt=Math.min(.05,(now-G.last)/1000);G.last=now;
+  const el=(now-G.t0)/1000,left=TIME-el;
+  $('#time').textContent=Math.max(0,Math.ceil(left));$('#time').classList.toggle('low',left<=10);
+  if(left<=0){end(true);return}
+  const prog=Math.min(1,el/TIME),gap=G.L.gap[0]+(G.L.gap[1]-G.L.gap[0])*prog;
+  G.spawnT-=dt;if(G.spawnT<=0){spawn();G.spawnT=gap}
+  const nw=1+Math.floor(el/30);if(nw!==G.wave){G.wave=nw;waveMsg('WAVE '+nw+' ！ スピードアップ！')}
+  const {h,w}=field();
+  for(const m of [...G.mets]){
+    m.y+=m.v*dt;
+    const ww=m.el.offsetWidth;m.el.style.transform=`translate(${Math.min(w-ww-4,Math.max(4,m.x-ww/2))}px,${m.y}px)`;
+    if(m.y>h-120){hitCity(m)}
+  }
+  raf=requestAnimationFrame(loop);
+}
+function waveMsg(s){const b=$('#wave');b.textContent=s;b.classList.remove('on');void b.offsetWidth;b.classList.add('on')}
+function removeMet(m){m.el.remove();G.mets=G.mets.filter(x=>x!==m);if(G.target===m)G.target=null}
+function hitCity(m){
+  removeMet(m);G.combo=0;
+  const alive=[...document.querySelectorAll('.bld:not(.dead)')];
+  if(alive.length){alive[Math.floor(Math.random()*alive.length)].classList.add('dead')}
+  G.lives--;beep(90,.4,'sawtooth',.06);const f=$('#field');f.classList.remove('hitflash');void f.offsetWidth;f.classList.add('hitflash');
+  hud();if(G.lives<=0)end(false);
+}
+function center(m){const r=m.el.getBoundingClientRect(),f=$('#field').getBoundingClientRect();return{x:r.left-f.left+r.width/2,y:r.top-f.top+20}}
+function laser(m){
+  const {w,h}=field(),c=center(m);
+  $('#beam').innerHTML=`<line x1="${w/2}" y1="${h-80}" x2="${c.x}" y2="${c.y}" stroke="#6fd3ff" stroke-width="5" stroke-linecap="round" opacity=".9"/><line x1="${w/2}" y1="${h-80}" x2="${c.x}" y2="${c.y}" stroke="#fff" stroke-width="2"/>`;
+  setTimeout(()=>$('#beam').innerHTML='',90);
+}
+function kill(m){
+  const c=center(m);
+  const b=document.createElement('div');b.className='boom';b.textContent='💥';b.style.left=c.x+'px';b.style.top=c.y+'px';$('#field').appendChild(b);setTimeout(()=>b.remove(),500);
+  const pts=m.word.length*10*(1+Math.floor(G.combo/10));
+  const p=document.createElement('div');p.className='pts';p.textContent='+'+pts;p.style.left=c.x+'px';p.style.top=(c.y-30)+'px';$('#field').appendChild(p);setTimeout(()=>p.remove(),800);
+  G.score+=pts;G.kills++;removeMet(m);beep(660,.08,'triangle',.05);beep(1320,.12,'triangle',.03);
+}
+function onKey(e){
+  if(e.key==='Escape'){quit();return}
+  if(!G||!G.running)return;
+  const ch=readKey(e);if(ch==null)return;
+  let m=G.target;
+  if(!m){const c=G.mets.filter(x=>x.word[0]===ch).sort((a,b)=>b.y-a.y);m=c[0];if(m){G.target=m;m.el.classList.add('tg')}}
+  if(m&&m.word[m.i]===ch){
+    m.i++;G.keys++;G.combo++;G.maxCombo=Math.max(G.maxCombo,G.combo);okSound();laser(m);drawWord(m);
+    if(m.i>=m.word.length)kill(m);
+  }else{G.miss++;G.combo=0;ngSound()}
+  hud();
+}
+window.__next=()=>{if(!G||!G.running)return null;if(G.target)return G.target.word[G.target.i];const c=[...G.mets].sort((a,b)=>b.y-a.y)[0];return c?c.word[0]:null};
+function hud(){$('#score').textContent=G.score;$('#combo').textContent=G.combo;$('#life').textContent='🏙️×'+Math.max(0,G.lives)}
+function stopGame(){G.running=false;cancelAnimationFrame(raf)}
+function quit(){if(G)stopGame();$('#count').style.display='none';title()}
+function end(survived){
+  stopGame();
+  if(survived){G.score+=G.lives*100}
+  const tot=G.keys+G.miss,acc=tot?Math.floor(G.keys/tot*100):0;
+  const nb=G.score>best[G.li];if(nb){best[G.li]=G.score;sset(KEY,best)}
+  let h=survived?`<div style="font-size:60px">🛡️</div><h2>町を守りぬいた！</h2><p>のこったビル ${G.lives}つ × 100点 のボーナス！</p>`
+                :`<div style="font-size:60px">💥</div><h2>町がやられた…</h2><p>あきらめるな！ 次こそ守りぬこう！</p>`;
+  if(nb)h+=`<div class="hl g">🔥 自己ベスト更新！</div>`;
+  h+=`<div class="rgrid"><div><small>スコア</small><b>${G.score}</b></div><div><small>撃ち落とした隕石</small><b>${G.kills}</b></div><div><small>正確さ</small><b>${acc}%</b></div><div><small>最大コンボ</small><b>${G.maxCombo}</b></div></div>`;
+  h+=`<div class="rbtns"><button class="btn" onclick="start(${G.li})">もう一度（Enter）</button><button class="btn sub" onclick="title()">もどる（Esc）</button></div>`;
+  $('#res').innerHTML=h;show('result');if(survived){jingle();confetti()}else sadSound();
+}
+document.addEventListener('keydown',e=>{
+  if(CUR==='play'){onKey(e);return}
+  if(CUR==='title'&&['1','2','3'].includes(e.key))start(+e.key-1);
+  if(CUR==='result'){if(e.key==='Enter')start(G.li);if(e.key==='Escape')title()}
+});
+title();
+</script>
+<a href="typing_index.html" onclick="try{if(document.referrer&&/typing_index\.html|\/$/.test(document.referrer)){history.back();return false}}catch(e){}" style="position:fixed;left:12px;bottom:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;background:rgba(20,14,50,.85);color:#fff;text-decoration:none;font:800 15px/1 'M PLUS Rounded 1c','Hiragino Kaku Gothic ProN','Meiryo',sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.4);border:2px solid rgba(255,255,255,.35)">◀ トップへ</a>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>単語タイピング</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=M+PLUS+Rounded+1c:wght@500;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#0b0a24;--bg2:#1a0f3d;--text:#fff;--sub:#c9c4f2;
+  --title:"Dela Gothic One","M PLUS Rounded 1c","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+  --body:"M PLUS Rounded 1c","Hiragino Kaku Gothic ProN","Yu Gothic UI","Meiryo",sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:#0b0a24}
+html,body{margin:0}
+body{
+  min-height:100vh;color:var(--text);font-family:var(--body);overflow-x:hidden;
+  background:radial-gradient(ellipse at 20% 0%,#3b1d8f 0%,transparent 55%),
+             radial-gradient(ellipse at 90% 20%,#8a1d6b 0%,transparent 50%),
+             linear-gradient(180deg,var(--bg2),var(--bg1) 70%);
+  background-attachment:fixed;
+}
+#sky{position:fixed;inset:0;pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:28px 16px 48px}
+
+/* ===== ヒーロー ===== */
+header{text-align:center;margin:10px 0 30px}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;
+  background:#ffffff14;border:1px solid #ffffff2a;font-size:13px;letter-spacing:.15em;color:var(--sub);backdrop-filter:blur(6px)}
+.badge i{width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 10px #4ade80;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.3}}
+h1{font-family:var(--title);font-weight:400;margin:16px 0 6px;line-height:1.05;
+  font-size:clamp(40px,9vw,92px);letter-spacing:.02em;
+  background:linear-gradient(90deg,#ffe259,#ff8a5b,#ff4fd8,#7c6cff,#3fd6ff,#ffe259);background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:flow 8s linear infinite;
+  filter:drop-shadow(0 6px 24px #ff4fd855)}
+@keyframes flow{to{background-position:300% 0}}
+.en{font-family:var(--title);font-size:clamp(14px,2.6vw,20px);letter-spacing:.5em;color:#fff;opacity:.85;margin-left:.5em}
+.lead{margin:16px auto 0;max-width:620px;color:var(--sub);font-size:15px;line-height:1.8}
+.typing{display:inline-block;margin-top:14px;font-family:Consolas,"Courier New",monospace;font-size:18px;
+  padding:8px 16px;border-radius:12px;background:#00000055;border:1px solid #ffffff22;min-width:16ch}
+.typing b{color:#ffe259}
+.typing .cur{display:inline-block;width:10px;height:1.1em;vertical-align:-3px;background:#ffe259;margin-left:2px;animation:blink 1s steps(1) infinite}
+
+/* ===== カード ===== */
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+@media (max-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:640px){.grid{grid-template-columns:repeat(2,1fr);gap:12px}}
+.card{
+  --c1:#7c6cff;--c2:#3fd6ff;
+  position:relative;display:flex;flex-direction:column;justify-content:space-between;
+  aspect-ratio:3/4;padding:16px 14px 14px;border-radius:22px;text-decoration:none;color:#fff;overflow:hidden;isolation:isolate;
+  background:linear-gradient(150deg,var(--c1),var(--c2));
+  box-shadow:0 10px 30px -10px var(--c1),inset 0 1px 0 #ffffff55;
+  transform:translateY(30px) scale(.96);opacity:0;animation:rise .6s cubic-bezier(.2,.9,.3,1.3) forwards;
+  transition:transform .25s cubic-bezier(.2,.9,.3,1.4),box-shadow .25s;
+}
+@keyframes rise{to{transform:none;opacity:1}}
+.card::before{ /* 光沢 */
+  content:"";position:absolute;inset:-40%;z-index:-1;
+  background:conic-gradient(from 0deg,transparent 0 70%,#ffffff55 80%,transparent 90%);
+  animation:spin 6s linear infinite;opacity:0;transition:opacity .3s}
+.card::after{ /* 模様 */
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:radial-gradient(circle at 85% 15%,#ffffff40 0 18%,transparent 19%),
+             radial-gradient(circle at 10% 95%,#00000030 0 30%,transparent 31%),
+             repeating-linear-gradient(135deg,#ffffff0d 0 8px,transparent 8px 16px)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.card.soon{cursor:default;filter:saturate(.6)}
+.card.soon:hover{transform:none;box-shadow:0 10px 30px -10px var(--c1)}
+.card.soon::before{display:none}
+.card:hover,.card:focus-visible{transform:translateY(-8px) rotate(-1.5deg) scale(1.03);box-shadow:0 22px 40px -12px var(--c1),0 0 0 3px #ffffffcc;outline:none}
+.card:hover::before,.card:focus-visible::before{opacity:1}
+.card:active{transform:scale(.95);transition-duration:.08s}
+.no{font-family:var(--title);font-size:clamp(34px,5vw,46px);line-height:1;opacity:.95;text-shadow:0 3px 0 #00000033}
+.no small{font-size:.32em;letter-spacing:.2em;display:block;opacity:.8;margin-bottom:2px}
+.icon{position:absolute;right:10px;top:12px;font-size:clamp(40px,6vw,56px);filter:drop-shadow(0 6px 8px #00000044);animation:bob 3s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px) rotate(6deg)}}
+.name{font-weight:800;font-size:clamp(15px,2vw,19px);line-height:1.3;text-shadow:0 2px 6px #00000044}
+.desc{font-size:12px;opacity:.92;margin-top:4px;line-height:1.5}
+.foot{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.lv{font-size:12px;letter-spacing:1px;background:#00000033;border-radius:999px;padding:3px 9px}
+.go{width:36px;height:36px;border-radius:50%;background:#fff;color:#1a0f3d;display:grid;place-items:center;font-weight:900;font-size:16px;
+  box-shadow:0 4px 0 #00000033;transition:transform .25s}
+.card:hover .go{transform:translateX(3px) scale(1.12)}
+.last{position:absolute;left:12px;bottom:58px;font-size:11px;font-weight:800;background:#ffe259;color:#3b1d00;
+  border-radius:999px;padding:3px 9px;box-shadow:0 0 14px #ffe259aa;animation:pulse 1.4s infinite}
+@keyframes pulse{50%{transform:scale(1.08)}}
+
+/* タップ時の波紋 */
+.ripple{position:absolute;border-radius:50%;background:#ffffff88;transform:scale(0);animation:rip .5s ease-out forwards;pointer-events:none;z-index:2}
+@keyframes rip{to{transform:scale(4);opacity:0}}
+
+footer{text-align:center;margin-top:34px;color:var(--sub);font-size:13px;line-height:1.8}
+@media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}.card{opacity:1;transform:none}}
+
+.sel{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:6px 0 12px}
+.sel button{border:2px solid #ffffff33;background:#ffffff12;color:#fff;border-radius:16px;padding:12px 18px;font-family:var(--body);font-weight:800;font-size:16px;cursor:pointer;min-width:220px;transition:transform .15s}
+.sel button small{display:block;font-size:12px;color:var(--sub);font-weight:500;margin-top:3px}
+.sel button.on{background:linear-gradient(135deg,#ffe259,#ff8a5b);color:#2a1050;border-color:#fff;transform:scale(1.03)}
+.sel button.on small{color:#5a2a10}
+.step{text-align:center;color:var(--sub);font-size:13px;letter-spacing:.2em;margin-top:14px}
+.grid.five{grid-template-columns:repeat(5,1fr)}
+@media(max-width:1000px){.grid.five{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.grid.five{grid-template-columns:repeat(2,1fr)}}
+.wordlist{margin:22px auto 0;max-width:900px;background:#ffffff10;border-radius:18px;padding:14px 16px}
+.wordlist summary{cursor:pointer;font-weight:800}
+.wl{columns:3 200px;margin-top:10px;font-size:14px;line-height:1.9;color:#e9e6ff}
+.wl b{font-family:Consolas,monospace;color:#ffe259}
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas>
+<div class="wrap">
+  <header>
+    <span class="badge"><i></i>SUNSHINE 1 NEW WORDS</span>
+    <h1 style="font-size:clamp(36px,8vw,80px)">単語<br>タイピング</h1>
+    <div class="en">WORD TYPING</div>
+    <p class="lead">Program 5・6 の新出単語だけで練習しよう！</p>
+  </header>
+  <div class="step">① Program をえらぶ</div>
+  <div class="sel" id="selP">
+    <button data-p="5">Program 5<small>Pajama Day（27語）</small></button>
+    <button data-p="6">Program 6<small>The Way to School（37語）</small></button>
+  </div>
+  <div class="step">② 練習のしかたをえらぶ</div>
+  <div class="sel" id="selM">
+    <button data-m="en">🔤 英語を見て打つ<small>英単語をそのまま打つ</small></button>
+    <button data-m="ja">🇯🇵 日本語を見て英語で打つ<small>意味を見て、つづりを思い出す</small></button>
+  </div>
+  <div class="step">③ ゲームをえらぶ</div>
+  <main class="grid five" id="grid" style="margin-top:12px"></main>
+  <details class="wordlist"><summary>📖 このProgramの単語一覧を見る</summary><div class="wl" id="wl"></div></details>
+  <footer>F と J の「ポッチ」に人差し指をのせてから始めよう ⌨️</footer>
+</div>
+<script>
+const WORDS={"P5": [["pajama", "パジャマ"], ["design", "デザイン、図柄"], ["home economics", "家庭科"], ["sew", "縫い物をする"], ["doesn't", "（does notの短縮形）"], ["does", "doの変化形（主語が三人称単数で現在のときに使う）"], ["drawing", "（線で絵を）描くこと"], ["his", "彼の"], ["curry and rice", "カレーライス"], ["clothes", "衣服、着物"], ["Korean", "韓国・朝鮮語"], ["ice hockey", "アイスホッケー"], ["kid", "からかう、冗談を言う"], ["common", "ふつうの、ありふれた"], ["spend", "（時間を）過ごす"], ["Just kidding.", "冗談です。"], ["only", "ただ〜だけ、ほんの〜にすぎない"], ["company", "会社"], ["work", "働く"], ["all", "すべての"], ["proud", "誇りに思って"], ["mean", "意味する、意図する"], ["charity", "チャリティー、慈善（行為）"], ["support", "支援する"], ["be proud of", "～を誇りに思っている"], ["I'd", "（I wouldの短縮形）"], ["would like to", "～したい（のですが）"]], "P6": [["way", "道、方法"], ["him", "彼を［に］"], ["yeah", "うん、ああ（yesのくだけた表現）"], ["detective", "探偵、刑事"], ["monster", "怪獣、モンスター"], ["pirate", "海賊"], ["How about", "～はどうですか。"], ["because", "（なぜなら）〜だから"], ["early", "（時間が）早く"], ["there", "そこで［に、へ］"], ["romantic", "ロマンチックな、情熱的な"], ["Kenya", "ケニア"], ["respect", "尊敬する"], ["tell", "伝える、言う"], ["hour", "時間、１時間"], ["across", "〜を横切って"], ["savanna", "サバンナ（熱帯・亜熱帯の大平原）"], ["tough", "困難な、つらい"], ["amazing", "すばらしい"], ["dangerous", "危険な"], ["attack", "襲う、攻撃する"], ["schoolchildren", "（schoolchild（生徒）の複数形）"], ["safe", "安全な"], ["parent", "親"], ["pray", "祈る"], ["safety", "無事、安全"], ["has", "haveの変化形（主語が三人称単数で現在のときに使う）"], ["what's", "（what isの短縮形）"], ["airplane", "飛行機"], ["No way!", "まさか。そんなばかな。"], ["anything", "何か"], ["else", "ほかの［に］"], ["them", "彼ら［彼女ら、それら］を［に］"], ["us", "私たちを［に］"], ["theirs", "彼ら［彼女ら、それら］のもの"], ["its", "その"], ["these", "（thisの複数形）これら"]]};
+const GAMES=[
+  {g:'meteor',name:'隕石ディフェンス',icon:'☄️',c1:'#6366f1',c2:'#1e1b4b',en:'英単語の隕石を撃ち落とせ',ja:'日本語の隕石を英語で撃て'},
+  {g:'rocket',name:'ロケット発射！',icon:'🚀',c1:'#0ea5e9',c2:'#6366f1',en:'打つほど宇宙へ上昇',ja:'意味を見て英語で上昇'},
+  {g:'race',name:'ライバルレース',icon:'🏁',c1:'#f97316',c2:'#db2777',en:'英単語で車を走らせろ',ja:'意味から英語で勝負'},
+  {g:'spell',name:'スペルチャレンジ',icon:'✏️',c1:'#10b981',c2:'#0e7490',en:'見たとおりに正確に',ja:'意味を見てつづりを打つ'},
+  {g:'hanabi',name:'タイピング花火大会',icon:'🎆',c1:'#a855f7',c2:'#e11d48',en:'打つたび夜空に花火',ja:'意味から英語で花火'}
+];
+let P='5',M='en';try{const s=JSON.parse(localStorage.getItem('tango_menu'));if(s){P=s.P;M=s.M}}catch(e){}
+function renderMenu(){
+  document.querySelectorAll('#selP button').forEach(b=>b.classList.toggle('on',b.dataset.p===P));
+  document.querySelectorAll('#selM button').forEach(b=>b.classList.toggle('on',b.dataset.m===M));
+  const grid=document.getElementById('grid');grid.innerHTML='';
+  GAMES.forEach((a,i)=>{const el=document.createElement('a');el.className='card';el.href=`tango_p${P}_${a.g}_${M}.html`;
+    el.style.setProperty('--c1',a.c1);el.style.setProperty('--c2',a.c2);el.style.animationDelay=(i*0.06)+'s';
+    el.innerHTML=`<div><div class="no"><small>PROGRAM ${P}</small>${String(i+1).padStart(2,'0')}</div></div><div class="icon" style="animation-delay:${-i*0.3}s">${a.icon}</div>
+      <div><div class="name">${a.name}</div><div class="desc">${M==='en'?a.en:a.ja}</div><div class="foot"><span class="lv">${M==='en'?'🔤 英語版':'🇯🇵 日→英版'}</span><span class="go">▶</span></div></div>`;
+    grid.appendChild(el)});
+  document.getElementById('wl').innerHTML=WORDS['P'+P].map(([e,j])=>`<b>${e.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</b>　${j}`).join('<br>');
+  try{localStorage.setItem('tango_menu',JSON.stringify({P,M}))}catch(e){}
+}
+document.querySelectorAll('#selP button').forEach(b=>b.onclick=()=>{P=b.dataset.p;renderMenu()});
+document.querySelectorAll('#selM button').forEach(b=>b.onclick=()=>{M=b.dataset.m;renderMenu()});
+renderMenu();
+/* 星空 */
+const cv=document.getElementById('sky'),cx=cv.getContext('2d');let stars=[];
+function size(){cv.width=innerWidth*devicePixelRatio;cv.height=innerHeight*devicePixelRatio;
+  stars=Array.from({length:Math.min(160,Math.floor(innerWidth/7))},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,r:(Math.random()*1.6+.3)*devicePixelRatio,p:Math.random()*6.28,v:Math.random()*.25+.05}))}
+function draw(t){cx.clearRect(0,0,cv.width,cv.height);
+  for(const s of stars){s.y-=s.v*devicePixelRatio;if(s.y<0)s.y=cv.height;
+    cx.globalAlpha=.35+.65*Math.abs(Math.sin(t/900+s.p));cx.fillStyle='#fff';cx.beginPath();cx.arc(s.x,s.y,s.r,0,6.28);cx.fill()}
+  requestAnimationFrame(draw)}
+addEventListener('resize',size);size();
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches)requestAnimationFrame(draw);
+</script>
+<a href="typing_index.html" style="position:fixed;left:12px;bottom:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;background:rgba(20,14,50,.85);color:#fff;text-decoration:none;font:800 15px/1 'M PLUS Rounded 1c','Hiragino Kaku Gothic ProN','Meiryo',sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.4);border:2px solid rgba(255,255,255,.35)">◀ トップへ</a>
+</body>
+</html>
