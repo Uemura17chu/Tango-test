@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>リスニング＆スピーキングテスト</title>
+<style>
+  :root{--main:#2f6fdf;--ok:#1a9b5b;--ng:#d6453d;--bg:#f4f7fc;--card:#fff;--ink:#222}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink)}
+  .wrap{max-width:720px;margin:0 auto;padding:20px}
+  h1{font-size:24px;margin:8px 0 16px;text-align:center}
+  .card{background:var(--card);border-radius:18px;padding:24px;box-shadow:0 4px 16px rgba(0,0,0,.07);margin-bottom:16px}
+  .bar{height:10px;background:#dde5f3;border-radius:5px;overflow:hidden;margin-bottom:14px}
+  .bar>div{height:100%;background:var(--main);transition:width .3s}
+  .tag{display:inline-block;background:var(--main);color:#fff;border-radius:999px;padding:4px 12px;font-size:14px;margin-bottom:10px}
+  .q{font-size:22px;font-weight:bold;margin:12px 0 18px;line-height:1.5}
+  .hint{font-size:17px;color:#555;margin-bottom:14px}
+  button{font:inherit;border:none;border-radius:14px;padding:16px 20px;font-size:20px;cursor:pointer;width:100%;margin:6px 0;touch-action:manipulation}
+  .btn{background:var(--main);color:#fff;font-weight:bold}
+  .btn:disabled{background:#a9b8d4}
+  .sub{background:#e8eef9;color:var(--main)}
+  .choice{background:#fff;border:2px solid #c9d5ea;color:var(--ink);text-align:left}
+  .choice.ok{border-color:var(--ok);background:#e6f6ee}
+  .choice.ng{border-color:var(--ng);background:#fbe9e8}
+  .mic{background:var(--ng);color:#fff;font-weight:bold;font-size:24px;padding:22px}
+  .mic.rec{animation:pulse 1s infinite}
+  @keyframes pulse{50%{opacity:.6}}
+  input{font-size:28px;padding:12px;width:100%;border:2px solid #c9d5ea;border-radius:12px;text-align:center;letter-spacing:4px}
+  .msg{font-size:20px;font-weight:bold;margin:12px 0;min-height:28px}
+  .msg.ok{color:var(--ok)} .msg.ng{color:var(--ng)}
+  .heard{background:#f1f3f7;border-radius:10px;padding:10px 14px;font-size:18px;margin:8px 0;min-height:44px}
+  .status{font-size:14px;color:#777;text-align:center;margin-top:6px}
+  .score{font-size:64px;font-weight:bold;text-align:center;color:var(--main);margin:10px 0}
+  table{width:100%;border-collapse:collapse;font-size:18px}
+  td{padding:8px;border-bottom:1px solid #eee}
+  td:last-child{text-align:right;font-weight:bold}
+  .hide{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🎧 リスニング＆🎤 スピーキング</h1>
+  <div id="app"></div>
+  <div class="status" id="status"></div>
+</div>
+
+<script>
+/* =========================================================
+   ★ 問題はここだけ書きかえればOK ★
+   LISTENING: say = 読み上げる英文（配列にすると会話：交互に声の高さが変わる）
+              a = 正解の番号（0から数える）
+   SPEAKING : partner = 相手のセリフ / hint = 生徒への指示
+              ok = 合格とみなす答えの形（正規表現・小文字・記号なしで判定）
+   ========================================================= */
+const LISTENING = [
+  { say: ["I have two dogs. They are very cute."],
+    q: "話している人は犬を何匹飼っていますか。", choices: ["1匹", "2匹", "3匹"], a: 1 },
+  { say: ["I play tennis on Sundays."],
+    q: "この人はいつテニスをしますか。", choices: ["土曜日", "日曜日", "毎日"], a: 1 },
+  { say: ["My sister can play the guitar well."],
+    q: "ギターを上手にひけるのはだれですか。", choices: ["兄（弟）", "姉（妹）", "お父さん"], a: 1 },
+  { say: ["What do you have in your bag?", "I have a camera."],
+    q: "2人目の人のかばんには何が入っていますか。", choices: ["カメラ", "本", "ボール"], a: 0 },
+  { say: ["It's ten thirty. Let's go to the library."],
+    q: "今、何時ですか。", choices: ["10時13分", "10時30分", "3時10分"], a: 1 }
+];
+
+const SPEAKING = [
+  { partner: "Hello. How are you?",
+    hint: "元気かどうかを英語で答えよう。（例：I'm fine.）",
+    ok: /\b(i'm|im|i am) (fine|good|great|ok|okay|happy|tired|hungry|sleepy)\b/ },
+  { partner: "What's your name?",
+    hint: "自分の名前を文で答えよう。（例：My name is ～.）",
+    ok: /\b(my name is|i'm|im|i am) \w+/ },
+  { partner: "What sport do you like?",
+    hint: "好きなスポーツを答えよう。（例：I like ～.）",
+    ok: /\bi like \w+/ },
+  { partner: "Can you swim?",
+    hint: "Yes か No で答えよう。",
+    ok: /\b(yes i can|no i can't|no i cant|no i cannot|no i can not)\b/ },
+  { partner: "Do you have a pet?",
+    hint: "Yes か No で答えよう。",
+    ok: /\b(yes i do|no i don't|no i dont|no i do not)\b/ }
+];
+
+const PT_L = 10;          // リスニング1問の点
+const PT_S = 10;          // スピーキング1問の点
+const MAX_TRY = 3;        // スピーキングの挑戦回数
+const MAX_PLAY = 2;       // リスニングの再生回数
+const STORE_KEY = "lsTest_v1";
+/* ========================================================= */
+
+const app = document.getElementById("app");
+const statusEl = document.getElementById("status");
+const st = { num: "", li: 0, si: 0, lScore: 0, sScore: 0, tries: 0, plays: 0 };
+
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function norm(s){ return s.toLowerCase().replace(/[’`´]/g, "'").replace(/[^a-z' ]/g, " ").replace(/\s+/g, " ").trim(); }
+
+/* ---------- 保存（キャッシュ） ---------- */
+function loadAll(){ try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e){ return {}; } }
+function saveResult(rec){
+  try {
+    const all = loadAll();
+    const prev = all[st.num];
+    const best = prev && prev.best && prev.best.total >= rec.total ? prev.best : rec;
+    all[st.num] = { latest: rec, best };
+    localStorage.setItem(STORE_KEY, JSON.stringify(all));
+    return all[st.num];
+  } catch(e){ return null; }
+}
+
+/* ---------- 読み上げ ---------- */
+let voice = null;
+function pickVoice(){
+  const vs = speechSynthesis.getVoices();
+  voice = vs.find(v => v.lang === "en-US" && /Samantha|Google|Alex/i.test(v.name))
+       || vs.find(v => v.lang === "en-US") || vs.find(v => v.lang.startsWith("en")) || null;
+}
+if ("speechSynthesis" in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function speakLines(lines){
+  return new Promise(resolve => {
+    speechSynthesis.cancel();
+    lines.forEach((t, i) => {
+      const u = new SpeechSynthesisUtterance(t);
+      u.lang = "en-US"; if (voice) u.voice = voice;
+      u.rate = 0.85; u.pitch = (i % 2 === 0) ? 1.0 : 1.4;
+      if (i === lines.length - 1) u.onend = resolve;
+      speechSynthesis.speak(u);
+    });
+  });
+}
+
+/* ---------- 音声認識：①Safari標準 → ダメなら ②iPad内Whisper ---------- */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let engine = SR ? "web" : "whisper";
+let asr = null, asrLoading = null;
+
+function loadWhisper(){
+  if (asr) return Promise.resolve(asr);
+  if (asrLoading) return asrLoading;
+  statusEl.textContent = "音声認識を準備中…（初回だけ時間がかかります）";
+  asrLoading = import("https://cdn.jsdelivr.net/npm/@huggingface/transformers@3")
+    .then(m => m.pipeline("automatic-speech-recognition", "Xenova/whisper-tiny.en", {
+      dtype: "q8", device: "wasm",
+      progress_callback: p => { if (p.status === "progress" && p.progress) statusEl.textContent = "音声認識を準備中… " + Math.round(p.progress) + "%"; }
+    }))
+    .then(p => { asr = p; statusEl.textContent = "音声認識：iPad内で処理（準備完了）"; return p; })
+    .catch(e => { asrLoading = null; statusEl.textContent = "音声認識の準備に失敗：" + e.message; throw e; });
+  return asrLoading;
+}
+
+function listenWeb(){
+  return new Promise((resolve, reject) => {
+    const r = new SR();
+    r.lang = "en-US"; r.interimResults = false; r.maxAlternatives = 3; r.continuous = false;
+    let got = [], done = false;
+    const timer = setTimeout(() => { try { r.stop(); } catch(e){} }, 8000);
+    r.onresult = e => { for (const res of e.results) for (const alt of res) got.push(alt.transcript); };
+    r.onerror = e => { done = true; clearTimeout(timer); reject(e.error || "error"); };
+    r.onend = () => { clearTimeout(timer); if (!done) resolve(got); };
+    r.start();
+  });
+}
+
+let mr = null, chunks = [], recStream = null;
+async function startRecord(){
+  recStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  chunks = [];
+  mr = new MediaRecorder(recStream);
+  mr.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
+  mr.start();
+}
+function stopRecord(){
+  return new Promise(resolve => {
+    mr.onstop = () => { recStream.getTracks().forEach(t => t.stop()); resolve(new Blob(chunks, { type: mr.mimeType })); };
+    mr.stop();
+  });
+}
+async function to16k(blob){
+  const buf = await blob.arrayBuffer();
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const ab = await new Promise((res, rej) => ctx.decodeAudioData(buf, res, rej));
+  ctx.close();
+  const off = new OfflineAudioContext(1, Math.ceil(ab.duration * 16000), 16000);
+  const src = off.createBufferSource(); src.buffer = ab; src.connect(off.destination); src.start();
+  return (await off.startRendering()).getChannelData(0);
+}
+
+/* ---------- 画面：スタート ---------- */
+function showStart(){
+  app.innerHTML = `
+    <div class="card">
+      <div class="hint">出席番号（4けた）を入力してください。<br>例：1組5番 → <b>1105</b></div>
+      <input id="num" inputmode="numeric" maxlength="4" placeholder="1105">
+      <div class="msg ng" id="err"></div>
+      <button class="btn" id="go">スタート</button>
+      <div class="hint" style="margin-top:12px">🎧 リスニング ${LISTENING.length}問（${LISTENING.length*PT_L}点）＋ 🎤 スピーキング ${SPEAKING.length}問（${SPEAKING.length*PT_S}点）</div>
+    </div>`;
+  statusEl.textContent = engine === "web" ? "音声認識：Safari標準（使えないときは自動で切りかえ）" : "音声認識：iPad内で処理";
+  document.getElementById("go").onclick = () => {
+    const v = document.getElementById("num").value.trim();
+    if (!/^[1-3][1-9][0-4][0-9]$/.test(v) || v.endsWith("00")) { document.getElementById("err").textContent = "番号を正しく入れてね"; return; }
+    Object.assign(st, { num: v, li: 0, si: 0, lScore: 0, sScore: 0 });
+    if (engine === "whisper") loadWhisper().catch(() => {});
+    showListening();
+  };
+}
+
+/* ---------- 画面：リスニング ---------- */
+function progress(){
+  const total = LISTENING.length + SPEAKING.length;
+  const done = st.li + st.si;
+  return `<div class="bar"><div style="width:${done/total*100}%"></div></div>`;
+}
+function showListening(){
+  if (st.li >= LISTENING.length) return showSpeaking();
+  const item = LISTENING[st.li];
+  st.plays = 0;
+  app.innerHTML = `${progress()}
+    <div class="card">
+      <span class="tag">🎧 リスニング ${st.li+1} / ${LISTENING.length}</span>
+      <button class="sub" id="play">▶ 英語を聞く（あと${MAX_PLAY}回）</button>
+      <div class="q">${esc(item.q)}</div>
+      ${item.choices.map((c,i)=>`<button class="choice" data-i="${i}" disabled>${["ア","イ","ウ","エ"][i]}　${esc(c)}</button>`).join("")}
+      <div class="msg" id="msg"></div>
+      <button class="btn hide" id="next">次へ ▶</button>
+    </div>`;
+  const play = document.getElementById("play");
+  play.onclick = async () => {
+    if (st.plays >= MAX_PLAY) return;
+    st.plays++; play.disabled = true;
+    await speakLines(item.say);
+    play.textContent = st.plays >= MAX_PLAY ? "再生は終わりです" : `▶ もう一度聞く（あと${MAX_PLAY-st.plays}回）`;
+    play.disabled = st.plays >= MAX_PLAY;
+    document.querySelectorAll(".choice").forEach(b => b.disabled = false);
+  };
+  document.querySelectorAll(".choice").forEach(b => b.onclick = () => {
+    const i = +b.dataset.i;
+    document.querySelectorAll(".choice").forEach(x => x.disabled = true);
+    play.disabled = true; speechSynthesis.cancel();
+    const msg = document.getElementById("msg");
+    if (i === item.a){ b.classList.add("ok"); msg.className = "msg ok"; msg.textContent = "正解！ よく聞けたね！"; st.lScore += PT_L; }
+    else { b.classList.add("ng"); document.querySelector(`.choice[data-i="${item.a}"]`).classList.add("ok"); msg.className = "msg ng"; msg.textContent = "おしい！ 正解はこっち。"; }
+    const nx = document.getElementById("next"); nx.classList.remove("hide");
+    nx.onclick = () => { st.li++; showListening(); };
+  });
+}
+
+/* ---------- 画面：スピーキング ---------- */
+function showSpeaking(){
+  if (st.si >= SPEAKING.length) return showResult();
+  const item = SPEAKING[st.si];
+  st.tries = 0;
+  app.innerHTML = `${progress()}
+    <div class="card">
+      <span class="tag">🎤 スピーキング ${st.si+1} / ${SPEAKING.length}</span>
+      <button class="sub" id="play">▶ 相手の質問を聞く</button>
+      <div class="hint">${esc(item.hint)}</div>
+      <button class="mic" id="mic">🎤 タップして話す</button>
+      <div class="heard" id="heard">（ここにあなたの英語が出ます）</div>
+      <div class="msg" id="msg"></div>
+      <button class="btn hide" id="next">次へ ▶</button>
+      <button class="sub" id="skip">パスする（0点）</button>
+    </div>`;
+  const mic = document.getElementById("mic"), heard = document.getElementById("heard"), msg = document.getElementById("msg");
+  document.getElementById("play").onclick = () => speakLines([item.partner]);
+  document.getElementById("skip").onclick = () => { st.si++; showSpeaking(); };
+  let recording = false;
+
+  function judge(texts){
+    st.tries++;
+    const shown = texts[0] || "";
+    heard.textContent = shown ? "🗣 " + shown : "（聞きとれませんでした）";
+    const pass = texts.some(t => item.ok.test(norm(t)));
+    if (pass){
+      msg.className = "msg ok"; msg.textContent = "Great! 伝わったよ！"; st.sScore += PT_S;
+      finish();
+    } else if (st.tries >= MAX_TRY){
+      msg.className = "msg ng"; msg.textContent = "ここまで！ 次の問題でがんばろう。";
+      finish();
+    } else {
+      msg.className = "msg ng"; msg.textContent = `もう一回！（あと${MAX_TRY-st.tries}回）`;
+      mic.disabled = false; mic.textContent = "🎤 タップして話す";
+    }
+  }
+  function finish(){
+    mic.disabled = true; document.getElementById("skip").classList.add("hide");
+    const nx = document.getElementById("next"); nx.classList.remove("hide");
+    nx.onclick = () => { st.si++; showSpeaking(); };
+  }
+
+  mic.onclick = async () => {
+    speechSynthesis.cancel();
+    if (engine === "web"){
+      mic.disabled = true; mic.classList.add("rec"); mic.textContent = "● 聞いています…話してね";
+      try {
+        const texts = await listenWeb();
+        mic.classList.remove("rec"); judge(texts);
+      } catch(err){
+        mic.classList.remove("rec");
+        // Siri・音声入力が使えない → iPad内処理に切りかえ
+        engine = "whisper";
+        msg.className = "msg"; msg.textContent = "認識方法を切りかえます。準備ができたら、もう一度タップしてね。";
+        mic.textContent = "準備中…";
+        try { await loadWhisper(); mic.disabled = false; mic.textContent = "🎤 タップして話す"; msg.textContent = ""; }
+        catch(e){ msg.className = "msg ng"; msg.textContent = "音声認識が使えません。先生に伝えてください。"; }
+      }
+      return;
+    }
+    // Whisper：タップで録音開始 → もう一度タップで終了
+    if (!asr){
+      mic.disabled = true; mic.textContent = "準備中…";
+      try { await loadWhisper(); } catch(e){ msg.className = "msg ng"; msg.textContent = "音声認識が使えません。先生に伝えてください。"; return; }
+      mic.disabled = false; mic.textContent = "🎤 タップして話す"; return;
+    }
+    if (!recording){
+      try { await startRecord(); } catch(e){ msg.className = "msg ng"; msg.textContent = "マイクを許可してください。"; return; }
+      recording = true; mic.classList.add("rec"); mic.textContent = "● 録音中… 話し終わったらタップ";
+      mic._auto = setTimeout(() => { if (recording) mic.click(); }, 7000);
+    } else {
+      clearTimeout(mic._auto); recording = false;
+      mic.classList.remove("rec"); mic.disabled = true; mic.textContent = "文字にしています…";
+      try {
+        const blob = await stopRecord();
+        const audio = await to16k(blob);
+        const out = await asr(audio);
+        judge([(out && out.text || "").trim()]);
+      } catch(e){
+        msg.className = "msg ng"; msg.textContent = "うまく録音できませんでした。もう一度どうぞ。";
+        mic.disabled = false; mic.textContent = "🎤 タップして話す";
+      }
+    }
+  };
+}
+
+/* ---------- 画面：結果（キャッシュに保存） ---------- */
+function showResult(){
+  const total = st.lScore + st.sScore;
+  const max = LISTENING.length*PT_L + SPEAKING.length*PT_S;
+  const d = new Date();
+  const at = `${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,"0")}`;
+  const saved = saveResult({ total, listening: st.lScore, speaking: st.sScore, at });
+  app.innerHTML = `
+    <div class="card">
+      <div style="text-align:center;font-size:20px">出席番号 ${esc(st.num)}　総合得点</div>
+      <div class="score">${total}<span style="font-size:28px"> / ${max}</span></div>
+      <div class="msg ok" style="text-align:center">${total >= max*0.8 ? "すばらしい！ 英語で伝える力がついてるよ！" : total >= max*0.5 ? "いいね！ その調子！" : "チャレンジできたのがえらい！ もう一回やってみよう！"}</div>
+      <table>
+        <tr><td>🎧 リスニング</td><td>${st.lScore} / ${LISTENING.length*PT_L}</td></tr>
+        <tr><td>🎤 スピーキング</td><td>${st.sScore} / ${SPEAKING.length*PT_S}</td></tr>
+        ${saved ? `<tr><td>⭐ これまでの最高点</td><td>${saved.best.total}（${esc(saved.best.at)}）</td></tr>` : ""}
+      </table>
+      <div class="hint" style="margin-top:12px">${saved ? "✅ この端末に記録しました。" : "⚠ この端末には記録できませんでした（プライベートブラウズ等）。"}</div>
+      <button class="btn" id="again">もう一度チャレンジ</button>
+    </div>`;
+  document.getElementById("again").onclick = showStart;
+}
+
+showStart();
+</script>
+</body>
+</html>
