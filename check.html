@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ブラウザチェック</title>
+<style>
+  body{margin:0;font-family:-apple-system,"Hiragino Sans",sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center}
+  .box{padding:30px}
+  .icon{font-size:110px;line-height:1}
+  .big{font-size:40px;font-weight:bold;margin:20px 0;line-height:1.4}
+  .ua{font-size:11px;color:#555;word-break:break-all;margin-top:40px;max-width:640px}
+  .ok{background:#e3f7ea;color:#126b3a}
+  .ng{background:#fde4e2;color:#b3261e}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="icon" id="icon"></div>
+  <div class="big" id="msg"></div>
+  <div class="ua" id="ua"></div>
+</div>
+<script>
+  var ua = navigator.userAgent;
+  // Safari以外（Chrome・Edge・Firefox・アプリ内ブラウザなど）の印
+  var other = /(CriOS|FxiOS|EdgiOS|EdgA|Edg\/|OPiOS|OPR\/|Chrome|Chromium|GSA\/|Line\/|FBAN|FBAV|Instagram|Teams|YaBrowser|DuckDuckGo|Brave)/i.test(ua);
+  // 本物のSafariには「Version/」と「Safari/」が両方入る（アプリ内ブラウザには入らないことが多い）
+  var isSafari = !other && /Version\//.test(ua) && /Safari\//.test(ua) && /(iPad|iPhone|Macintosh)/.test(ua);
+
+  if (isSafari) {
+    document.body.className = "ok";
+    document.getElementById("icon").textContent = "✅";
+    document.getElementById("msg").innerHTML = "OK！<br>Safariで開けています。";
+  } else {
+    document.body.className = "ng";
+    document.getElementById("icon").textContent = "✋";
+    document.getElementById("msg").innerHTML = "Safariで開いていません。<br>先生に言ってください。";
+  }
+  document.getElementById("ua").textContent = ua;
+</script>
+</body>
+</html>
