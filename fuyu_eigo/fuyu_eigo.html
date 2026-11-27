@@ -52,7 +52,8 @@ table.t{width:100%;border-collapse:collapse;font-size:15px}table.t td{padding:6p
 </style>
 </head>
 <body>
-<div class="wrap"><div id="app"></div><div class="small" id="status" style="text-align:center;margin-top:8px"></div></div>
+<div class="wrap"><div id="app"></div>
+<button id="fab" style="display:none;position:fixed;right:14px;bottom:14px;width:auto;margin:0;padding:12px 16px;border-radius:999px;background:#fff;color:#2f6fdf;font-weight:bold;font-size:16px;box-shadow:0 3px 12px rgba(0,0,0,.25);z-index:50">📱 QR</button><div class="small" id="status" style="text-align:center;margin-top:8px"></div></div>
 <script>
 //---------------------------------------------------------------------
 //
@@ -12469,7 +12470,12 @@ const COURSE = ["ふつうコース", "難易度1.2倍コース"];
 const app = document.getElementById("app");
 const statusEl = document.getElementById("status");
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const show = h => { app.innerHTML = h; window.scrollTo(0, 0); };
+let fabOff = false;
+const show = (h, noFab) => {
+  app.innerHTML = h; window.scrollTo(0, 0);
+  const f = document.getElementById("fab");
+  if (f) f.style.display = (!noFab && st && st.num) ? "block" : "none";
+};
 const $ = id => document.getElementById(id);
 
 /* ---------- ブラウザ判定 ---------- */
@@ -12607,12 +12613,12 @@ function start() {
 }
 function route() {
   if (!st || !st.num) return showRegister();
-  if (st.prog && st.prog.type === "pre" && !st.pre) return runTest("pre");
-  if (!st.pre) return showTestIntro("pre");
-  if (st.yes === null) return showAsk(0, 0);
   showHome();
 }
-
+function startPre() {
+  if (st.prog && st.prog.type === "pre") return runTest("pre");
+  showTestIntro("pre");
+}
 /* ---------- 登録 ---------- */
 function showRegister() {
   show(`<div style="position:fixed;inset:0;z-index:-1;background:url(img/mountain.jpg) center top/cover no-repeat"></div>
@@ -12641,7 +12647,7 @@ function showRegister() {
     if (n === "1805") { $("err").textContent = "1805は例の番号なので使えません。自分の出席番号を入れてね"; return; }
     if (n !== "1806" && !/^[1-3][1-7](0[1-9]|[1-3][0-9]|40)$/.test(n)) { $("err").textContent = "その番号はありません。もう一度確かめてね"; return; }
     if (!nm) { $("err").textContent = "名前を入れてね"; return; }
-    st = blank(); st.num = n; st.nm = nm; save(); route();
+    st = blank(); st.num = n; st.nm = nm; save(); showTestIntro("pre");
   };
   $("restore").onclick = showRestore;
 }
@@ -12663,10 +12669,10 @@ function showTestIntro(type) {
     <div class="hint">${pre ? "宿題を始める前に、今の英語の力をはかります。" : "冬休みの宿題で、どれだけ伸びたかをはかります。"}</div>
     <div class="hint">・英語を聞いて、答えを選ぶ問題が <b>20問</b><br>・英語は1問につき <b>3回</b> まで聞ける<br>・1問ずつの正解は出ません。最後に点数が出ます<br>・<b>やり直しはできません</b>。落ちついて、静かなところでやろう</div>
     <button class="btn" id="go">スタート</button>
-    ${pre ? "" : '<button class="sub" id="back">もどる</button>'}
+    <button class="sub" id="back">成果画面へもどる</button>
   </div>`);
   $("go").onclick = () => { st.prog = {type, i: 0, ans: []}; save(); runTest(type); };
-  if (!pre) $("back").onclick = showHome;
+  $("back").onclick = showHome;
 }
 function runTest(type) {
   const Q = DATA[type], pr = st.prog;
@@ -12681,7 +12687,9 @@ function runTest(type) {
     <div class="q">${esc(item.q)}</div>
     ${item.c.map((c, i) => `<button class="choice" data-i="${i}" disabled>${"アイウ"[i]}　${esc(c)}</button>`).join("")}
     <button class="btn" id="next" disabled>決定して次へ ▶</button>
+    <button class="ghost" id="quit">中断する（続きから再開できます）</button>
   </div>`);
+  $("quit").onclick = () => { speechSynthesis.cancel(); showPaused(type); };
   const play = $("play");
   play.onclick = async () => {
     if (plays >= MAX_PLAY) return; plays++; play.disabled = true;
@@ -12697,6 +12705,17 @@ function runTest(type) {
     if (picked < 0) return; speechSynthesis.cancel();
     pr.ans.push(picked === item.a ? 1 : 0); pr.i++; save(); runTest(type);
   };
+}
+function showPaused(type) {
+  const pr = st.prog;
+  show(`<div class="card" style="text-align:center">
+    <div style="font-size:56px">⏸</div>
+    <div class="q">ここまで保存しました</div>
+    <div class="hint">${pr.i}問目まで答えています。次に開いたときは ${pr.i + 1}問目から始まります。</div>
+    <button class="btn" id="go">続きをする</button>
+    <button class="sub" id="home">成果画面へ</button></div>`);
+  $("go").onclick = () => runTest(type);
+  $("home").onclick = showHome;
 }
 function showRest(type) {
   show(`<div class="card" style="text-align:center">
@@ -12823,6 +12842,8 @@ function showHome() {
     </div>
     <div class="small" style="margin-top:6px">はじめの力だめし：${st.pre ? st.pre.sc + "点" : "-"}　／　さいごの力だめし：${st.post ? st.post.sc + "点" : "-"}　／　★ ${allStars}　／　✈ ${cities} / 20都市</div>
   </div>
+  ${!st.pre ? `<div class="card" style="text-align:center;border:3px solid var(--main)"><div class="q" style="margin:4px 0">まずは「0日目 はじめの力だめし」から！</div><div class="hint">これが終わると、1日目からの宿題が始められます。</div><button class="btn" id="pre0">⛰ ${st.prog && st.prog.type === "pre" ? `はじめの力だめし　つづきから（${st.prog.i + 1}問目）` : "0日目　はじめの力だめしを始める"}</button></div>`
+    : st.yes === null ? `<div class="card" style="text-align:center;border:3px solid var(--main)"><div class="q" style="margin:4px 0">次はコースを選ぼう</div><button class="btn" id="ask0">コースを選ぶ</button></div>` : ""}
   <div class="card" style="padding:12px">${mapSVG()}
     <div class="small" style="margin-top:6px;text-align:center">${cities >= 20 ? "世界一周 達成！" : `次の行き先：${esc(TRIP[cities][0])}（${esc(TRIP[cities][4])}）`}　<a href="#" id="pp">スタンプ帳を見る</a></div></div>
   <div class="card">
@@ -12835,7 +12856,9 @@ function showHome() {
     <button class="sub" id="qr">📱 成果QR（提出・保存・スマホへ移す）</button>
     <button class="sub" id="rs">🖼 QRの写真から記録を戻す・合わせる</button>
   </div>`);
-  document.querySelectorAll(".row.tap").forEach(r => r.onclick = () => dayMenu(+r.dataset.d));
+  document.querySelectorAll(".row.tap").forEach(r => r.onclick = () => !st.pre ? startPre() : st.yes === null ? showAsk(0, 0) : dayMenu(+r.dataset.d));
+  if ($("pre0")) $("pre0").onclick = startPre;
+  if ($("ask0")) $("ask0").onclick = () => showAsk(0, 0);
   $("cc").onclick = showCourseChange;
   $("qr").onclick = () => showQR("");
   $("rs").onclick = showRestore;
@@ -12942,7 +12965,9 @@ function speakOne(item, label, onPass, onSkip, skipText) {
     <div class="msg" id="msg"></div>
     <div id="mhelp"></div>
     <button class="ghost" id="skip">${skipText}</button>
+    <button class="ghost" id="pause">中断する（続きから再開できます）</button>
   </div>`);
+  $("pause").onclick = () => { speechSynthesis.cancel(); showHome(); };
   const mic = $("mic"), heard = $("heard"), msg = $("msg");
   $("play").onclick = () => speak([item.q]);
   $("skip").onclick = () => { speechSynthesis.cancel(); onSkip(); };
@@ -13095,7 +13120,9 @@ function runMemory(d, city) {
     <div class="hint">英語と意味のペアをそろえよう。</div>
     <div id="grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">${cards.map((k, n) => `<button class="mc" data-n="${n}" style="margin:0;min-height:74px;padding:6px;font-size:16px;background:#2f6fdf;color:#fff;border-radius:12px">？</button>`).join("")}</div>
     <div class="msg" id="msg"></div>
-    <button class="ghost" id="skip">神経衰弱を飛ばす（つづりへ）</button></div>`);
+    <button class="ghost" id="skip">神経衰弱を飛ばす（つづりへ）</button>
+    <button class="ghost" id="pause">中断する（続きから再開できます）</button></div>`);
+  $("pause").onclick = showHome;
   const btns = [...document.querySelectorAll(".mc")];
   btns.forEach(b => b.onclick = () => {
     const n = +b.dataset.n, k = cards[n];
@@ -13221,8 +13248,8 @@ function showQR(kind) {
     <tr><td>さいごの力だめし</td><td colspan="4">${st.post ? st.post.sc + "点（" + fmtDate(st.post.ts) + "）" : "-"}</td></tr>
     <tr><td>単語の旅</td><td colspan="4">${Math.floor(st.tp / 8)} / 20都市</td></tr>
     ${rows}</table>
-    <button class="btn" id="home">成果画面へ</button></div>`);
-  $("home").onclick = showHome;
+    <button class="btn" id="home">もどる</button></div>`, true);
+  $("home").onclick = route;
 }
 
 /* ---------- 写真から戻す ---------- */
@@ -13231,8 +13258,8 @@ function showRestore() {
     <div class="hint">保存しておいた成果QRのスクリーンショットを選んでね。何枚選んでもOK。いちばん新しい日付のものを自動で使います。</div>
     <input type="file" id="f" accept="image/*" multiple style="font-size:16px">
     <div class="msg" id="msg"></div>
-    <button class="sub" id="back">もどる</button></div>`);
-  $("back").onclick = () => st && st.num ? showHome() : showRegister();
+    <button class="sub" id="back">もどる</button></div>`, true);
+  $("back").onclick = route;
   $("f").onchange = async e => {
     const files = [...e.target.files]; const m = $("msg"); m.className = "msg"; m.textContent = "読み取り中…";
     const found = [];
@@ -13270,6 +13297,25 @@ function confirmImport(list) {
   $("no").onclick = route;
 }
 
+function showQRMenu() {
+  speechSynthesis.cancel();
+  show(`<h1>📱 QR</h1><div class="card">
+    <div class="hint">記録はいつでも、ほかの端末（スマホ・iPad）に移したり、取りこんだりできます。やりかけの問題は、もどると続きから再開できます。</div>
+    <button class="btn" id="m1">成果QRを出す（保存・提出・ほかの端末へ移す）</button>
+    <button class="sub" id="m2">QRの写真から記録を取りこむ・合わせる</button>
+    <div class="hint small">ほかの端末で出したQRは、この端末のカメラで写しても取りこめます。</div>
+    <button class="ghost" id="m3">もどる</button></div>`, true);
+  $("m1").onclick = () => showQR("");
+  $("m2").onclick = showRestore;
+  $("m3").onclick = route;
+}
+document.getElementById("fab").onclick = showQRMenu;
+window.addEventListener("hashchange", () => {
+  if (!location.hash.includes("q=")) return;
+  const p = parsePayload(location.hash);
+  history.replaceState(null, "", baseURL());
+  if (p && !p.bad) { speechSynthesis.cancel(); confirmImport([p]); }
+});
 start();
 </script>
 </body>
