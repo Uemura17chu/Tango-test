@@ -12604,16 +12604,12 @@ function route() {
 
 /* ---------- 登録 ---------- */
 function showRegister() {
-  show(`<div style="position:fixed;inset:0;z-index:-1;background:url(img/mountain.jpg) center/cover no-repeat"></div>
-  <div style="text-align:center;padding:4px 0 8px">
-    <div style="display:inline-block;background:rgba(255,255,255,.9);border-radius:14px;padding:6px 16px;box-shadow:0 3px 12px rgba(0,0,0,.15)">
-      <span style="font-size:clamp(17px,4.4vw,24px);font-weight:bold;white-space:nowrap">❄ 冬休み 英語リスニング＆スピーキング</span>
-    </div>
-  </div>
-  <div class="card" style="background:rgba(255,255,255,.95);padding:14px 16px;margin-bottom:0">
+  show(`<div style="position:fixed;inset:0;z-index:-1;background:url(img/mountain.jpg) center top/cover no-repeat"></div>
+  <div class="card" id="regcard" style="background:rgba(255,255,255,.95);padding:14px 16px;margin:clamp(150px,30vh,360px) 0 0;transition:margin-top .25s">
+    <div style="text-align:center;font-size:clamp(18px,3.6vw,24px);font-weight:bold;margin-bottom:8px;white-space:nowrap">❄ 冬休み 英語リスニング＆スピーキング</div>
     <div class="notice" style="font-size:14px;padding:8px 12px;margin-bottom:10px">名前をはじめ、記入されるデータは、本体のキャッシュに保存されるのみで、外部には発信されません。<b>キャッシュを削除すると、全ての記録が消えるので、削除しないでください。</b></div>
     <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:10px;align-items:end">
-      <div><div class="hint" style="margin:0;font-size:14px">出席番号（例：1組5番→1105）</div><input id="num" inputmode="numeric" maxlength="4" placeholder="1105" style="margin:4px 0 0"></div>
+      <div><div class="hint" style="margin:0;font-size:14px">出席番号（例：1年8組05番→1805）</div><input id="num" inputmode="numeric" maxlength="4" placeholder="1805" style="margin:4px 0 0"></div>
       <div><div class="hint" style="margin:0;font-size:14px">名前（フルネーム・漢字）</div><input id="nm" maxlength="20" placeholder="豊中 太郎" style="margin:4px 0 0"></div>
     </div>
     <div class="msg ng" id="err" style="min-height:0;margin:6px 0 0"></div>
@@ -12622,9 +12618,17 @@ function showRegister() {
       <button class="sub" id="restore" style="margin:0;font-size:15px">前の記録をQRの写真から戻す</button>
     </div>
   </div>`);
+  // 入力中（キーボードが出ている間）だけ、入力欄を上に寄せてスクロールしなくてよいようにする
+  const card = $("regcard"), base = card.style.marginTop;
+  ["num", "nm"].forEach(id => {
+    $(id).addEventListener("focus", () => { card.style.marginTop = "4px"; window.scrollTo(0, 0); });
+    $(id).addEventListener("blur", () => setTimeout(() => { if (!["num", "nm"].includes(document.activeElement && document.activeElement.id)) card.style.marginTop = base; }, 50));
+  });
   $("go").onclick = () => {
     const n = $("num").value.trim(), nm = $("nm").value.trim();
-    if (!/^[1-3][1-9][0-4][0-9]$/.test(n) || n.endsWith("00")) { $("err").textContent = "出席番号を正しく入れてね"; return; }
+    if (!/^\d{4}$/.test(n)) { $("err").textContent = "出席番号を4けたの数字で入れてね（例：1805）"; return; }
+    if (n === "1805") { $("err").textContent = "1805は例の番号なので使えません。自分の出席番号を入れてね"; return; }
+    if (n !== "1806" && !/^[1-3][1-7](0[1-9]|[1-3][0-9]|40)$/.test(n)) { $("err").textContent = "その番号はありません。もう一度確かめてね"; return; }
     if (!nm) { $("err").textContent = "名前を入れてね"; return; }
     st = blank(); st.num = n; st.nm = nm; save(); route();
   };
