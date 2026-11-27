@@ -42,7 +42,7 @@ input{font-size:24px;padding:12px;width:100%;border:2px solid #c9d5ea;border-rad
 .stage img.bgimg{width:100%;display:block}
 .stage img.hiker{position:absolute;transform:translate(-50%,-100%);transition:left .6s,top .6s,width .6s;filter:drop-shadow(0 2px 2px rgba(0,0,0,.3))}
 .scene{width:100%;border-radius:14px;display:block;margin-bottom:12px}
-.qrbox{text-align:center}.qrbox img{width:min(88vw,460px);border:10px solid #fff}
+.qrbox{text-align:center}.qrbox img{width:min(88vw,460px);height:auto;border:10px solid #fff;background:#fff;image-rendering:pixelated;image-rendering:crisp-edges}
 .date{font-size:30px;font-weight:bold;color:var(--ng);text-align:center}
 table.t{width:100%;border-collapse:collapse;font-size:15px}table.t td{padding:6px 4px;border-bottom:1px solid #eee}
 .ladder{display:flex;justify-content:center;gap:6px;margin:6px 0 14px}.ladder span{width:34px;height:8px;border-radius:4px;background:#dde5f3}.ladder span.on{background:var(--main)}
@@ -13231,7 +13231,7 @@ function showPassport() {
 function showQR(kind) {
   const url = baseURL() + "#q=" + payload();
   let img = "";
-  try { const q = qrcode(0, "M"); q.addData(url); q.make(); img = q.createDataURL(10, 4); }
+  try { const q = qrcode(0, "M"); q.addData(url); q.make(); img = q.createDataURL(10, 40); }
   catch (e) { img = ""; }
   const now = Date.now(), ach = Object.keys(st.d).filter(i => dayDone(+i)).length;
   let rows = "";
@@ -13255,33 +13255,85 @@ function showQR(kind) {
 /* ---------- 写真から戻す ---------- */
 function showRestore() {
   show(`<h1>QRの写真から記録を戻す</h1><div class="card">
-    <div class="hint">保存しておいた成果QRのスクリーンショットを選んでね。何枚選んでもOK。いちばん新しい日付のものを自動で使います。</div>
+    <div class="hint">保存しておいた成果QRのスクリーンショットや写真を選んでね。何枚選んでもOK。いちばん新しい日付のものを自動で使います。</div>
     <input type="file" id="f" accept="image/*" multiple style="font-size:16px">
     <div class="msg" id="msg"></div>
     <button class="sub" id="back">もどる</button></div>`, true);
   $("back").onclick = route;
   $("f").onchange = async e => {
-    const files = [...e.target.files]; const m = $("msg"); m.className = "msg"; m.textContent = "読み取り中…";
-    const found = [];
-    for (const f of files) { const code = await readQR(f); if (code) { const p = parsePayload(code); if (p && !p.bad) found.push(p); } }
-    if (!found.length) { m.className = "msg ng"; m.textContent = "成果QRが見つかりませんでした。別の写真を選んでね。"; return; }
-    confirmImport(found);
+    const files = [...e.target.files], m = $("msg");
+    if (!files.length) return;
+    const found = []; let noImg = 0, noQR = 0, badData = 0;
+    for (let k = 0; k < files.length; k++) {
+      m.className = "msg"; m.textContent = `読み取り中… ${k + 1} / ${files.length}枚目`;
+      let r;
+      try { r = await readQR(files[k], t => { m.textContent = `読み取り中… ${k + 1} / ${files.length}枚目（${t}）`; }); }
+      catch (err) { r = {err: "img"}; }
+      if (r.err === "img") { noImg++; continue; }
+      if (r.err === "noqr") { noQR++; continue; }
+      const p = parsePayload(r.data);
+      if (p && !p.bad) found.push(p); else badData++;
+    }
+    if (found.length) return confirmImport(found);
+    m.className = "msg ng";
+    m.textContent = badData ? "QRコードは検出しましたが、学習記録を解析できませんでした（このアプリの成果QRではないか、古い版のQRです）"
+      : noQR ? "QRコードを検出できませんでした。QRが大きく、まっすぐ写っている写真を選んでね"
+      : "画像を読み込めませんでした。別の写真を選んでね";
   };
 }
-function readQR(file) {
-  return new Promise(res => {
-    const img = new Image(), url = URL.createObjectURL(file);
-    img.onload = () => {
-      const s = Math.min(1, 2600 / Math.max(img.width, img.height));
-      const c = document.createElement("canvas"); c.width = img.width * s; c.height = img.height * s;
-      const g = c.getContext("2d"); g.drawImage(img, 0, 0, c.width, c.height);
-      const d = g.getImageData(0, 0, c.width, c.height); URL.revokeObjectURL(url);
-      let r = window.jsQR ? jsQR(d.data, c.width, c.height, {inversionAttempts: "attemptBoth"}) : null;
-      if (!r && window.jsQR) { const c2 = document.createElement("canvas"); c2.width = Math.round(c.width / 2); c2.height = Math.round(c.height / 2); const g2 = c2.getContext("2d"); g2.imageSmoothingEnabled = true; g2.drawImage(c, 0, 0, c2.width, c2.height); const d2 = g2.getImageData(0, 0, c2.width, c2.height); r = jsQR(d2.data, c2.width, c2.height); }
-      res(r ? r.data : null);
-    };
-    img.onerror = () => res(null); img.src = url;
+/* 写真からQRを読む：小さく・簡単な処理から順に試し、読めた時点で終了。途中で画面を更新する */
+function loadImage(file) {
+  return new Promise((res, rej) => {
+    if (window.createImageBitmap) {
+      createImageBitmap(file, {imageOrientation: "from-image"}).then(res).catch(() => fallback());
+    } else fallback();
+    function fallback() {
+      const img = new Image(), url = URL.createObjectURL(file);
+      img.onload = () => { URL.revokeObjectURL(url); res(img); };
+      img.onerror = () => { URL.revokeObjectURL(url); rej("img"); };
+      img.src = url;
+    }
   });
+}
+function enhance(id) {
+  const d = id.data; let lo = 255, hi = 0;
+  for (let i = 0; i < d.length; i += 4) { const y = (d[i] * 299 + d[i + 1] * 587 + d[i + 2] * 114) / 1000; d[i] = y; if (y < lo) lo = y; if (y > hi) hi = y; }
+  const span = Math.max(1, hi - lo);
+  for (let i = 0; i < d.length; i += 4) { const v = Math.max(0, Math.min(255, (d[i] - lo) * 255 / span)); d[i] = d[i + 1] = d[i + 2] = v; }
+  return id;
+}
+async function readQR(file, progress) {
+  if (!window.jsQR) return {err: "noqr"};
+  let img;
+  try { img = await loadImage(file); } catch (e) { return {err: "img"}; }
+  const iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
+  if (!iw || !ih) return {err: "img"};
+  const canvas = document.createElement("canvas"), ctx = canvas.getContext("2d", {willReadFrequently: true});
+  const crops = [[0, 0, 1, 1], [0.1, 0.1, 0.8, 0.8], [0.05, 0.15, 0.9, 0.6]];
+  const sizes = [800, 1100, 600, 1500, 450];
+  let n = 0; const total = crops.length * sizes.length * 2;
+  for (const c of crops) {
+    const sx = Math.round(iw * c[0]), sy = Math.round(ih * c[1]), sw = Math.round(iw * c[2]), sh = Math.round(ih * c[3]);
+    for (const size of sizes) {
+      const sc = Math.min(1, size / Math.max(sw, sh));
+      canvas.width = Math.max(1, Math.round(sw * sc)); canvas.height = Math.max(1, Math.round(sh * sc));
+      ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+      for (const mode of [0, 1]) {
+        n++;
+        if (n % 3 === 1) { progress && progress(Math.round(n * 100 / total) + "%"); await new Promise(r => setTimeout(r, 0)); }
+        try {
+          let id = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          if (mode) id = enhance(id);
+          const r = jsQR(id.data, id.width, id.height, {inversionAttempts: mode ? "attemptBoth" : "dontInvert"});
+          if (r && r.data) { if (img.close) img.close(); return {data: r.data}; }
+        } catch (e) {}
+      }
+    }
+  }
+  if (img.close) img.close();
+  return {err: "noqr"};
 }
 function confirmImport(list) {
   const p = list.sort((a, b) => b.t - a.t)[0];
@@ -13293,7 +13345,7 @@ function confirmImport(list) {
   show(`<div class="card"><div class="q">${esc(p.nm)}さん（出席番号${esc(p.n)}）の記録を取りこみますか？</div>
     <div class="hint">QRの日付：${fmtDate(p.t)}　／　${days}日分まで${list.length > 1 ? `<br>（${list.length}枚のうち、いちばん新しいものを使います）` : ""}<br>この端末の記録と合わせて、日ごとに良いほうを残します。</div>
     <button class="btn" id="yes">取りこむ</button><button class="sub" id="no">やめる</button></div>`);
-  $("yes").onclick = () => { merge(p); alertBox(fmtDate(p.t) + "のデータで記録を合わせました。", route); };
+  $("yes").onclick = () => { merge(p); alertBox("学習記録の復元に成功しました（" + fmtDate(p.t) + "のデータで記録を合わせました）", route); };
   $("no").onclick = route;
 }
 
