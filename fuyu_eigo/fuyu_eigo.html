@@ -12494,22 +12494,33 @@ const fmtDate = ts => { const d = new Date(ts); return (d.getMonth() + 1) + "月
 function fnv(s) { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; } return h.toString(16); }
 const b64e = s => btoa(unescape(encodeURIComponent(s))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 const b64d = s => decodeURIComponent(escape(atob(s.replace(/-/g, "+").replace(/_/g, "/"))));
-function payload() {
-  const p = {v: 2, n: st.num, nm: st.nm, t: Date.now(), c: st.course, tp: st.tp,
-    pre: st.pre ? [st.pre.sc, st.pre.ts] : null,
-    post: st.post ? [st.post.sc, st.post.ts, st.post.done] : null,
-    d: []};
-  for (let i = 1; i <= 20; i++) { const x = st.d[i]; p.d.push([x.c, x.l, x.k, x.s, x.b, x.r, x.w]); }
-  const body = JSON.stringify(p);
-  return b64e(JSON.stringify({p: body, h: fnv(body + SALT)}));
+const nameEnc = s => b64e(s), nameDec = s => b64d(s);
+function payloadStr() {
+  let days = "";
+  for (let i = 1; i <= 20; i++) {
+    const x = st.d[i];
+    days += (x.c + 2 * x.k + 4 * x.s).toString(36) + x.l.toString(36) + x.b.toString(16).padStart(2, "0") + x.r.toString(36) + x.w.toString(36);
+  }
+  days = days.replace(/0+$/, "");
+  const f = [3, st.num, nameEnc(st.nm), Date.now().toString(36), st.course, (st.tp || 0).toString(36),
+    st.pre ? st.pre.sc.toString(36) + "-" + st.pre.ts.toString(36) : "",
+    st.post ? st.post.sc.toString(36) + "-" + st.post.ts.toString(36) + "-" + st.post.done.toString(36) : "", days].join(".");
+  return f + "." + parseInt(fnv(f + SALT), 16).toString(36);
 }
+function payload() { return payloadStr(); }
 function parsePayload(code) {
   try {
-    const m = String(code).match(/[#&]d=([A-Za-z0-9_-]+)/); if (!m) return null;
-    const o = JSON.parse(b64d(m[1]));
-    if (fnv(o.p + SALT) !== o.h) return {bad: true};
-    const p = JSON.parse(o.p); if (p.v !== 2 || !Array.isArray(p.d) || p.d.length !== 20) return null;
-    return p;
+    const m = String(code).match(/[#&]q=([A-Za-z0-9_.-]+)/); if (!m) return null;
+    const f = m[1].split("."); if (f.length !== 10 || f[0] !== "3") return null;
+    const body = f.slice(0, 9).join(".");
+    if (parseInt(fnv(body + SALT), 16).toString(36) !== f[9]) return {bad: true};
+    const days = f[8].padEnd(120, "0"), d = [];
+    for (let i = 0; i < 20; i++) {
+      const g = days.substr(i * 6, 6), a = parseInt(g[0], 36);
+      d.push([a & 1, parseInt(g[1], 36), (a >> 1) & 1, a >> 2, parseInt(g.substr(2, 2), 16), parseInt(g[4], 36), parseInt(g[5], 36)]);
+    }
+    const pr = f[6] ? f[6].split("-").map(x => parseInt(x, 36)) : null, po = f[7] ? f[7].split("-").map(x => parseInt(x, 36)) : null;
+    return {v: 3, n: f[1], nm: nameDec(f[2]), t: parseInt(f[3], 36), c: +f[4], tp: parseInt(f[5], 36), pre: pr, post: po, d};
   } catch (e) { return null; }
 }
 function baseURL() { return location.href.split("#")[0]; }
@@ -12589,7 +12600,7 @@ function start() {
     show(`<div class="card" style="text-align:center"><div style="font-size:90px">✋</div><div class="q" style="font-size:28px">Safariで開いていません。<br>先生に言ってください。</div><div class="small" style="word-break:break-all">${esc(UA)}</div></div>`);
     return;
   }
-  const p = location.hash.includes("d=") ? parsePayload(location.hash) : null;
+  const p = location.hash.includes("q=") ? parsePayload(location.hash) : null;
   if (location.hash) history.replaceState(null, "", baseURL());
   if (p) return confirmImport([p]);
   route();
@@ -13191,9 +13202,9 @@ function showPassport() {
 
 /* ---------- 成果QR ---------- */
 function showQR(kind) {
-  const url = baseURL() + "#d=" + payload();
+  const url = baseURL() + "#q=" + payload();
   let img = "";
-  try { const q = qrcode(0, "L"); q.addData(url); q.make(); img = q.createDataURL(8, 4); }
+  try { const q = qrcode(0, "M"); q.addData(url); q.make(); img = q.createDataURL(10, 4); }
   catch (e) { img = ""; }
   const now = Date.now(), ach = Object.keys(st.d).filter(i => dayDone(+i)).length;
   let rows = "";
