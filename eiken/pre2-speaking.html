@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>準2級 面接トレーナー</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&family=Archivo:wght@500;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: 面接室の緊張を、やさしい先輩コーチが横でほどく。短く、即褒め。
+   IDEA: 英検の「問題カード」と面接官のやりとりそのもの。
+   PICTURE: カード（タイトル・本文・イラストA/B）が画面の主役。
+   COLOUR and TYPE: 白い紙のカード、墨の文字、朱色アクセント #d7262f、面接室の壁の青灰ではなく温かい生成り地。M PLUS Rounded + Archivo。
+   LAYOUT: 上に進行バー、中央にカード、下に大きな操作ボタン。600px以下は縦積み。 */
+:root{color-scheme:light dark;--bg:light-dark(#f4efe6,#16181c);--card:light-dark(#fff,#23262c);--ink:light-dark(#1c1c1c,#eceae4);--sub:light-dark(#6a655c,#a7a39a);--line:light-dark(#ddd5c6,#3a3d44);--red:#d7262f;--ok:#1f8a4c;--soft:light-dark(#fbe9e6,#3a2224)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "M PLUS Rounded 1c",system-ui,sans-serif;overflow-x:clip}
+.en{font-family:Archivo,"M PLUS Rounded 1c",sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:16px max(4vw,14px) 120px}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.1;margin:8px 0 4px;font-weight:800}
+.lead{color:var(--sub);margin:0 0 18px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+button{font:inherit;font-weight:800;border:0;border-radius:14px;min-height:46px;padding:10px 18px;cursor:pointer;background:var(--card);color:var(--ink);box-shadow:0 0 0 2px var(--line) inset}
+button:focus-visible,input:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+button.main{background:var(--red);color:#fff;box-shadow:none;font-size:18px;padding:12px 26px}
+button.on{background:var(--ink);color:var(--bg);box-shadow:none}
+button:disabled{opacity:.4;cursor:default}
+input{font:inherit;font-size:16px;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);min-height:46px}
+.panel{background:var(--card);border-radius:18px;padding:16px;box-shadow:0 1px 0 var(--line),0 8px 24px rgba(0,0,0,.06)}
+.sets{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:12px;margin-top:14px}
+.set{text-align:left;padding:16px;min-height:96px;display:block}
+.set b{display:block;font-size:18px}.set small{color:var(--sub);font-weight:500}
+.best{float:right;color:var(--red);font-size:14px}
+.steps{display:flex;gap:4px;margin:6px 0 12px;overflow-x:auto}
+.steps span{flex:1 0 auto;font-size:13px;padding:4px 8px;border-radius:8px;background:var(--line);color:var(--sub);text-align:center;white-space:nowrap}
+.steps span.now{background:var(--red);color:#fff}.steps span.done{background:var(--ink);color:var(--bg)}
+.exam{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+.face{flex:none;width:52px;height:52px;border-radius:50%;background:#2f4b6e;display:grid;place-items:center}
+.bubble{flex:1;background:var(--card);border-radius:4px 18px 18px 18px;padding:12px 14px;box-shadow:0 0 0 2px var(--line) inset;min-height:52px}
+.bubble .en{font-size:17px}
+.hid{filter:blur(6px);user-select:none}
+.mini{font-size:13px;color:var(--sub)}
+.card{background:#fff;color:#1c1c1c;border-radius:10px;padding:16px;box-shadow:0 2px 0 #d8d0c0,0 10px 30px rgba(0,0,0,.12);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;transition:opacity .3s}
+.card h2{grid-column:1/-1;text-align:center;font:800 20px/1.2 Archivo,sans-serif;margin:0}
+.card p.en{grid-column:1/-1;margin:0;font-size:17px;line-height:1.75}
+.pic{position:relative;border:2px solid #1c1c1c;border-radius:6px;overflow:hidden;aspect-ratio:400/230}
+.pic svg{position:absolute;inset:0;width:100%;height:100%}
+.pic i{position:absolute;left:6px;top:4px;font:800 14px Archivo;font-style:normal;background:#fff;padding:0 6px;border:2px solid #1c1c1c;border-radius:4px}
+.turned{display:grid;place-items:center;min-height:180px;background:repeating-linear-gradient(45deg,#e9e2d4 0 12px,#e2dac9 12px 24px);color:#6a655c;font-weight:800}
+.bar{height:10px;border-radius:6px;background:var(--line);overflow:hidden;margin:12px 0 6px}
+.bar div{height:100%;width:0;background:var(--ok);transition:width .25s linear}
+.bar.over div{background:var(--red)}
+.ctrl{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);padding:10px max(4vw,14px) calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}
+.ctrl .row{max-width:980px;margin:0 auto}
+.ctrl .main{flex:1 1 220px}
+.model{margin-top:12px;border-left:5px solid var(--ok);background:var(--card);border-radius:0 14px 14px 0;padding:12px 14px}
+.model h3{margin:0 0 4px;font-size:16px}
+.model .en{font-size:17px;margin:4px 0}
+.tip{font-size:14px;color:var(--sub);margin:6px 0 0}
+.rate{margin-top:8px}.rate button{min-height:44px;padding:6px 14px;font-size:15px}
+.rate button.sel{background:var(--ok);color:#fff;box-shadow:none}
+.praise{font-size:clamp(22px,4vw,30px);font-weight:800;line-height:1.3;margin:10px 0}
+.score{font:800 clamp(48px,10vw,72px)/1 Archivo;color:var(--red)}
+@media(max-width:600px){.card{grid-template-columns:minmax(0,1fr)}.card p.en{font-size:16px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="ctrl" id="ctrl" hidden><div class="row" id="ctrlRow"></div></div>
+<script>
+{
+/* ============ 描画ヘルパー（オリジナルイラスト） ============ */
+const K='#2b2b2b',SK='#f6d2b0',HR='#3a2a20';
+const pts=a=>a.map(p=>p.join(' ')).join(' ');
+const pl=(a,w=3.2)=>`<polyline points="${pts(a)}" fill="none" stroke="${K}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
+function P(o){
+  const {x,y,s=1,c='#4a7bd0',hair='s',hl=[-13,-38],hr=[13,-38],legs='stand',head=[0,-70],face='smile',under='',extra=''}=o;
+  const L={stand:[[[-4,-30],[-6,0]],[[4,-30],[6,0]]],walk:[[[-4,-30],[-12,0]],[[4,-30],[11,0]]],
+    sit:[[[-3,-30],[11,-30],[11,0]],[[3,-30],[15,-30],[15,0]]],kick:[[[-4,-30],[-6,0]],[[4,-30],[17,-14]]],
+    run:[[[-4,-30],[-10,-14],[-20,-6]],[[4,-30],[14,-16],[14,0]]],bike:[[[-3,-30],[4,-20],[-1,-9]],[[3,-30],[11,-21],[7,-12]]],
+    tip:[[[-3,-30],[-4,-4],[-2,0]],[[3,-30],[5,-4],[7,0]]]}[legs]||legs;
+  const arm=(sx,h)=>pl([[sx,-56],...(Array.isArray(h[0])?h:[h])]);
+  const [hx,hy]=head;
+  const eyes=face==='sleep'?`<path d="M${hx-5} ${hy} h3 M${hx+2} ${hy} h3" stroke="${K}" stroke-width="1.5"/>`:`<circle cx="${hx-3}" cy="${hy-1}" r="1.3" fill="${K}"/><circle cx="${hx+3}" cy="${hy-1}" r="1.3" fill="${K}"/>`;
+  const mouth=face==='sad'?`<path d="M${hx-3} ${hy+5} Q${hx} ${hy+2} ${hx+3} ${hy+5}" fill="none" stroke="${K}" stroke-width="1.4"/>`:face==='sleep'?'':`<path d="M${hx-3} ${hy+3} Q${hx} ${hy+6} ${hx+3} ${hy+3}" fill="none" stroke="${K}" stroke-width="1.4"/>`;
+  const back=hair==='l'?`<path d="M${hx-10} ${hy+11} L${hx-10} ${hy-1} A10 10 0 0 1 ${hx+10} ${hy-1} L${hx+10} ${hy+11} Z" fill="${HR}"/>`:'';
+  const cap=`<path d="M${hx-9.5} ${hy-1} A9.5 9.5 0 0 1 ${hx+9.5} ${hy-1} Q${hx} ${hy-6} ${hx-9.5} ${hy-1} Z" fill="${HR}"/>`;
+  return `<g transform="translate(${x} ${y}) scale(${s})">${under}${L.map(l=>pl(l,3.6)).join('')}
+  <rect x="-7.5" y="-61" width="15" height="33" rx="6" fill="${c}" stroke="${K}" stroke-width="2"/>
+  ${arm(-5,hl)}${arm(5,hr)}${back}<circle cx="${hx}" cy="${hy}" r="9" fill="${SK}" stroke="${K}" stroke-width="2"/>${cap}${eyes}${mouth}${extra}</g>`;
+}
+const R=(x,y,w,h,f,r=2,sw=2)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${f}" stroke="${K}" stroke-width="${sw}"/>`;
+const C=(x,y,r,f,sw=2)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${f}" stroke="${K}" stroke-width="${sw}"/>`;
+const svg=(bg,body)=>`<svg viewBox="0 0 400 230" xmlns="http://www.w3.org/2000/svg">${bg}${body}</svg>`;
+const sky=(top,ground,gy=170)=>`<rect width="400" height="230" fill="${top}"/><rect y="${gy}" width="400" height="${230-gy}" fill="${ground}"/>`;
+const tree=(x)=>`<rect x="${x-4}" y="120" width="8" height="52" fill="#8a5a3b"/><circle cx="${x}" cy="110" r="26" fill="#8cc084" stroke="${K}" stroke-width="2"/>`;
+const chair=`<rect x="-12" y="-33" width="24" height="4" fill="#a0714f" stroke="${K}" stroke-width="1.5"/><path d="M-10 -29 V0 M10 -29 V0 M-12 -33 V-62" stroke="${K}" stroke-width="3"/>`;
+const desk=(x)=>`<rect x="${x}" y="-38" width="34" height="5" fill="#c49a6c" stroke="${K}" stroke-width="1.5"/><path d="M${x+3} -33 V0 M${x+31} -33 V0" stroke="${K}" stroke-width="3"/>`;
+const think=(cx,cy,rx,ry,tx,ty,inner)=>`<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="#fff" stroke="${K}" stroke-width="2"/>${C(tx,ty,5,'#fff')}${C((tx+cx)/2,(ty+cy)/2+ry/3,8,'#fff')}${inner}`;
+const apple=(x,y)=>`${C(x,y,8,'#e04848')}<path d="M${x} ${y-8} v-4" stroke="${K}" stroke-width="2"/>`;
+
+/* ============ 5セット（オリジナル問題） ============ */
+const SETS=[
+{title:'Volunteer Cleanups',topic:'ボランティア清掃',
+ passage:'Many towns have beautiful beaches and parks. However, some people leave trash in these places. Now, many communities hold cleanup events, and volunteers pick up trash together. People join these events on weekends, and by doing so they help keep their towns clean.',
+ readTip:'区切り：Many towns have / beautiful beaches and parks.｜注意語：communities（コミュニティーズ）, volunteers（ヴォランティアズ・アクセントは後ろ）, events',
+ q1:'According to the passage, how do people help keep their towns clean?',a1:'By joining cleanup events on weekends.',
+ t1:'how → By ～ing. で答える。by doing so の「so」が指す前半を探す。',
+ picA:()=>svg(sky('#e8f3fb','#d7eac4')+tree(372)+`<path d="M0 170 H400" stroke="${K}" stroke-width="1"/>`,
+  P({x:50,y:205,c:'#e07a5f',hair:'l',hr:[[8,-48],[18,-42]],extra:R(16,-48,16,12,'#7aa6c2')+`<path d="M32 -44 L44 -52" stroke="${K}" stroke-width="3"/><circle cx="46" cy="-44" r="1.6" fill="#3d86d9"/><circle cx="47" cy="-34" r="1.6" fill="#3d86d9"/><circle cx="48" cy="-24" r="1.6" fill="#3d86d9"/><path d="M50 0 V-12 M58 0 V-14" stroke="#3b7d3b" stroke-width="2"/>${C(50,-14,4,'#f2a2c0',1.5)}${C(58,-16,4,'#f7d154',1.5)}`})+
+  P({x:122,y:205,s:.8,c:'#3d8bd1',legs:'kick',hl:[-15,-46],hr:[13,-48],extra:C(26,-12,7,'#fff')+`<path d="M36 -18 h8 M36 -10 h10" stroke="${K}" stroke-width="1.5"/>`})+
+  P({x:196,y:205,c:'#8c8c8c',hl:[[-9,-58],[-7,-68]],hr:[[9,-58],[7,-68]],extra:R(-9,-78,18,11,'#333',2)+C(0,-72.5,3.5,'#9cc3e6',1.2)+`<path d="M14 -84 l6 -5 M16 -76 h7" stroke="#e0a100" stroke-width="2"/>`})+
+  P({x:280,y:205,s:.88,c:'#f2b134',hair:'l',legs:'bike',hl:[13,-42],hr:[15,-42],under:C(-20,-11,11,'none',2.5)+C(22,-11,11,'none',2.5)+`<path d="M-20 -11 L-4 -11 L10 -31 L-6 -31 Z M10 -31 L22 -11 M12 -36 L10 -31 M8 -38 h8" fill="none" stroke="#c0392b" stroke-width="2.5"/>`})+
+  P({x:350,y:205,c:'#5a9a6e',legs:'walk',hl:[[6,-50],[12,-44]],hr:[[8,-52],[16,-46]],extra:R(6,-66,26,22,'#c89a5b')+`<path d="M6 -55 h26" stroke="${K}" stroke-width="1.2"/>`})),
+ q2:'A woman is watering flowers. A boy is kicking a ball. A man is taking a picture. A girl is riding a bicycle. A man is carrying a box.',
+ who3:'boy',
+ picB:()=>svg(`<rect width="400" height="230" fill="#f6efe2"/><rect y="200" width="400" height="30" fill="#d9c7a8"/>`+R(30,40,130,110,'#bfdcf0',3,3)+`<path d="M95 40 V150 M30 95 H160" stroke="${K}" stroke-width="3"/>`+
+  [45,70,115,140,58,128].map((x,i)=>`<path d="M${x} ${50+i%3*30} l-6 14" stroke="#3d86d9" stroke-width="2.5" stroke-linecap="round"/>`).join('')+
+  P({x:210,y:205,s:1.15,c:'#3d8bd1',face:'sad',hr:[[10,-50],[16,-60]],extra:`<path d="M16 -60 L22 -74" stroke="${K}" stroke-width="3"/><ellipse cx="25" cy="-84" rx="7" ry="10" fill="none" stroke="${K}" stroke-width="2.5"/>`})+
+  think(320,62,66,44,236,110,`${C(290,58,14,'#f7d154')}<path d="M330 80 L340 52" stroke="${K}" stroke-width="3"/><ellipse cx="344" cy="42" rx="8" ry="11" fill="none" stroke="${K}" stroke-width="2.5"/>${C(362,70,5,'#c7e05a')}`)),
+ q3:'He wants to play tennis, but it is raining.',
+ t3:'「したいこと」は吹き出し、「できない理由」は窓の外。He wants to ～, but ～. の型。',
+ q4:'Do you think more people will join volunteer activities in the future?',
+ a4y:'Yes, I do. More people are interested in helping their communities. Also, they can easily find information about volunteer events on the Internet.',
+ a4n:'No, I don\'t. Many people are too busy with work or school. They don\'t have enough time to join such activities.',
+ q5:'These days, many people enjoy outdoor activities. Do you like to go camping?',
+ a5y:'Yes, I do. I go camping with my family every summer. We cook dinner outside and look at the stars.',
+ a5n:'No, I don\'t. I don\'t like bugs. I like to stay at home and read books.'},
+
+{title:'Learning with Videos',topic:'動画で学ぶ',
+ passage:'Many students use the Internet to study. There are many videos that explain difficult subjects in simple ways. Students watch these videos at home, and in this way they can review lessons at their own speed. Some teachers also make videos for their classes.',
+ readTip:'区切り：There are many videos / that explain difficult subjects / in simple ways.｜注意語：explain, subjects, review（リヴュー）',
+ q1:'According to the passage, how can students review lessons at their own speed?',a1:'By watching videos at home.',
+ t1:'in this way の前を探す。Students watch → By watching に変える。',
+ picA:()=>svg(`<rect width="400" height="230" fill="#f8f3ea"/><rect y="200" width="400" height="30" fill="#e6d8c2"/>`+R(150,20,110,70,'#d6b58d',2,2)+[0,1,2].map(r=>[0,1,2,3,4,5,6].map(i=>`<rect x="${156+i*14}" y="${26+r*22}" width="10" height="18" fill="${['#c0392b','#2e86c1','#27ae60','#f1c40f'][(i+r)%4]}"/>`).join('')).join(''),
+  P({x:40,y:205,c:'#e07a5f',hair:'l',legs:'sit',under:chair,hl:[[-2,-46],[8,-52]],hr:[[6,-46],[14,-54]],extra:`<path d="M4 -62 L14 -56 L24 -62 L24 -48 L14 -42 L4 -48 Z" fill="#fff" stroke="${K}" stroke-width="2"/><path d="M14 -56 V-42" stroke="${K}" stroke-width="1.5"/>`})+
+  P({x:105,y:205,c:'#8c8c8c',legs:'sit',under:chair+desk(14),hl:[[4,-46],[20,-40]],hr:[[8,-46],[26,-40]],extra:R(22,-56,22,16,'#444')+`<path d="M18 -39 h30" stroke="${K}" stroke-width="3"/>`})+
+  P({x:205,y:205,c:'#9b59b6',hair:'l',legs:'walk',hl:[[6,-50],[10,-44]],hr:[[8,-50],[16,-44]],extra:R(8,-50,22,6,'#c0392b')+R(9,-56,20,6,'#2e86c1')+R(7,-62,22,6,'#27ae60')})+
+  P({x:280,y:205,s:.88,c:'#3d8bd1',legs:'sit',face:'sleep',head:[14,-54],under:chair+desk(14),hl:[[2,-46],[18,-44]],hr:[[8,-46],[28,-42]],extra:`<text x="22" y="-76" font-family="Archivo" font-weight="800" font-size="14" fill="${K}">Z z z</text>`})+
+  P({x:362,y:205,c:'#5a9a6e',hr:[[10,-60],[9,-70]],extra:R(8,-78,6,12,'#333',1.5,1.5)+`<path d="M20 -80 q5 6 0 12 M25 -84 q8 10 0 20" fill="none" stroke="${K}" stroke-width="1.5"/>`})),
+ q2:'A girl is reading a book. A man is using a computer. A woman is carrying some books. A boy is sleeping at the desk. A man is talking on the phone.',
+ who3:'girl',
+ picB:()=>svg(`<rect width="400" height="230" fill="#f8f3ea"/><rect y="200" width="400" height="30" fill="#e6d8c2"/>`+R(210,30,140,172,'#d6b58d',2,2.5)+[60,110,160].map(y=>`<path d="M210 ${y} H350" stroke="${K}" stroke-width="2.5"/>`).join('')+
+  [0,1,2,3,4,5,6].map(i=>`<rect x="${220+i*18}" y="${120-(i%2)*2}" width="12" height="38" fill="${['#2e86c1','#27ae60','#f1c40f','#c0392b'][i%4]}" stroke="${K}" stroke-width="1"/>`).join('')+`<rect x="268" y="34" width="14" height="24" fill="#c0392b" stroke="${K}" stroke-width="1.5"/>`+
+  P({x:180,y:205,s:1.05,c:'#e07a5f',hair:'l',legs:'tip',face:'sad',hl:[-12,-40],hr:[[12,-78],[34,-108]]})),
+ q3:'She can\'t reach the book because it is on a high shelf.',
+ t3:'困っている理由まで言う。She can\'t ～ because ～. の型。',
+ q4:'Do you think students should use tablets more in class?',
+ a4y:'Yes, I do. Students can find information quickly with tablets. Also, they can watch videos to understand lessons better.',
+ a4n:'No, I don\'t. Using tablets for a long time is bad for students\' eyes. Also, some students may play games instead of studying.',
+ q5:'Many people go to libraries to study. Do you often go to the library?',
+ a5y:'Yes, I do. I go to the library near my house every weekend. It is quiet, so I can study hard there.',
+ a5n:'No, I don\'t. I like to study at home. I can find information on the Internet.'},
+
+{title:'Farmers\' Markets',topic:'地元の市場',
+ passage:'In many cities, farmers\' markets are held on weekends. At these markets, farmers sell fresh vegetables and fruit directly to customers. Customers can talk with farmers about how the food was grown, so they can buy food without worrying. Many families enjoy shopping at these markets.',
+ readTip:'区切り：Customers can talk with farmers / about how the food was grown,｜注意語：directly, customers, grown（グロウン）, worrying',
+ q1:'According to the passage, why can customers buy food without worrying?',a1:'Because they can talk with farmers about how the food was grown.',
+ t1:'why → Because ～. so の前が理由。Customers → they に置きかえるのがポイント。',
+ picA:()=>svg(sky('#eef6fb','#efe1c6')+[0,1,2,3,4,5,6,7].map(i=>`<rect x="${i*50}" y="40" width="50" height="22" fill="${i%2?'#fff':'#d7262f'}"/>`).join('')+`<rect y="62" width="400" height="6" fill="#8a5a3b"/>`,
+  P({x:46,y:205,c:'#9b59b6',hair:'l',hr:[[8,-60],[10,-74]],extra:`<path d="M10 -50 V-112" stroke="${K}" stroke-width="2.5"/><path d="M-20 -104 Q10 -134 40 -104 Z" fill="#e06b8b" stroke="${K}" stroke-width="2"/>`})+
+  P({x:116,y:205,s:.78,c:'#f2b134',hr:[[9,-56],[7,-64]],extra:`<path d="M3 -66 L13 -66 L8 -50 Z" fill="#e3b36a" stroke="${K}" stroke-width="1.5"/>${C(8,-70,6,'#f6a5c0',1.5)}`})+
+  P({x:178,y:205,c:'#e07a5f',hair:'l',legs:'walk',hr:[16,-40],extra:`<path d="M16 -40 Q34 -38 46 -22" fill="none" stroke="#c0392b" stroke-width="1.8"/><ellipse cx="44" cy="-12" rx="12" ry="7" fill="#d9a066" stroke="${K}" stroke-width="2"/>${C(56,-19,6,'#d9a066')}<path d="M36 -6 V0 M50 -6 V0 M32 -14 l-6 -6" stroke="${K}" stroke-width="2.5"/>`})+
+  P({x:272,y:205,c:'#8c8c8c',legs:'sit',hl:[[-4,-44],[8,-32]],hr:[[6,-44],[14,-32]],under:`<rect x="-20" y="-55" width="44" height="5" fill="#a0714f" stroke="${K}" stroke-width="1.5"/><rect x="-20" y="-34" width="48" height="5" fill="#a0714f" stroke="${K}" stroke-width="1.5"/><path d="M-16 -29 V0 M24 -29 V0" stroke="${K}" stroke-width="3"/>`})+
+  P({x:338,y:205,c:'#5a9a6e',legs:'walk',hl:[[6,-48],[14,-44]],hr:[[8,-48],[16,-44]],extra:`<path d="M14 -44 L22 -40" stroke="${K}" stroke-width="2.5"/><path d="M20 -40 L48 -40 L44 -16 L24 -16 Z" fill="#cfd8dc" stroke="${K}" stroke-width="2"/>${C(27,-6,4,'#555')}${C(41,-6,4,'#555')}`})),
+ q2:'A woman is holding an umbrella. A boy is eating an ice cream. A girl is walking a dog. A man is sitting on a bench. A man is pushing a cart.',
+ who3:'man',
+ picB:()=>svg(sky('#eef6fb','#efe1c6',200)+R(200,40,170,162,'#f3e2c4',2,2.5)+[0,1,2,3,4,5,6].map(i=>`<rect x="${200+i*24.3}" y="40" width="24.3" height="22" fill="${i%2?'#fff':'#2e86c1'}"/>`).join('')+R(250,90,70,112,'#8a5a3b',2,2.5)+R(258,112,54,22,'#fff',3,2)+`<text x="285" y="128" text-anchor="middle" font-family="Archivo" font-weight="800" font-size="13" fill="#d7262f">CLOSED</text>`+
+  P({x:150,y:205,s:1.1,c:'#8c8c8c',face:'sad',hl:[-12,-36],hr:[12,-36]})+
+  think(70,62,58,40,130,110,apple(50,62)+apple(70,56)+apple(90,64))),
+ q3:'He wants to buy some apples, but the store is closed.',
+ t3:'吹き出し＝したいこと（buy apples）、看板＝できない理由。',
+ q4:'Do you think more people will buy food at farmers\' markets in the future?',
+ a4y:'Yes, I do. Many people care about their health these days. Fresh food from local farmers is safe and healthy.',
+ a4n:'No, I don\'t. Supermarkets are more convenient. People can buy many kinds of food there at one time.',
+ q5:'Today, many people cook at home. Do you like cooking?',
+ a5y:'Yes, I do. I often make curry for my family. They are happy when they eat my food.',
+ a5n:'No, I don\'t. Cooking takes a lot of time. I am busy with club activities and homework.'},
+
+{title:'Saving Energy',topic:'省エネ',
+ passage:'Electricity is necessary in our daily lives. However, making electricity can be harmful to the environment. Some people turn off the lights when they leave a room. Others use fans instead of air conditioners. By doing such things, they try to save energy and protect the earth.',
+ readTip:'区切り：Others use fans / instead of air conditioners.｜注意語：electricity（イレクトリシティ・tri にアクセント）, environment, harmful, energy（エナジー）',
+ q1:'According to the passage, how do some people try to save energy and protect the earth?',a1:'By turning off the lights when they leave a room and using fans instead of air conditioners.',
+ t1:'By doing such things の such things ＝前の2文。2つともつなげて答える。',
+ picA:()=>svg(sky('#e8f3fb','#cfe6b8',175)+`<path d="M150 175 V95 L210 60 L270 95 V175 Z" fill="#f3e2c4" stroke="${K}" stroke-width="2"/>`+R(195,130,30,45,'#8a5a3b'),
+  `<path d="M12 196 L18 172 L40 164 L74 164 L92 176 L98 196 Z" fill="#e05a4f" stroke="${K}" stroke-width="2"/>${R(42,168,26,10,'#bfe0f3',2,1.5)}${C(30,198,8,'#444')}${C(82,198,8,'#444')}${C(60,184,4,'#fff',1)}${C(70,176,3,'#fff',1)}${C(52,178,3,'#fff',1)}`+
+  P({x:112,y:205,c:'#5a9a6e',hl:[[-8,-50],[-16,-34]],hr:[10,-38],extra:R(-22,-38,10,7,'#f7d154',2,1.5)})+
+  P({x:164,y:205,s:.85,c:'#3d8bd1',hl:[[-4,-46],[-1,-42]],hr:[[8,-50],[16,-56]],extra:`<path d="M2 -40 L26 -62" stroke="${K}" stroke-width="3"/><ellipse cx="0" cy="-38" rx="10" ry="8" fill="#c97a3d" stroke="${K}" stroke-width="2"/>`})+
+  P({x:236,y:205,c:'#9b59b6',hair:'l',hl:[[6,-50],[8,-46]],hr:[[8,-42],[13,-30]],extra:`<path d="M2 -58 L18 -6" stroke="#8a5a3b" stroke-width="3"/><path d="M12 -8 L26 -8 L22 2 L12 2 Z" fill="#e3b36a" stroke="${K}" stroke-width="1.5"/>`})+
+  P({x:290,y:205,s:.8,c:'#f2b134',hair:'l',hr:[[8,-64],[14,-80]],extra:`<path d="M14 -80 Q40 -130 46 -170" fill="none" stroke="${K}" stroke-width="1.2"/><path d="M46 -186 L58 -170 L46 -154 L34 -170 Z" fill="#d7262f" stroke="${K}" stroke-width="2"/><path d="M46 -154 q-6 10 2 18 q-6 8 0 14" fill="none" stroke="${K}" stroke-width="1.5"/>`})+
+  P({x:370,y:205,c:'#8c8c8c',hl:[[-8,-52],[-14,-50]],hr:[8,-36],extra:`<path d="M-30 0 L-22 -78 L-14 0 M-22 -78 L-22 0" stroke="#8a5a3b" stroke-width="2.5" fill="none"/>${R(-38,-80,26,30,'#fff',1,2)}${C(-28,-68,4,'#8cc084',1)}<path d="M-34 -56 q8 -8 16 0" stroke="#3d86d9" stroke-width="2" fill="none"/>`})),
+ q2:'A man is washing a car. A boy is playing the guitar. A woman is sweeping the ground. A girl is flying a kite. A man is painting a picture.',
+ who3:'woman',
+ picB:()=>svg(`<rect width="400" height="230" fill="#efe6d6"/><rect y="200" width="400" height="30" fill="#cbb89a"/>`+R(250,60,80,142,'#8a5a3b',2,2.5)+C(262,135,4,'#f1c40f')+
+  P({x:200,y:205,s:1.1,c:'#e07a5f',hair:'l',face:'sad',hl:[[8,-48],[12,-44]],hr:[[8,-50],[16,-48]],extra:R(8,-50,28,14,'#c89a5b')+R(10,-64,24,14,'#d8ad6e')+R(12,-76,20,12,'#c89a5b')+`<path d="M-14 -78 q-3 5 0 8 q3 -3 0 -8" fill="#7cc0ef" stroke="${K}" stroke-width="1"/>`})),
+ q3:'She can\'t open the door because she is carrying many boxes.',
+ t3:'困っていること（open the door）＋理由（carrying boxes）。',
+ q4:'Do you think people should use public transportation more often?',
+ a4y:'Yes, I do. Buses and trains are better for the environment than cars. Also, they can reduce traffic jams.',
+ a4n:'No, I don\'t. Public transportation is not convenient in some areas. People there need cars to go shopping or go to work.',
+ q5:'Many people try to save energy at home. Do you do anything to save energy?',
+ a5y:'Yes, I do. I always turn off the lights when I leave my room. I also try not to use the air conditioner too much.',
+ a5n:'No, I don\'t. I don\'t know what I should do. I want to learn about it at school.'},
+
+{title:'Learning Languages with Apps',topic:'アプリで語学',
+ passage:'Many people are interested in other countries. Some of them learn foreign languages through apps on their smartphones. These apps let people practice a little every day, so they can keep studying without getting tired. Learning a new language helps people understand different cultures.',
+ readTip:'区切り：These apps let people / practice a little every day,｜注意語：foreign（フォーリン・g は読まない）, languages, cultures',
+ q1:'According to the passage, why can people keep studying without getting tired?',a1:'Because these apps let them practice a little every day.',
+ t1:'so の前が理由。people → them に置きかえる。',
+ picA:()=>svg(`<rect width="400" height="230" fill="#eef1f4"/><rect y="196" width="400" height="34" fill="#c9cfd6"/><rect y="40" width="400" height="10" fill="#2e86c1"/>`,
+  P({x:52,y:205,c:'#9b59b6',hair:'l',legs:'walk',hl:[-16,-36],extra:`<path d="M-16 -36 L-26 -30" stroke="${K}" stroke-width="2.5"/>${R(-40,-32,16,26,'#d7262f',3)}${C(-36,-3,2.5,'#333',1)}${C(-28,-3,2.5,'#333',1)}`})+
+  `<g transform="translate(120 205)">${R(14,-84,28,84,'#5d7fa3',3)}${R(19,-76,18,14,'#bfe0f3',2,1.5)}${R(22,-50,12,4,'#333',1,1)}</g>`+
+  P({x:120,y:205,c:'#8c8c8c',hr:[[10,-52],[20,-56]]})+
+  P({x:200,y:205,s:.8,c:'#3d8bd1',hr:[[8,-66],[14,-86]],extra:`<path d="M22 -94 q6 8 0 16 M28 -98 q8 12 0 24" fill="none" stroke="${K}" stroke-width="1.5"/>`})+
+  P({x:268,y:205,c:'#e07a5f',hair:'l',hr:[[11,-54],[12,-62]],extra:R(10,-72,8,12,'#f39c12',1,1.5)+`<path d="M13 -72 L5 -70" stroke="${K}" stroke-width="1.5"/>`})+
+  P({x:345,y:205,c:'#5a9a6e',hl:[-12,-52],hr:[12,-52],extra:R(-16,-64,32,22,'#f4e3a1',1)+`<path d="M-10 -58 L0 -50 L10 -56 M-8 -48 h12" stroke="#c0392b" stroke-width="1.5" fill="none"/>`})),
+ q2:'A woman is pulling a suitcase. A man is buying a ticket. A boy is waving his hand. A girl is drinking juice. A man is looking at a map.',
+ who3:'man',
+ picB:()=>svg(`<rect width="400" height="230" fill="#eef1f4"/><rect y="196" width="400" height="34" fill="#c9cfd6"/>`+
+  `<path d="M230 110 H400 V190 H230 Q220 150 230 110 Z" fill="#2e9e6a" stroke="${K}" stroke-width="2.5"/>${[0,1,2,3].map(i=>R(250+i*38,122,26,22,'#bfe0f3',2,1.5)).join('')}<path d="M230 168 H400" stroke="#fff" stroke-width="4"/>`+
+  [130,150,170].map(y=>`<path d="M380 ${y} h16" stroke="${K}" stroke-width="2"/>`).join('')+
+  P({x:130,y:205,s:1.15,c:'#8c8c8c',legs:'run',face:'sad',hl:[[-10,-48],[-18,-40]],hr:[[10,-56],[22,-60]],extra:`<path d="M-14 -80 q-3 5 0 8 q3 -3 0 -8" fill="#7cc0ef" stroke="${K}" stroke-width="1"/><path d="M-34 -50 h-12 M-32 -38 h-16 M-34 -26 h-10" stroke="${K}" stroke-width="1.5"/>`})),
+ q3:'He missed the train. / The train has just left.',
+ t3:'1文で状況を言い切る。He couldn\'t catch the train. でもOK。',
+ q4:'Do you think it is important for students to study abroad?',
+ a4y:'Yes, I do. Students can learn about different cultures. They can also improve their English by talking with people there.',
+ a4n:'No, I don\'t. Studying abroad costs a lot of money. Students can learn English in Japan, too.',
+ q5:'Many people want to visit foreign countries. Would you like to travel abroad?',
+ a5y:'Yes, I would. I would like to visit Australia. I want to see koalas and swim in the beautiful sea.',
+ a5n:'No, I wouldn\'t. I am afraid of airplanes. I want to travel around Japan first.'}
+];
+
+/* ============ 状態 ============ */
+const LS='pre2sp-v1';
+let store={best:{},name:'',mode:'real',rate:0.9};
+try{store=Object.assign(store,JSON.parse(localStorage.getItem(LS)||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem(LS,JSON.stringify(store))}catch(e){}};
+const app=document.getElementById('app'),ctrl=document.getElementById('ctrl'),ctrlRow=document.getElementById('ctrlRow');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let S={}; let timer=null;
+
+/* ============ 音声 ============ */
+let voice=null;
+const pickVoice=()=>{const v=speechSynthesis.getVoices().filter(v=>/^en[-_]/i.test(v.lang));voice=v.find(v=>/Samantha|Google US|Aria|Jenny/i.test(v.name))||v.find(v=>/en[-_]US/i.test(v.lang))||v[0]||null};
+if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
+function speak(t){return new Promise(res=>{
+  if(!('speechSynthesis' in window)){setTimeout(res,1200);return}
+  speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';if(voice)u.voice=voice;u.rate=store.rate;
+  let done=false;const fin=()=>{if(!done){done=true;res()}};u.onend=fin;u.onerror=fin;
+  setTimeout(fin,t.length*90/store.rate+2500);speechSynthesis.speak(u)})}
+
+/* ============ 進行 ============ */
+const LABELS=['入室','黙読','音読','No.1','No.2','No.3','No.4','No.5','退室'];
+function buildSteps(set,nm){
+  const n=nm||'student';
+  return [
+  {k:'in',lab:0,say:'Hello. My name is Emma Brown. May I have your name, please?',wait:10,hint:'My name is ○○. とはっきり。',free:1},
+  {k:'in',lab:0,say:'Thank you. How are you today?',wait:8,hint:'I\'m fine, thank you. など、笑顔で。',free:1},
+  {k:'card',lab:1,say:'All right. Let\'s start the test. This is your card. First, please read the passage silently for 20 seconds.',count:20},
+  {k:'read',lab:2,say:'All right. Now, please read it aloud.',wait:60,hint:'タイトルから読む。意味の区切りで小さく間を。'},
+  {k:'q1',lab:3,say:'Now, I\'ll ask you four questions. No. 1. '+set.q1,wait:20,hint:'答えの前にカードを見てOK。'},
+  {k:'q2',lab:4,say:'No. 2. Now, look at the people in Picture A. They are doing different things. Tell me as much as you can about what they are doing.',wait:45,hint:'5人全員。A man is ～ing. を5回。'},
+  {k:'q3',lab:5,say:`No. 3. Now, look at the ${set.who3} in Picture B. Please describe the situation.`,wait:25,hint:'したいこと＋できない理由。'},
+  {k:'turn',lab:6,say:`Now, ${n}, please turn over the card and put it down.`,auto:1},
+  {k:'q4',lab:6,say:'No. 4. '+set.q4,branch:['Why?','Why not?'],wait:35,hint:'まず Yes, I do. / No, I don\'t. だけ言う。'},
+  {k:'q5',lab:7,say:'No. 5. '+set.q5,branch:['Please tell me more.','Why not?'],wait:35,hint:'まず Yes / No だけ言う。'},
+  {k:'out',lab:8,say:'All right. This is the end of the test. Could I have the card back, please? Thank you. You may go now.',end:1}]}
+
+function start(i){
+  S={set:SETS[i],idx:i,step:0,branch:{},rates:{},phase:'',cardHidden:true};
+  S.steps=buildSteps(S.set,store.name.trim());
+  run();
+}
+function cardHTML(){
+  const s=S.set;
+  if(S.cardHidden) return `<div class="card turned">${S.step>=7?'カードは裏返しています（見ないで答えよう）':'カードはまだ配られていません'}</div>`;
+  return `<div class="card"><h2>${esc(s.title)}</h2><p class="en">${esc(s.passage)}</p>
+  <div class="pic"><i>A</i>${s.picA()}</div><div class="pic"><i>B</i>${s.picB()}</div></div>`;
+}
+function render(text,showText,extraHTML=''){
+  const st=S.steps[S.step];
+  app.innerHTML=`<div class="row" style="justify-content:space-between"><b>${esc(S.set.title)} <span class="mini">${S.idx+1}セット目・${store.mode==='real'?'本番モード':'練習モード'}</span></b><button id="quit" style="min-height:40px;padding:6px 12px">やめる</button></div>
+  <div class="steps">${LABELS.map((l,i)=>`<span class="${i<st.lab?'done':i===st.lab?'now':''}">${l}</span>`).join('')}</div>
+  <div class="exam"><div class="face"><svg width="34" height="34" viewBox="0 0 34 34"><circle cx="17" cy="13" r="8" fill="${SK}"/><path d="M4 34 Q17 18 30 34Z" fill="#fff"/><path d="M9 11 A8 8 0 0 1 25 11 Q17 6 9 11Z" fill="#c9a26b"/></svg></div>
+  <div class="bubble"><div class="en ${showText?'':'hid'}" id="say">${esc(text)}</div><div class="mini" id="hint">${st.hint?'💡'+esc(st.hint):''}</div></div></div>
+  ${cardHTML()}
+  <div class="bar" id="bar"><div></div></div><div class="mini" id="tm"></div>${extraHTML}`;
+  document.getElementById('quit').onclick=home;
+}
+const showText=()=>store.mode==='practice'||S.reveal;
+function setCtrl(btns){ctrl.hidden=false;ctrlRow.innerHTML='';btns.forEach(b=>{const e=document.createElement('button');e.textContent=b[0];if(b[2])e.className=b[2];e.onclick=b[1];ctrlRow.appendChild(e)})}
+function stopTimer(){if(timer){clearInterval(timer);timer=null}}
+function countdown(sec,onEnd,soft){
+  stopTimer();const t0=Date.now();const bar=document.getElementById('bar'),tm=document.getElementById('tm');
+  const tick=()=>{const e=(Date.now()-t0)/1000;const p=Math.min(1,e/sec);
+    if(bar){bar.firstChild.style.width=(p*100)+'%';bar.classList.toggle('over',soft&&e>sec)}
+    if(tm)tm.textContent=soft?(e<=sec?`目安 ${Math.ceil(sec-e)} 秒`:'目安を過ぎたよ。最後まで言い切ればOK！'):`のこり ${Math.ceil(sec-e)} 秒`;
+    if(!soft&&e>=sec){stopTimer();onEnd()}};
+  tick();timer=setInterval(tick,250);
+}
+async function say(t){S.cur=t;const el=document.getElementById('say');if(el)el.textContent=t;await speak(t)}
+const pardonBtn=['🔁 Pardon?（もう一度）',()=>{speak(S.cur)}];
+const revealBtn=()=>store.mode==='real'&&!S.reveal?['文字を見る',()=>{S.reveal=1;const e=document.getElementById('say');if(e)e.classList.remove('hid')}]:null;
+
+async function run(){
+  stopTimer();S.reveal=0;const st=S.steps[S.step];
+  if(st.k==='card')S.cardHidden=false;
+  if(st.k==='turn')S.cardHidden=true;
+  render(st.say,showText());
+  setCtrl([['🔊 再生中…',()=>{},'main']]);ctrlRow.firstChild.disabled=true;
+  await say(st.say);
+  if(st.auto){await wait(600);return next()}
+  if(st.end){return review()}
+  if(st.count){setCtrl([['黙読中…（20秒）',()=>{},'main']]);ctrlRow.firstChild.disabled=true;countdown(st.count,next,false);return}
+  if(st.branch){
+    setCtrl([['Yes と答えた',()=>branch(0),'main'],['No と答えた',()=>branch(1),'main'],pardonBtn,revealBtn()].filter(Boolean));
+    countdown(12,()=>{},true);return}
+  answerPhase(st);
+}
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function answerPhase(st){
+  setCtrl([['答えた！ 次へ',()=>done(),'main'],pardonBtn,revealBtn()].filter(Boolean));
+  countdown(st.wait,()=>{},true);
+}
+async function branch(b){
+  stopTimer();const st=S.steps[S.step];S.branch[st.k]=b;const f=st.branch[b];
+  setCtrl([['🔊 再生中…',()=>{},'main']]);ctrlRow.firstChild.disabled=true;
+  const h=document.getElementById('hint');if(h)h.textContent='💡理由を2文で。Also, ～. で2つ目をつなぐ。';
+  await say(f);answerPhase(st);
+}
+function done(){
+  stopTimer();const st=S.steps[S.step];
+  if(store.mode==='practice'&&['read','q1','q2','q3','q4','q5'].includes(st.k)){
+    const m=modelBlock(st.k);const box=document.createElement('div');box.innerHTML=m;app.appendChild(box);bindRates(box);
+    box.scrollIntoView({behavior:'smooth',block:'start'});
+    setCtrl([['次の質問へ',next,'main']]);return}
+  next();
+}
+function next(){stopTimer();S.step++;if(S.step>=S.steps.length)return review();run()}
+
+/* ============ 模範解答・自己評価 ============ */
+const NAMES={read:'音読',q1:'No.1 本文の質問',q2:'No.2 イラストA（5人の動作）',q3:'No.3 イラストB（状況）',q4:'No.4 あなたの意見',q5:'No.5 あなた自身のこと'};
+function modelBlock(k){
+  const s=S.set;let body='';
+  if(k==='read')body=`<p class="tip">${esc(s.readTip)}</p><p class="tip">速さより「はっきり・区切って」。タイトルも読む。</p>`;
+  if(k==='q1')body=`<p class="en">${esc(s.a1)}</p><p class="tip">${esc(s.t1)}</p>`;
+  if(k==='q2')body=s.q2.split('. ').map(x=>`<p class="en">${esc(x.replace(/\.?$/,'.'))}</p>`).join('')+`<p class="tip">1人に1文、5人全員。be動詞（is）を忘れない。</p>`;
+  if(k==='q3')body=`<p class="en">${esc(s.q3)}</p><p class="tip">${esc(s.t3)}</p>`;
+  if(k==='q4'||k==='q5'){const b=S.branch[k];const y=s['a'+k[1]+'y'],n=s['a'+k[1]+'n'];
+    body=[[0,'Yes の場合',y],[1,'No の場合',n]].map(([i,l,a])=>`<p class="mini">${l}${b===i?'（あなたの選択）':''}</p><p class="en" style="${b!==undefined&&b!==i?'opacity:.55':''}">${esc(a)}</p>`).join('')+
+    `<p class="tip">${k==='q4'?'理由は2文。Also, ～. でつなぐと安定。':'Yes なら具体的な経験、No なら理由を2文で。'}</p>`}
+  const r=S.rates[k];
+  return `<div class="model" data-k="${k}"><h3>${NAMES[k]}・解答例</h3>${body}
+  <div class="row rate"><span class="mini">自己チェック：</span>${[[2,'◎ 言えた'],[1,'○ おしい'],[0,'△ まだ']].map(([v,l])=>`<button data-v="${v}" class="${r===v?'sel':''}">${l}</button>`).join('')}</div><div class="mini" data-p></div></div>`;
+}
+const QUICK=['ナイス！その調子。','いいね、言い切れたのが大事！','次で取り返せる。型をもう一度見よう。'];
+function bindRates(root){root.querySelectorAll('.model').forEach(m=>{const k=m.dataset.k;m.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{
+  S.rates[k]=+b.dataset.v;m.querySelectorAll('[data-v]').forEach(x=>x.classList.toggle('sel',x===b));
+  m.querySelector('[data-p]').textContent=QUICK[2-S.rates[k]];if(S.onRate)S.onRate()})})}
+function review(){
+  stopTimer();if('speechSynthesis' in window)speechSynthesis.cancel();
+  const keys=['read','q1','q2','q3','q4','q5'];
+  app.innerHTML=`<h1>おつかれさま、柚心！</h1><p class="lead">最後まで面接をやり切った。それだけでもう一歩前進。<br>各問題を自己チェックしよう。</p>
+  <div class="panel"><div class="row" style="gap:18px"><div class="score" id="sc">–</div><div><div class="praise" id="pr">チェックすると点数が出るよ</div><div class="mini">アティチュード（声の大きさ・目線・あいさつ）も得点に入るよ。</div></div></div></div>
+  ${keys.map(modelBlock).join('')}`;
+  bindRates(app);
+  const upd=()=>{const v=keys.map(k=>S.rates[k]).filter(x=>x!==undefined);if(!v.length)return;
+    const pc=Math.round(v.reduce((a,b)=>a+b,0)/(keys.length*2)*100);
+    document.getElementById('sc').textContent=pc+'%';
+    document.getElementById('pr').textContent=v.length<keys.length?`あと ${keys.length-v.length} 問チェックしよう`:pc>=80?'合格ライン突破！本番もこの調子で。':pc>=60?'あと少し！△の問題だけもう1回やろう。':'型を覚えれば一気に伸びる。練習モードで1問ずつ！';
+    if(v.length===keys.length&&pc>(store.best[S.idx]||0)){store.best[S.idx]=pc;save()}};
+  S.onRate=upd;upd();
+  setCtrl([['もう一度このセット',()=>start(S.idx),'main'],['セット一覧へ',home]]);
+  window.scrollTo(0,0);
+}
+
+/* ============ ホーム ============ */
+function home(){
+  stopTimer();if('speechSynthesis' in window)speechSynthesis.cancel();ctrl.hidden=true;
+  app.innerHTML=`<h1>準2級 面接トレーナー</h1>
+  <p class="lead">柚心、今日も1セットいこう。面接官の声に合わせて、声に出して答えるだけ。</p>
+  <div class="panel">
+   <div class="row" style="margin-bottom:10px"><b>モード</b>
+    <button id="mR" class="${store.mode==='real'?'on':''}">本番モード</button><button id="mP" class="${store.mode==='practice'?'on':''}">練習モード</button></div>
+   <p class="mini" style="margin:0 0 10px">本番：質問は音声だけ、最後にまとめて解答例。／練習：質問の文字も表示、1問ごとに解答例。</p>
+   <div class="row" style="margin-bottom:10px"><label for="nm"><b>名前（英語）</b></label><input id="nm" class="en" placeholder="例：Yushin" value="${esc(store.name)}" style="flex:1 1 160px"></div>
+   <div class="row"><b>声の速さ</b>${[[0.8,'ゆっくり'],[0.9,'ふつう'],[1,'本番']].map(([r,l])=>`<button data-r="${r}" class="${store.rate===r?'on':''}">${l}</button>`).join('')}<button id="test">🔊 テスト</button></div>
+  </div>
+  <div class="sets">${SETS.map((s,i)=>`<button class="set" data-i="${i}"><span class="best">${store.best[i]!=null?'ベスト '+store.best[i]+'%':''}</span><b class="en">${i+1}. ${esc(s.title)}</b><small>${esc(s.topic)}・約6分</small></button>`).join('')}</div>
+  <div class="panel" style="margin-top:14px"><b>本番の流れ</b><p class="mini" style="margin:4px 0 0">入室・あいさつ → カード黙読20秒 → 音読 → No.1 本文の質問 → No.2 イラストAの5人 → No.3 イラストBの状況 → カードを裏返す → No.4 意見（Yes/No＋理由2文）→ No.5 自分のこと → 退室。聞き取れなかったら「Pardon?」と言ってOK。</p>
+  <p class="mini" style="margin:6px 0 0">問題・イラストはこのアプリのオリジナルです（過去問ではありません）。</p></div>`;
+  document.getElementById('mR').onclick=()=>{store.mode='real';save();home()};
+  document.getElementById('mP').onclick=()=>{store.mode='practice';save();home()};
+  const nm=document.getElementById('nm');nm.oninput=()=>{store.name=nm.value;save()};
+  app.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{store.rate=+b.dataset.r;save();home()});
+  document.getElementById('test').onclick=()=>speak('Hello. Let\'s start the test.');
+  app.querySelectorAll('.set').forEach(b=>b.onclick=()=>start(+b.dataset.i));
+}
+home();
+}
+</script>
+</body>
+</html>
